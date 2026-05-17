@@ -559,17 +559,28 @@ function handleUpgrade(plan) {
 
 // ---------- 路由 ----------
 function navigateTo(page) {
-  if (window.location.pathname === '/google3be17941974cac5b5.html') return;
+  if (window.location.pathname === '/google3be17941974cac5b.html') return;
   window.location.hash = page === 'home' ? '' : page;
   state.currentPage = page;
   render();
 }
 
 window.addEventListener('hashchange', () => {
-  if (window.location.pathname === '/google3be17941974cac5b5.html') return;
+  if (window.location.pathname === '/google3be17941974cac5b.html') return;
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
 });
+
+// ---------- 弹窗安全关闭函数 ----------
+function closeAuthModal() {
+  state.showAuthModal = false;
+  render();
+}
+
+function closeUpgradeModal() {
+  state.showUpgradeModal = false;
+  render();
+}
 
 // ---------- 渲染引擎 ----------
 function renderHeader() {
@@ -592,7 +603,7 @@ function renderHeader() {
             <span style="font-size:0.875rem;">${state.authUser.username}</span>
           </button>
         ` : `
-          <button class="btn btn-secondary" onclick="document.querySelector('#auth-modal').classList.remove('hidden');state.authMode='login';state.showAuthModal=true;">Sign In</button>
+          <button class="btn btn-secondary" onclick="state.showAuthModal=true;state.authMode='login';render();">Sign In</button>
         `}
         ${state.authUser && state.authUser.plan === 'free' ? `
           <button class="btn btn-primary" onclick="state.showUpgradeModal=true;render();">Upgrade to Pro</button>
@@ -849,11 +860,12 @@ function render() {
   if (state.showAuthModal) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay animate-scale-in';
+    overlay.id = 'auth-modal-overlay';
     overlay.innerHTML = `
-      <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-content" id="auth-modal-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
           <h3 style="font-size:1.25rem;font-weight:bold;">${state.authMode === 'login' ? 'Sign In' : 'Create Account'}</h3>
-          <button onclick="state.showAuthModal=false;render();" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
+          <button onclick="closeAuthModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
         </div>
         <form onsubmit="handleAuth(event)" style="display:flex;flex-direction:column;gap:1rem;">
           <input class="input-field" type="email" placeholder="Email" value="${state.authForm.email}" oninput="state.authForm.email=this.value" required>
@@ -869,7 +881,9 @@ function render() {
           <span onclick="state.authMode=state.authMode==='login'?'register':'login';render();" style="color:var(--color-amber-600);cursor:pointer;font-weight:500;">${state.authMode === 'login' ? 'Sign Up' : 'Sign In'}</span>
         </p>
       </div>`;
-    overlay.onclick = () => { state.showAuthModal = false; render(); };
+    overlay.onclick = function(e) {
+      if (e.target === this) { state.showAuthModal = false; render(); }
+    };
     container.appendChild(overlay);
   }
 
@@ -877,11 +891,12 @@ function render() {
   if (state.showUpgradeModal) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay animate-scale-in';
+    overlay.id = 'upgrade-modal-overlay';
     overlay.innerHTML = `
-      <div class="modal-content wide" onclick="event.stopPropagation()">
+      <div class="modal-content wide" id="upgrade-modal-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
           <h3 style="font-size:1.25rem;font-weight:bold;">Select Plan</h3>
-          <button onclick="state.showUpgradeModal=false;render();" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
+          <button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
         </div>
         <div class="grid-4">
           ${Object.entries(PLANS).map(([key,plan]) => `
@@ -893,7 +908,9 @@ function render() {
           `).join('')}
         </div>
       </div>`;
-    overlay.onclick = () => { state.showUpgradeModal = false; render(); };
+    overlay.onclick = function(e) {
+      if (e.target === this) { state.showUpgradeModal = false; render(); }
+    };
     container.appendChild(overlay);
   }
 
