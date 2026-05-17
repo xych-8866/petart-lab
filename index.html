@@ -6,9 +6,6 @@
     <title>PetArt Lab - AI Pet Portrait Generator</title>
     <meta name="description" content="Turn your pet photos into stunning Studio Ghibli-style artwork with our AI pet portrait generator.">
     <style>
-        /* ============================================
-           PetArt Lab – 纯 CSS 动画与图标替代方案
-           ============================================ */
         :root {
             --color-amber-50: #fffbeb;
             --color-amber-100: #fef3c7;
@@ -30,185 +27,99 @@
             --color-slate-700: #334155;
             --color-slate-800: #1e293b;
         }
-
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, var(--color-amber-50), var(--color-orange-50), var(--color-rose-50));
             color: var(--color-slate-800);
             min-height: 100vh;
         }
-
-        /* ---------- 替代 framer-motion 的基础动画 ---------- */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
         .animate-fade-in-left { animation: fadeInLeft 0.6s ease-out; }
         .animate-fade-in-right { animation: fadeInRight 0.6s ease-out; }
         .animate-spin { animation: spin 1s linear infinite; }
         .animate-scale-in { animation: scaleIn 0.3s ease-out; }
-
-        /* ---------- 通用图标 (替代 lucide-react) ---------- */
         .icon { display: inline-block; width: 1.25rem; height: 1.25rem; vertical-align: middle; }
         .icon-lg { width: 2rem; height: 2rem; }
         .icon-xl { width: 4rem; height: 4rem; }
         .icon-spin { animation: spin 1s linear infinite; }
-
-        /* ---------- 布局 ---------- */
         .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(12px);
-            background: rgba(255,255,255,0.7);
+            position: sticky; top: 0; z-index: 50;
+            backdrop-filter: blur(12px); background: rgba(255,255,255,0.7);
             border-bottom: 1px solid rgba(253,230,138,0.5);
         }
         .container { max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
         .card {
-            background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
-            padding: 1.5rem;
+            background: #fff; border-radius: 1rem;
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem;
         }
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; border: none;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--color-amber-400), var(--color-orange-500));
             color: #fff;
         }
         .btn-primary:hover { filter: brightness(1.1); transform: scale(1.03); }
-        .btn-secondary {
-            background: var(--color-slate-800);
-            color: #fff;
-        }
+        .btn-secondary { background: var(--color-slate-800); color: #fff; }
         .btn-secondary:hover { filter: brightness(1.2); }
         .btn-outline {
-            border: 2px solid var(--color-slate-200);
-            color: var(--color-slate-700);
+            border: 2px solid var(--color-slate-200); color: var(--color-slate-700);
             background: transparent;
         }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* ---------- 弹窗 ---------- */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            background: rgba(0,0,0,0.5);
+            position: fixed; inset: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem; background: rgba(0,0,0,0.5);
         }
         .modal-content {
-            background: #fff;
-            border-radius: 1rem;
+            background: #fff; border-radius: 1rem;
             box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            max-width: 28rem;
-            width: 100%;
-            padding: 1.5rem;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 28rem; width: 100%; padding: 1.5rem;
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-content.wide { max-width: 42rem; }
-
-        /* ---------- 表单 ---------- */
         .input-field {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--color-slate-200);
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            transition: border-color 0.2s;
+            width: 100%; padding: 0.75rem 1rem;
+            border: 1px solid var(--color-slate-200); border-radius: 0.75rem;
+            font-size: 1rem; transition: border-color 0.2s;
         }
         .input-field:focus { outline: none; border-color: var(--color-amber-400); }
-
-        /* ---------- 套餐卡片 ---------- */
         .plan-card {
-            background: #fff;
-            border-radius: 1rem;
+            background: #fff; border-radius: 1rem;
             box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-            border: 2px solid transparent;
-            transition: all 0.2s;
+            padding: 1.5rem; border: 2px solid transparent; transition: all 0.2s;
         }
         .plan-card.active { border-color: var(--color-amber-400); }
         .plan-card.popular { border-color: var(--color-amber-400); position: relative; }
         .popular-badge {
-            position: absolute;
-            top: -0.75rem;
-            left: 50%;
-            transform: translateX(-50%);
+            position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%);
             background: linear-gradient(135deg, var(--color-amber-400), var(--color-orange-500));
-            color: #fff;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            color: #fff; padding: 0.25rem 0.75rem; border-radius: 9999px;
+            font-size: 0.75rem; font-weight: 600;
         }
-
-        /* ---------- 网格 ---------- */
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         .grid-4 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-        @media (min-width: 768px) {
-            .grid-2 { grid-template-columns: 1fr 1fr; }
-            .grid-4 { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1024px) {
-            .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        /* ---------- 响应式表格 ---------- */
+        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .grid-4 { grid-template-columns: repeat(4, 1fr); } }
         .table-wrapper { overflow-x: auto; }
         table { width: 100%; font-size: 0.875rem; border-collapse: collapse; }
         th, td { padding: 0.75rem; text-align: center; border-bottom: 1px solid var(--color-slate-100); }
         th { font-weight: 600; text-align: left; }
-
-        /* ---------- 工具类 ---------- */
         .hidden { display: none !important; }
         .flex-center { display: flex; align-items: center; justify-content: center; }
         .text-center { text-align: center; }
-        .mt-4 { margin-top: 1rem; }
-        .mt-6 { margin-top: 1.5rem; }
-        .mt-8 { margin-top: 2rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 2rem; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
+        .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mt-8 { margin-top: 2rem; }
+        .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; } .mb-8 { margin-bottom: 2rem; }
+        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; }
     </style>
 </head>
 <body>
@@ -216,17 +127,11 @@
 <div id="root"></div>
 
 <script>
-/* ================================================================
-   PetArt Lab – 纯静态网站脚本 (原 App.tsx 全部业务逻辑保留)
-   清除所有 Meoo 平台专属代码，适配为独立运行的单页应用
-   ================================================================ */
-
-// ---------- 常量定义 (原样保留) ----------
 const PLANS = {
-  free:  { name: 'Free',  monthlyLimit: 1,   dailyLimit: 1,   resolution: 'Basic',      watermark: true,  historyDays: 0 },
-  pro:   { name: 'Pro',   monthlyLimit: 150, dailyLimit: 30,  resolution: 'HD 2K',      watermark: false, historyDays: 7 },
-  max:   { name: 'Max',   monthlyLimit: 320, dailyLimit: 60,  resolution: '4K',         watermark: false, historyDays: 30 },
-  ultra: { name: 'Ultra', monthlyLimit: 550, dailyLimit: 100, resolution: '4K',         watermark: false, historyDays: 180 }
+  free:  { name: 'Free',  monthlyLimit: 1,   resolution: 'Basic',      watermark: true,  historyDays: 0 },
+  pro:   { name: 'Pro',   monthlyLimit: 150, resolution: 'HD 2K',      watermark: false, historyDays: 7 },
+  max:   { name: 'Max',   monthlyLimit: 320, resolution: '4K',         watermark: false, historyDays: 30 },
+  ultra: { name: 'Ultra', monthlyLimit: 550, resolution: '4K',         watermark: false, historyDays: 180 }
 };
 
 const WATERMARK_TEXT = 'petartlab.net';
@@ -235,9 +140,7 @@ const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
 const DAILY_COUNT_KEY = 'petart_daily_count';
-const GEN_FREQ_KEY = 'petart_gen_freq';
 
-// 31 种艺术风格 (原样保留)
 const ART_STYLES = [
   { id: 'ghibli', name: 'Studio Ghibli', prompt: 'Anime style portrait of this pet, Authentic Studio Ghibli animation texture, gentle and rounded flowing lines, natural soft diffused lighting, warm and delicate light layers, low saturation fresh and healing natural tones, clean and elegant soft colors, realistic and vivid fur and body texture, simple fresh natural scenes, overall warm and healing atmosphere, gentle and delicate hand-drawn style with warmth, unified and coordinated global tones, high-end natural and durable texture, digital art, high quality, masterpiece' },
   { id: 'cel', name: 'Cel Anime', prompt: 'Anime style portrait of this pet, Smooth clean crisp outline contours, neat and smooth without messy strokes, large areas of solid flat color filling technique, no complex gradients and extra shadows, orthodox classic 2D animation style, bright and transparent clean colors, simple and elegant color scheme with fresh layers, neat and refined modeling lines, clear and sharp color block boundaries, clean and tidy transparent picture, fresh and comfortable overall visual, even and smooth lines, moderate and durable color saturation, digital art, high quality, masterpiece' },
@@ -272,7 +175,6 @@ const ART_STYLES = [
   { id: 'island', name: 'Fresh Forest Island', prompt: 'Anime style portrait of this pet, Elegant light green gentle natural soft color system, forest seaside清幽恬静 natural scene, gentle恬静 peaceful healing temperament, authentic Japanese forest seaside fresh atmosphere, fresh elegant gentle tones,轻盈舒缓 natural light shadow, quiet peaceful舒心 picture, full of natural forest gentle气息, digital art, high quality, masterpiece' }
 ];
 
-// ---------- 初始化存储 ----------
 (function initializeStorage() {
   try {
     const oldUserData = localStorage.getItem(OLD_USER_KEY);
@@ -304,7 +206,6 @@ const ART_STYLES = [
   }
 })();
 
-// ---------- 主应用状态 ----------
 let state = {
   currentPage: 'home',
   authUser: null,
@@ -323,7 +224,6 @@ let state = {
   batchCount: 1
 };
 
-// ---------- 辅助函数 ----------
 function getDailyCount() {
   const data = localStorage.getItem(DAILY_COUNT_KEY);
   if (!data) return 0;
@@ -342,22 +242,6 @@ function incrementDailyCount(amount) {
   }));
 }
 
-function checkDailyLimit() {
-  if (!state.authUser) return false;
-  return getDailyCount() >= PLANS[state.authUser.plan].dailyLimit;
-}
-
-function checkGenFreq() {
-  const now = Date.now();
-  const data = localStorage.getItem(GEN_FREQ_KEY);
-  if (!data) { localStorage.setItem(GEN_FREQ_KEY, JSON.stringify({ count:1, timestamp:now })); return false; }
-  const { count, timestamp } = JSON.parse(data);
-  if (now - timestamp > 10*60*1000) { localStorage.setItem(GEN_FREQ_KEY, JSON.stringify({ count:1, timestamp:now })); return false; }
-  if (count >= 20) return true;
-  localStorage.setItem(GEN_FREQ_KEY, JSON.stringify({ count: count+1, timestamp }));
-  return false;
-}
-
 function getPoseVariation(index) {
   const poses = ['relaxed sitting, front view','playful running, side profile','lying down, looking up','looking back over shoulder','standing alert, curious expression'];
   return poses[index % 5];
@@ -374,12 +258,12 @@ function canSelectStyle(styleId) {
 function getMaxStylesCount() {
   if (!state.authUser) return 1;
   if (state.authUser.isTestAccount) return 31;
-  if (state.authUser.plan === 'free' || state.authUser.plan === 'pro') return 1;
-  if (state.authUser.plan === 'max') return 3;
+  if (state.authUser.plan === 'free') return 1;
+  if (state.authUser.plan === 'pro') return 3;
+  if (state.authUser.plan === 'max') return 6;
   return 31;
 }
 
-// ---------- 水印处理 ----------
 function addWatermark(imageUrl) {
   return new Promise(resolve => {
     const img = new Image();
@@ -403,18 +287,8 @@ function addWatermark(imageUrl) {
   });
 }
 
-// ---------- 核心生图逻辑 ----------
 async function generateImage() {
   if (!state.selectedImage || !state.authUser) return;
-
-  if (!state.authUser.isTestAccount && checkDailyLimit()) {
-    alert('Daily limit reached. Please try again tomorrow.');
-    return;
-  }
-  if (checkGenFreq()) {
-    alert('Too many requests. Please wait a moment.');
-    return;
-  }
 
   const plan = PLANS[state.authUser.plan];
   const totalNeeded = state.batchCount * state.selectedStyles.length;
@@ -477,7 +351,6 @@ async function generateImage() {
       results.push(finalImage);
       if (!state.authUser.isTestAccount && state.authUser.credits > 0) {
         state.authUser.credits--;
-        // 同步更新 localStorage
         const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
         const idx = users.findIndex(u => u.email === state.authUser.email);
         if (idx >= 0) { users[idx].credits = state.authUser.credits; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
@@ -494,7 +367,6 @@ async function generateImage() {
   render();
 }
 
-// ---------- 认证逻辑 ----------
 function handleAuth(e) {
   e.preventDefault();
   if (state.authMode === 'register') {
@@ -511,7 +383,6 @@ function handleAuth(e) {
       credits: 1,
       lastResetDate: new Date().toISOString()
     };
-    // 检查测试账号
     if (state.authForm.email === 'test@test.com' && state.authForm.password === 'test123') {
       newUser.plan = 'ultra';
       newUser.credits = 999999;
@@ -557,7 +428,6 @@ function handleUpgrade(plan) {
   render();
 }
 
-// ---------- 路由 ----------
 function navigateTo(page) {
   if (window.location.pathname === '/google3be17941974cac5b.html') return;
   window.location.hash = page === 'home' ? '' : page;
@@ -571,7 +441,6 @@ window.addEventListener('hashchange', () => {
   render();
 });
 
-// ---------- 弹窗安全关闭函数 ----------
 function closeAuthModal() {
   state.showAuthModal = false;
   render();
@@ -582,7 +451,6 @@ function closeUpgradeModal() {
   render();
 }
 
-// ---------- 渲染引擎 ----------
 function renderHeader() {
   const header = document.createElement('header');
   header.className = 'sticky-header';
@@ -693,7 +561,6 @@ function renderHome() {
   return main;
 }
 
-// ---------- 所有页面渲染函数 ----------
 function renderPricing() {
   const div = document.createElement('div');
   div.className = 'container';
@@ -707,9 +574,9 @@ function renderPricing() {
           <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${plan.name}</h3>
           <div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${key==='free'?'0':key==='pro'?'9.99':key==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div>
           <ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">
-            ${(key==='free' ? ['1 generation/day','Basic resolution','With watermark','No history'] :
-               key==='pro' ? ['150 images/month','No watermark','HD 2K resolution','1 Style (Ghibli only)','7-day history'] :
-               key==='max' ? ['320 images/month','No watermark','Ultra HD 4K','4 Styles (Ghibli + 3 choice)','Batch 5 images','30-day history'] :
+            ${(key==='free' ? ['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history'] :
+               key==='pro' ? ['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history'] :
+               key==='max' ? ['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history'] :
                ['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f => `<li>${f}</li>`).join('')}
           </ul>
           <button class="btn ${key==='pro' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${key}')" ${state.authUser?.plan === key ? 'disabled' : ''}>${state.authUser?.plan === key ? 'Current' : 'Select'}</button>
@@ -721,7 +588,7 @@ function renderPricing() {
         <tr><td>Monthly Credits</td><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
         <tr><td>Resolution</td><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
         <tr><td>Watermark</td><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
-        <tr><td>Styles</td><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">1 (Ghibli)</td><td>4</td><td>All 31</td></tr>
+        <tr><td>Styles</td><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">3</td><td>6</td><td>All 31</td></tr>
         <tr><td>Batch</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>5</td><td>10</td></tr>
         <tr><td>History</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">7 days</td><td>30 days</td><td>180 days</td></tr>
         <tr><td>Commercial License</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>-</td><td>Yes</td></tr>
@@ -781,7 +648,6 @@ function renderAccount() {
   return div;
 }
 
-// ---------- 辅助交互函数 ----------
 function handleFileSelect(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -811,7 +677,6 @@ function setBatch(count) {
   render();
 }
 
-// ---------- 主导函数 ----------
 function render() {
   const root = document.getElementById('root');
   root.innerHTML = '';
@@ -819,10 +684,8 @@ function render() {
   const container = document.createElement('div');
   container.style.minHeight = '100vh';
 
-  // 头部
   container.appendChild(renderHeader());
 
-  // 页面内容
   let content;
   switch(state.currentPage) {
     case 'home': content = renderHome(); break;
@@ -835,7 +698,6 @@ function render() {
   }
   container.appendChild(content);
 
-  // 底部
   const footer = document.createElement('footer');
   footer.style.marginTop = '3rem';
   footer.style.padding = '2rem 0';
@@ -856,7 +718,6 @@ function render() {
     </div>`;
   container.appendChild(footer);
 
-  // 弹窗（登录）
   if (state.showAuthModal) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay animate-scale-in';
@@ -887,7 +748,6 @@ function render() {
     container.appendChild(overlay);
   }
 
-  // 弹窗（升级）
   if (state.showUpgradeModal) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay animate-scale-in';
@@ -917,7 +777,6 @@ function render() {
   root.appendChild(container);
 }
 
-// 初始化渲染
 window.addEventListener('DOMContentLoaded', () => {
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
