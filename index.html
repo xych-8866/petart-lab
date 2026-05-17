@@ -388,6 +388,16 @@ function handleAuth(e) {
       newUser.credits = 999999;
       newUser.isTestAccount = true;
     }
+    if (state.authForm.email === 'pro_test@test.com' && state.authForm.password === 'test123') {
+      newUser.plan = 'pro';
+      newUser.credits = 999999;
+      newUser.isTestAccount = true;
+    }
+    if (state.authForm.email === 'max_test@test.com' && state.authForm.password === 'test123') {
+      newUser.plan = 'max';
+      newUser.credits = 999999;
+      newUser.isTestAccount = true;
+    }
     users.push(newUser);
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
     state.authUser = newUser;
