@@ -254,7 +254,7 @@ function canSelectStyle(styleId) {
   if (!state.authUser) return false;
   if (state.authUser.isTestAccount) return true;
   const plan = state.authUser.plan;
-  if (plan === 'free' || plan === 'pro') return styleId === 'ghibli';
+  if (plan === 'free') return styleId === 'ghibli';
   return true;
 }
 
