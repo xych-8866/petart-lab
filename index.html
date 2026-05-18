@@ -611,14 +611,41 @@ function renderPricing() {
 function renderTerms() {
   const div = document.createElement('div');
   div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Terms of Service</h1><div class="card" style="line-height:1.8;"><h2>1. User Responsibility</h2><p>You agree not to abuse the image generation service.</p><h2>2. Intellectual Property</h2><p>Generated images are for personal use only. Commercial use requires Ultra plan.</p><h2>3. Service Termination</h2><p>We may terminate accounts for abuse or fraud without refund.</p><h2>4. Governing Law</h2><p>These terms are governed by the laws of the United States.</p><h2>5. Contact</h2><p>Contact us at xych356761678@qq.com</p></div>`;
+  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Terms of Service</h1><div class="card" style="line-height:1.8;">
+    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
+    <h2>1. Acceptance of Terms</h2><p>By accessing or using PetArt Lab ("we", "our", or "us") at https://www.petartlab.net (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service.</p>
+    <h2>2. Description of Service</h2><p>PetArt Lab is an AI-powered platform that generates artistic portraits of pets from user-uploaded photos. The Service offers both free and paid subscription tiers with varying features and usage limits.</p>
+    <h2>3. Account Registration</h2><p>You must provide a valid email address to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. One person may not maintain more than one account without permission.</p>
+    <h2>4. User Responsibilities</h2><p>You agree NOT to: upload or generate illegal, harmful, or copyrighted content; use the Service for any unlawful purpose; attempt to bypass usage limits or security features; reverse engineer the Service; use automated scripts or bots; interfere with the Service; impersonate others; upload images containing people without consent.</p>
+    <h2>5. Intellectual Property</h2><p>PetArt Lab, its branding, website design, and underlying technology are owned by us. You retain ownership of uploaded photos. Generated images are for personal use only; commercial use requires an Ultra subscription.</p>
+    <h2>6. Subscription Plans and Payment</h2><p>Plans: Free (1/day, watermark), Pro ($9.99/mo, 150 images, 3 styles), Max ($19.99/mo, 320 images, 6 styles), Ultra ($29.99/mo, 550 images, all 31 styles). All payments processed by Paddle. Subscriptions auto-renew unless cancelled.</p>
+    <h2>7. Refund Policy</h2><p>Refunds are governed by our separate Refund Policy, including 14-day money-back guarantee, usage-based calculations, and 1 refund per lifetime limit.</p>
+    <h2>8. Service Termination</h2><p>We reserve the right to suspend or terminate accounts for violation of these Terms, fraudulent behavior, or chargeback abuse.</p>
+    <h2>9. Disclaimer of Warranties</h2><p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. We do not guarantee uninterrupted service or specific artistic results.</p>
+    <h2>10. Limitation of Liability</h2><p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, PETART LAB SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES. Our total liability shall not exceed the amount paid in the 12 months preceding the claim.</p>
+    <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the United States.</p>
+    <h2>12. Contact</h2><p>Contact us at xych356761678@qq.com</p>
+  </div>`;
   return div;
 }
 
 function renderPrivacy() {
   const div = document.createElement('div');
   div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Privacy Policy</h1><div class="card" style="line-height:1.8;"><h2>1. Information We Collect</h2><p>We only collect your email address for registration.</p><h2>2. Data Sharing</h2><p>We do not sell or share your data.</p><h2>3. Data Deletion</h2><p>Contact us to delete your account.</p><h2>4. Security</h2><p>All data is HTTPS encrypted.</p><h2>5. Cookies</h2><p>Only essential session cookies are used.</p></div>`;
+  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Privacy Policy</h1><div class="card" style="line-height:1.8;">
+    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
+    <h2>1. Introduction</h2><p>PetArt Lab ("we", "our", or "us") operates https://www.petartlab.net (the "Service"). This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+    <h2>2. Information We Collect</h2><p>We collect your email address and username for account registration. Uploaded pet photos are temporarily processed for image generation. We do NOT collect full name, physical address, phone number, or payment card details (handled by Paddle).</p>
+    <h2>3. How We Use Your Information</h2><p>Your information is used solely for providing the Service, processing image generation requests, managing your account, and preventing fraud or abuse.</p>
+    <h2>4. Data Sharing</h2><p>We do NOT sell, trade, or rent your personal information. Data is shared only with Paddle for payment processing and with AI service providers solely for image generation.</p>
+    <h2>5. Data Retention</h2><p>Account information is retained while active. Uploaded pet photos are deleted within 24 hours. Generated images are stored according to your plan (Free: not stored, Pro: 7 days, Max: 30 days, Ultra: 180 days). You may request deletion at any time.</p>
+    <h2>6. Security</h2><p>All data transmissions are encrypted via HTTPS/TLS. Passwords are stored using secure hashing. We regularly review our security practices.</p>
+    <h2>7. Your Rights</h2><p>You may request access, correction, or deletion of your data at any time by contacting us.</p>
+    <h2>8. Cookies</h2><p>We do NOT use cookies for tracking. Only essential session cookies maintain your login state.</p>
+    <h2>9. Children's Privacy</h2><p>Our Service is not directed to individuals under 13. We do not knowingly collect data from children.</p>
+    <h2>10. International Data Transfers</h2><p>Your information may be processed on servers outside your country. We ensure appropriate safeguards are in place.</p>
+    <h2>11. Contact</h2><p>For questions, contact us at xych356761678@qq.com</p>
+  </div>`;
   return div;
 }
 
@@ -626,11 +653,17 @@ function renderRefund() {
   const div = document.createElement('div');
   div.className = 'container'; div.style.padding = '3rem 1rem';
   div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Refund Policy</h1><div class="card" style="line-height:1.8;">
-    <h2>14-Day Money-Back Guarantee</h2><p>You may request a refund within 14 calendar days of your purchase.</p>
-    <h2>How Refunds Are Calculated</h2><p>Refund = Paid Fee - (Images Used × Unit Price)</p>
-    <p>Pro: $0.067/img, Max: $0.062/img, Ultra: $0.055/img</p>
-    <h2>Merchant of Record</h2><p>Paddle processes all payments and refunds.</p>
-    <h2>Additional Terms</h2><p>Each account is limited to 1 refund request. Bulk/commercial abuse orders are not eligible for refunds.</p>
+    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
+    <h2>1. Overview</h2><p>PetArt Lab provides AI-powered pet portrait generation services. This Refund Policy explains the terms for requesting a refund.</p>
+    <h2>2. 14-Day Money-Back Guarantee</h2><p>You may request a refund within 14 calendar days of purchase or renewal. Refunds are calculated based on actual usage.</p>
+    <h2>3. How Refunds Are Calculated</h2><p>Refund = Paid Fee - (Images Used × Unit Price). Pro: $0.067/img, Max: $0.062/img, Ultra: $0.055/img. Example: Pro user using 50 images = $9.99 - (50 × $0.067) = $6.64.</p>
+    <h2>4. Non-Refundable Situations</h2><p>Refunds NOT available for: accounts using over 30% of monthly quota, bulk generation for commercial purposes, detected abusive behavior, or accounts that have already received a refund.</p>
+    <h2>5. Merchant of Record</h2><p>Paddle is the Merchant of Record. Paddle processes all payments and refunds to the original payment method.</p>
+    <h2>6. How to Request a Refund</h2><p>Contact us at xych356761678@qq.com with your registered email, order number, and reason.</p>
+    <h2>7. Processing Time</h2><p>Approved refunds are processed within 5-10 business days. Each account is limited to 1 refund request per lifetime.</p>
+    <h2>8. Chargebacks</h2><p>If you initiate a chargeback without contacting us first, we reserve the right to suspend your account. Please contact us to resolve issues first.</p>
+    <h2>9. Subscription Cancellation</h2><p>You may cancel anytime. Cancellation stops future billing but does not automatically refund the current period.</p>
+    <h2>10. Contact</h2><p>Contact us at xych356761678@qq.com</p>
   </div>`;
   return div;
 }
