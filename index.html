@@ -369,8 +369,11 @@ async function generateImage() {
       }
 
       clearTimeout(timeoutId);
-      const data = await response.json();
-      const imageUrl = data.data[0].url;
+     const data = await response.json();
+if (data.body) {
+    data = JSON.parse(data.body);
+}
+const imageUrl = data.data[0].url;
 
       let finalImage = imageUrl;
       if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
