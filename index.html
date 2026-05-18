@@ -139,7 +139,6 @@ const PLANS = {
 
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-pi-proxy-avenvfgmpd.cn-hangzhou.fcapp.run';
-const DOUBAO_API_URL = 'https://ark.cn-beijing.volces.com/api/v3/images/generations';
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -327,53 +326,28 @@ async function generateImage() {
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     try {
-      // 先用Worker，不行再直连
-      let response;
-      try {
-        response = await fetch(API_WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({
-            model: 'ep-m-20260514114814-gthjl',
-            prompt: enhancedPrompt,
-            image: state.selectedImage,
-            size: '2K',
-            response_format: 'url',
-            watermark: true,
-            seed: randomSeed,
-            image_strength: 0.25,
-            guidance_scale: 7.5,
-            num_images: 1
-          }),
-          signal: controller.signal
-        });
-      } catch (workerErr) {
-        console.log('Worker failed, trying direct connection...');
-        response = await fetch(DOUBAO_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + DOUBAO_API_KEY },
-          body: JSON.stringify({
-            model: 'ep-m-20260514114814-gthjl',
-            prompt: enhancedPrompt,
-            image: state.selectedImage,
-            size: '2K',
-            response_format: 'url',
-            watermark: true,
-            seed: randomSeed,
-            image_strength: 0.25,
-            guidance_scale: 7.5,
-            num_images: 1
-          }),
-          signal: controller.signal
-        });
-      }
+      const response = await fetch(API_WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          model: 'ep-m-20260514114814-gthjl',
+          prompt: enhancedPrompt,
+          image: state.selectedImage,
+          size: '2K',
+          response_format: 'url',
+          watermark: true,
+          seed: randomSeed,
+          image_strength: 0.25,
+          guidance_scale: 7.5,
+          num_images: 1
+        }),
+        signal: controller.signal
+      });
 
       clearTimeout(timeoutId);
-     const data = await response.json();
-if (data.body) {
-    data = JSON.parse(data.body);
-}
-const imageUrl = data.data[0].url;
+      const rawData = await response.json();
+      const data = rawData.body ? JSON.parse(rawData.body) : rawData;
+      const imageUrl = data.data[0].url;
 
       let finalImage = imageUrl;
       if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
