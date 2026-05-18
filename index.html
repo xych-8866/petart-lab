@@ -330,9 +330,9 @@ async function generateImage() {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         body: JSON.stringify({
-          model: 'ep-m-20260514114814-gthjl',
+          model: 'doubao-seedream-4-5-251128',
           prompt: enhancedPrompt,
-          image: state.selectedImage,
+          image: [state.selectedImage],
           size: '2K',
           response_format: 'url',
           watermark: true,
@@ -346,23 +346,13 @@ async function generateImage() {
 
       clearTimeout(timeoutId);
       const rawData = await response.json();
-      
-      // 调试：把原始返回数据弹窗显示出来
-      alert('Raw response: ' + JSON.stringify(rawData).substring(0, 500));
-      
       let data = rawData;
-      
-      // 阿里云函数会把结果包裹在 body 字段中
       if (data.body) {
         data = JSON.parse(data.body);
       }
-      
-      // 如果 data.data 不存在，说明格式不对，弹窗显示解析后的数据
       if (!data.data) {
-        alert('Parsed data has no data field: ' + JSON.stringify(data).substring(0, 500));
-        throw new Error('Unexpected response format');
+        throw new Error('Unexpected response format: ' + JSON.stringify(data).substring(0, 500));
       }
-      
       const imageUrl = data.data[0].url;
 
       let finalImage = imageUrl;
