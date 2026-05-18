@@ -138,6 +138,7 @@ const PLANS = {
 };
 
 const WATERMARK_TEXT = 'petartlab.net';
+const API_WORKER_URL = 'https://weathered-term-b17d.xych356761678.workers.dev';
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -325,9 +326,9 @@ async function generateImage() {
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     try {
-      const response = await fetch('https://ark.cn-beijing.volces.com/api/v3/images/generations', {
+      const response = await fetch(API_WORKER_URL, {
         method: 'POST',
-        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + API_KEY },
+        headers: { 'Content-Type':'application/json' },
         body: JSON.stringify({
           model: 'ep-m-20260514114814-gthjl',
           prompt: enhancedPrompt,
