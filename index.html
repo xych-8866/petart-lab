@@ -356,7 +356,8 @@ async function generateImage() {
       const imageUrl = data.data[0].url;
 
       let finalImage = imageUrl;
-      if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
+      // ===== 暂时跳过水印，解决普通用户生成失败问题 =====
+      // if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
 
       results.push(finalImage);
       if (!state.authUser.isTestAccount && state.authUser.credits > 0) {
