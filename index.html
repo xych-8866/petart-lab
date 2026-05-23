@@ -437,14 +437,19 @@ function handleLogout() {
 
 function handleUpgrade(plan) {
   if (!state.authUser || state.authUser.plan === plan) return;
-  state.authUser.plan = plan;
-  state.authUser.credits = PLANS[plan].monthlyLimit;
-  state.authUser.lastResetDate = new Date().toISOString();
-  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-  const idx = users.findIndex(u => u.email === state.authUser.email);
-  if (idx >= 0) { users[idx] = state.authUser; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
-  state.showUpgradeModal = false;
-  render();
+
+  // Creem 产品 ID 映射
+  const productIds = {
+    pro: 'prod_4H4HFyU8mKDxgxypLC1SFt',
+    max: 'prod_2ON9GVgkuxGBGQF1uSL1V7',
+    ultra: 'prod_rpxbWmHuILh972X7TwcsN'
+  };
+
+  const productId = productIds[plan];
+  if (!productId) return;
+
+  // 跳转到 Creem 支付页面
+  window.location.href = 'https://creem.io/pay/' + productId;
 }
 
 function navigateTo(page) {
