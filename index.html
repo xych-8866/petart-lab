@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetArt Lab - AI Pet Portrait Generator & Pet Care Guides</title>
     <meta name="description" content="Turn your pet photos into stunning AI artwork. Plus, read expert pet health and supply guides.">
+    <!-- NativeBanner 广告脚本 -->
+    <script async="async" data-cfasync="false" src="https://pl29531757.effectivecpmnetwork.com/985ac62541d3a3b4394cfdd9c98ad260/invoke.js"></script>
     <style>
         :root {
             --color-amber-50: #fffbeb;
@@ -417,6 +419,7 @@ function renderArticle(articleId) {
     <h1 style="font-size:2.2rem;font-weight:800;line-height:1.3;margin-bottom:0.5rem;">${article.title}</h1>
     <p class="article-meta">By PetArt Lab · ${article.date}</p>
     <div class="key-points"><h4>Key Takeaways</h4><ul>${article.keyPoints.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+    <div id="container-985ac62541d3a3b4394cfdd9c98ad260" style="margin:1.5rem 0;"></div>
     <div class="article-body">${article.content}</div>
     <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
   `;
