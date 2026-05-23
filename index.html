@@ -6,8 +6,8 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetArt Lab - AI Pet Portrait Generator</title>
-    <meta name="description" content="Turn your pet photos into stunning Studio Ghibli-style artwork with our AI pet portrait generator.">
+    <title>PetArt Lab - AI Pet Portrait Generator & Pet Care Guides</title>
+    <meta name="description" content="Turn your pet photos into stunning AI artwork. Plus, read expert pet health and supply guides.">
     <style>
         :root {
             --color-amber-50: #fffbeb;
@@ -38,25 +38,18 @@
             min-height: 100vh;
         }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
-        .animate-fade-in-left { animation: fadeInLeft 0.6s ease-out; }
-        .animate-fade-in-right { animation: fadeInRight 0.6s ease-out; }
-        .animate-spin { animation: spin 1s linear infinite; }
-        .animate-scale-in { animation: scaleIn 0.3s ease-out; }
         .icon { display: inline-block; width: 1.25rem; height: 1.25rem; vertical-align: middle; }
         .icon-lg { width: 2rem; height: 2rem; }
-        .icon-xl { width: 4rem; height: 4rem; }
         .icon-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .sticky-header {
             position: sticky; top: 0; z-index: 50;
-            backdrop-filter: blur(12px); background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px); background: rgba(255,255,255,0.85);
             border-bottom: 1px solid rgba(253,230,138,0.5);
         }
         .container { max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
+        .container-narrow { max-width: 720px; margin: 0 auto; padding: 0 1rem; }
         .card {
             background: #fff; border-radius: 1rem;
             box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem;
@@ -72,7 +65,6 @@
         }
         .btn-primary:hover { filter: brightness(1.1); transform: scale(1.03); }
         .btn-secondary { background: var(--color-slate-800); color: #fff; }
-        .btn-secondary:hover { filter: brightness(1.2); }
         .btn-outline {
             border: 2px solid var(--color-slate-200); color: var(--color-slate-700);
             background: transparent;
@@ -118,71 +110,68 @@
         th, td { padding: 0.75rem; text-align: center; border-bottom: 1px solid var(--color-slate-100); }
         th { font-weight: 600; text-align: left; }
         .hidden { display: none !important; }
-        .flex-center { display: flex; align-items: center; justify-content: center; }
         .text-center { text-align: center; }
         .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mt-8 { margin-top: 2rem; }
         .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; } .mb-8 { margin-bottom: 2rem; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; }
-        .section-title {
-            font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;
-        }
-        .section-subtitle {
-            font-size: 1.1rem; color: var(--color-slate-500); margin-bottom: 2rem;
-        }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .section-subtitle { font-size: 1.1rem; color: var(--color-slate-500); margin-bottom: 2rem; }
         .article-card {
             background: #fff; border-radius: 1rem;
             box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
             padding: 1.5rem; transition: transform 0.15s, box-shadow 0.15s;
             cursor: pointer; text-decoration: none; color: inherit; display: block;
         }
-        .article-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08);
-        }
-        .article-card h3 {
-            font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem;
-        }
-        .article-card p {
-            font-size: 0.9rem; color: var(--color-slate-500); line-height: 1.5;
-        }
-        .article-card .read-more {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            margin-top: 0.75rem; font-size: 0.9rem; font-weight: 600;
-            color: var(--color-amber-500);
-        }
-        .badge {
-            display: inline-block; padding: 0.2rem 0.6rem;
-            border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
-        }
+        .article-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08); }
+        .article-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .article-card p { font-size: 0.9rem; color: var(--color-slate-500); line-height: 1.5; }
+        .article-card .read-more { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.75rem; font-size: 0.9rem; font-weight: 600; color: var(--color-amber-500); }
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
         .badge-health { background: #fef3c7; color: #92400e; }
         .badge-gear { background: #e0e7ff; color: #3730a3; }
-        .affiliate-disclaimer {
-            font-size: 0.8rem; color: var(--color-slate-400);
-            text-align: center; margin-top: 3rem; padding-top: 1.5rem;
-            border-top: 1px solid var(--color-slate-100);
+        .affiliate-disclaimer { font-size: 0.8rem; color: var(--color-slate-400); text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-slate-100); }
+        .article-body { font-size: 1.05rem; line-height: 1.8; color: var(--color-slate-700); }
+        .article-body h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--color-slate-800); }
+        .article-body p { margin-bottom: 1.2rem; }
+        .article-body .product-card {
+            background: var(--color-amber-50);
+            border-left: 4px solid var(--color-amber-400);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
         }
+        .article-body .product-card .pick-label {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            color: var(--color-amber-600); letter-spacing: 0.05em; margin-bottom: 0.5rem;
+        }
+        .article-body .product-card a {
+            display: inline-block; margin-top: 0.75rem;
+            background: linear-gradient(135deg, var(--color-amber-400), var(--color-orange-500));
+            color: #fff; padding: 0.6rem 1.2rem; border-radius: 0.5rem;
+            text-decoration: none; font-weight: 600; font-size: 0.95rem;
+        }
+        .back-link { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.9rem; color: var(--color-amber-600); cursor: pointer; margin-bottom: 2rem; font-weight: 500; }
+        .article-meta { font-size: 0.85rem; color: var(--color-slate-400); margin-bottom: 2rem; }
+        .key-points { background: var(--color-slate-50); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+        .key-points h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-slate-500); margin-bottom: 0.75rem; }
+        .key-points ul { list-style: none; padding: 0; }
+        .key-points ul li { padding: 0.25rem 0; font-size: 0.95rem; color: var(--color-slate-700); }
+        .key-points ul li::before { content: "• "; color: var(--color-amber-500); font-weight: bold; }
     </style>
 </head>
 <body>
 
 <!-- Cookie Banner -->
 <div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#1e293b;color:#f8fafc;padding:1rem;z-index:9999;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;font-size:0.875rem;box-shadow:0 -2px 10px rgba(0,0,0,0.2);">
-  <span style="flex:1;min-width:200px;">🍪 We use cookies to improve your experience, analyze traffic, and show personalized ads. <a href="#privacy" style="color:#f59e0b;text-decoration:underline;">Learn more</a></span>
+  <span style="flex:1;min-width:200px;">We use cookies to improve your experience, analyze traffic, and show personalized ads. <a href="#privacy" style="color:#f59e0b;text-decoration:underline;">Learn more</a></span>
   <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
     <button onclick="acceptCookies()" style="background:var(--color-amber-400);color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;font-weight:600;">Accept All</button>
     <button onclick="declineCookies()" style="background:transparent;color:#cbd5e1;border:1px solid #cbd5e1;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;">Decline</button>
   </div>
 </div>
-    <div id="root"></div>
+<div id="root"></div>
 
 <script>
-const PLANS = {
-  free:  { name: 'Free',  monthlyLimit: 1,   resolution: 'Basic',      watermark: true,  historyDays: 0 },
-  pro:   { name: 'Pro',   monthlyLimit: 150, resolution: 'HD 2K',      watermark: false, historyDays: 7 },
-  max:   { name: 'Max',   monthlyLimit: 320, resolution: '4K',         watermark: false, historyDays: 30 },
-  ultra: { name: 'Ultra', monthlyLimit: 550, resolution: '4K',         watermark: false, historyDays: 180 }
-};
-
+const PLANS = { free:{name:'Free',monthlyLimit:1,resolution:'Basic',watermark:true,historyDays:0}, pro:{name:'Pro',monthlyLimit:150,resolution:'HD 2K',watermark:false,historyDays:7}, max:{name:'Max',monthlyLimit:320,resolution:'4K',watermark:false,historyDays:30}, ultra:{name:'Ultra',monthlyLimit:550,resolution:'4K',watermark:false,historyDays:180} };
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-proxy-v-jgrjgkeobd.cn-hangzhou.fcapp.run';
 const USERS_KEY = 'petart_users';
@@ -190,21 +179,9 @@ const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
 const DAILY_COUNT_KEY = 'petart_daily_count';
 
-// Cookie 逻辑
-function acceptCookies() {
-  localStorage.setItem('cookies_accepted', 'true');
-  document.getElementById('cookie-banner').style.display = 'none';
-}
-function declineCookies() {
-  localStorage.setItem('cookies_declined', 'true');
-  document.getElementById('cookie-banner').style.display = 'none';
-}
-(function checkCookieConsent() {
-  if (localStorage.getItem('cookies_accepted') || localStorage.getItem('cookies_declined')) {
-    var banner = document.getElementById('cookie-banner');
-    if (banner) banner.style.display = 'none';
-  }
-})();
+function acceptCookies() { localStorage.setItem('cookies_accepted','true'); document.getElementById('cookie-banner').style.display='none'; }
+function declineCookies() { localStorage.setItem('cookies_declined','true'); document.getElementById('cookie-banner').style.display='none'; }
+(function(){ if(localStorage.getItem('cookies_accepted')||localStorage.getItem('cookies_declined')){ var b=document.getElementById('cookie-banner'); if(b)b.style.display='none'; } })();
 
 const ART_STYLES = [
   { id: 'ghibli', name: 'Studio Ghibli', prompt: 'Anime style portrait of this pet, Authentic Studio Ghibli animation texture, gentle and rounded flowing lines, natural soft diffused lighting, warm and delicate light layers, low saturation fresh and healing natural tones, clean and elegant soft colors, realistic and vivid fur and body texture, simple fresh natural scenes, overall warm and healing atmosphere, gentle and delicate hand-drawn style with warmth, unified and coordinated global tones, high-end natural and durable texture, digital art, high quality, masterpiece' },
@@ -250,14 +227,7 @@ const ART_STYLES = [
         if (!Array.isArray(users)) users = [];
         const exists = users.some(u => u.email === oldUser.email);
         if (!exists) {
-          users.push({
-            email: oldUser.email,
-            password: oldUser.password || '',
-            username: oldUser.username || oldUser.email.split('@')[0],
-            plan: oldUser.plan || 'free',
-            credits: oldUser.remaining || oldUser.credits || 1,
-            lastResetDate: oldUser.lastResetDate || new Date().toISOString()
-          });
+          users.push({ email: oldUser.email, password: oldUser.password || '', username: oldUser.username || oldUser.email.split('@')[0], plan: oldUser.plan || 'free', credits: oldUser.remaining || oldUser.credits || 1, lastResetDate: oldUser.lastResetDate || new Date().toISOString() });
           localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
         localStorage.removeItem(OLD_USER_KEY);
@@ -265,644 +235,286 @@ const ART_STYLES = [
     }
   } catch(e) { localStorage.removeItem(OLD_USER_KEY); }
   let usersData = localStorage.getItem(USERS_KEY);
-  if (!usersData || !Array.isArray(JSON.parse(usersData))) {
-    localStorage.setItem(USERS_KEY, JSON.stringify([]));
-  }
+  if (!usersData || !Array.isArray(JSON.parse(usersData))) { localStorage.setItem(USERS_KEY, JSON.stringify([])); }
 })();
 
 let state = {
-  currentPage: 'home',
-  authUser: null,
+  currentPage: 'home', authUser: null,
   history: JSON.parse(localStorage.getItem('petart_history') || '[]'),
-  selectedImage: null,
-  generatedImages: [],
-  isGenerating: false,
-  error: null,
-  showAuthModal: false,
-  showUpgradeModal: false,
-  authMode: 'login',
-  authForm: { email: '', password: '', username: '' },
-  showPassword: false,
-  loginAttempts: 0,
-  selectedStyles: ['ghibli'],
-  batchCount: 1
+  selectedImage: null, generatedImages: [], isGenerating: false, error: null,
+  showAuthModal: false, showUpgradeModal: false, authMode: 'login',
+  authForm: { email: '', password: '', username: '' }, showPassword: false, loginAttempts: 0,
+  selectedStyles: ['ghibli'], batchCount: 1
 };
 
-function getDailyCount() {
-  const data = localStorage.getItem(DAILY_COUNT_KEY);
-  if (!data) return 0;
-  try {
-    const { count, date } = JSON.parse(data);
-    if (date !== new Date().toDateString()) { localStorage.removeItem(DAILY_COUNT_KEY); return 0; }
-    return count;
-  } catch(e) { return 0; }
-}
+function getDailyCount() { const d=localStorage.getItem(DAILY_COUNT_KEY); if(!d)return 0; try{ const p=JSON.parse(d); if(p.date!==new Date().toDateString()){localStorage.removeItem(DAILY_COUNT_KEY);return 0;} return p.count; }catch(e){return 0;} }
+function incrementDailyCount(a) { const c=getDailyCount(); localStorage.setItem(DAILY_COUNT_KEY,JSON.stringify({count:c+a,date:new Date().toDateString()})); }
+function getPoseVariation(i) { const p=['relaxed sitting, front view','playful running, side profile','lying down, looking up','looking back over shoulder','standing alert, curious expression']; return p[i%5]; }
+function canSelectStyle(s) { if(!state.authUser)return false; if(state.authUser.isTestAccount)return true; if(state.authUser.plan==='free')return s==='ghibli'; return true; }
+function getMaxStylesCount() { if(!state.authUser)return 1; if(state.authUser.isTestAccount)return 31; if(state.authUser.plan==='free')return 1; if(state.authUser.plan==='pro')return 3; if(state.authUser.plan==='max')return 6; return 31; }
 
-function incrementDailyCount(amount) {
-  const current = getDailyCount();
-  localStorage.setItem(DAILY_COUNT_KEY, JSON.stringify({ count: current + amount, date: new Date().toDateString() }));
-}
-
-function getPoseVariation(index) {
-  const poses = ['relaxed sitting, front view','playful running, side profile','lying down, looking up','looking back over shoulder','standing alert, curious expression'];
-  return poses[index % 5];
-}
-
-function canSelectStyle(styleId) {
-  if (!state.authUser) return false;
-  if (state.authUser.isTestAccount) return true;
-  const plan = state.authUser.plan;
-  if (plan === 'free') return styleId === 'ghibli';
-  return true;
-}
-
-function getMaxStylesCount() {
-  if (!state.authUser) return 1;
-  if (state.authUser.isTestAccount) return 31;
-  if (state.authUser.plan === 'free') return 1;
-  if (state.authUser.plan === 'pro') return 3;
-  if (state.authUser.plan === 'max') return 6;
-  return 31;
-}
-
-function addWatermark(imageUrl) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width; canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      ctx.font = `bold ${Math.max(24, img.width/20)}px Arial`;
-      ctx.fillStyle = 'rgba(255,255,255,0.6)';
-      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-      ctx.lineWidth = 2;
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'bottom';
-      ctx.strokeText(WATERMARK_TEXT, img.width-20, img.height-20);
-      ctx.fillText(WATERMARK_TEXT, img.width-20, img.height-20);
-      resolve(canvas.toDataURL('image/jpeg', 0.95));
-    };
-    img.src = imageUrl;
-  });
-}
+function addWatermark(url) { return new Promise(r=>{ const i=new Image(); i.crossOrigin='anonymous'; i.onload=()=>{ const c=document.createElement('canvas'); c.width=i.width;c.height=i.height; const x=c.getContext('2d'); x.drawImage(i,0,0); x.font=`bold ${Math.max(24,i.width/20)}px Arial`; x.fillStyle='rgba(255,255,255,0.6)';x.strokeStyle='rgba(0,0,0,0.3)';x.lineWidth=2;x.textAlign='right';x.textBaseline='bottom'; x.strokeText(WATERMARK_TEXT,i.width-20,i.height-20);x.fillText(WATERMARK_TEXT,i.width-20,i.height-20); r(c.toDataURL('image/jpeg',0.95)); }; i.src=url; }); }
 
 async function generateImage() {
-  if (!state.selectedImage || !state.authUser) return;
-  const plan = PLANS[state.authUser.plan];
-  const totalNeeded = state.batchCount * state.selectedStyles.length;
-  if (!state.authUser.isTestAccount && state.authUser.credits < totalNeeded) {
-    state.showUpgradeModal = true; render(); return;
-  }
-  state.isGenerating = true;
-  state.error = null;
-  state.generatedImages = [];
-  render();
-  if (!state.authUser.isTestAccount) incrementDailyCount(totalNeeded);
-  const tasks = [];
-  for (let i = 0; i < state.batchCount; i++) {
-    for (const styleId of state.selectedStyles) {
-      const style = ART_STYLES.find(s => s.id === styleId);
-      if (style) tasks.push({ style, batchIndex: i, pose: getPoseVariation(i) });
-    }
-  }
-  const results = [];
-  const SINGLE_PROMPT_SUFFIX = 'This is a single, complete, independent picture. Do NOT split the image into multiple small panels or grids. Show only one pose, one angle, one composition in this single image.';
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
-    const randomSeed = Math.floor(Math.random() * 2147483647);
-    const enhancedPrompt = `${task.style.prompt}, ${task.pose}, ${SINGLE_PROMPT_SUFFIX}`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
-    try {
-      const response = await fetch(API_WORKER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({
-          model: 'doubao-seedream-4-5-251128',
-          prompt: enhancedPrompt,
-          image: [state.selectedImage],
-          size: '2K',
-          response_format: 'url',
-          watermark: true,
-          seed: randomSeed,
-          image_strength: 0.25,
-          guidance_scale: 7.5,
-          num_images: 1
-        }),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      const rawData = await response.json();
-      let data = rawData;
-      if (data.body) { data = JSON.parse(data.body); }
-      if (!data.data) { throw new Error('Unexpected response format: ' + JSON.stringify(data).substring(0, 500)); }
-      const imageUrl = data.data[0].url;
-      let finalImage = imageUrl;
+  if(!state.selectedImage||!state.authUser)return;
+  const plan=PLANS[state.authUser.plan]; const needed=state.batchCount*state.selectedStyles.length;
+  if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
+  state.isGenerating=true;state.error=null;state.generatedImages=[];render();
+  if(!state.authUser.isTestAccount)incrementDailyCount(needed);
+  const tasks=[];
+  for(let i=0;i<state.batchCount;i++){ for(const sid of state.selectedStyles){ const s=ART_STYLES.find(x=>x.id===sid); if(s)tasks.push({style:s,batchIndex:i,pose:getPoseVariation(i)}); } }
+  const results=[]; const SUFFIX='This is a single, complete, independent picture. Do NOT split the image into multiple small panels or grids. Show only one pose, one angle, one composition in this single image.';
+  for(let i=0;i<tasks.length;i++){
+    const t=tasks[i]; const seed=Math.floor(Math.random()*2147483647); const prompt=`${t.style.prompt}, ${t.pose}, ${SUFFIX}`;
+    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),60000);
+    try{
+      const r=await fetch(API_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'doubao-seedream-4-5-251128',prompt,image:[state.selectedImage],size:'2K',response_format:'url',watermark:true,seed,image_strength:0.25,guidance_scale:7.5,num_images:1}),signal:ctrl.signal});
+      clearTimeout(tid); let d=await r.json(); if(d.body)d=JSON.parse(d.body);
+      if(!d.data)throw new Error('Unexpected response format: '+JSON.stringify(d).substring(0,500));
+      let img=d.data[0].url;
       // ===== 暂时跳过水印，解决普通用户生成失败问题 =====
-      // if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
-      results.push(finalImage);
-      if (!state.authUser.isTestAccount && state.authUser.credits > 0) {
-        state.authUser.credits--;
-        const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-        const idx = users.findIndex(u => u.email === state.authUser.email);
-        if (idx >= 0) { users[idx].credits = state.authUser.credits; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
-      }
-    } catch(err) {
-      clearTimeout(timeoutId);
-      console.error(`[Generate ${i+1}] Error:`, err);
-    }
+      // if(state.authUser.plan==='free') img=await addWatermark(img);
+      results.push(img);
+      if(!state.authUser.isTestAccount&&state.authUser.credits>0){ state.authUser.credits--; const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const idx=users.findIndex(u=>u.email===state.authUser.email); if(idx>=0){users[idx].credits=state.authUser.credits;localStorage.setItem(USERS_KEY,JSON.stringify(users));} }
+    }catch(e){clearTimeout(tid);console.error(`[Generate ${i+1}] Error:`,e);}
   }
-  state.generatedImages = results;
-  state.isGenerating = false;
-  if (results.length === 0) alert('Generation failed, please try again');
-  render();
+  state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
 }
 
-function handleAuth(e) {
-  e.preventDefault();
-  if (state.authMode === 'register') {
-    let users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    if (users.some(u => u.email === state.authForm.email)) { alert('Email already registered.'); return; }
-    const newUser = {
-      email: state.authForm.email,
-      password: state.authForm.password,
-      username: state.authForm.username || state.authForm.email.split('@')[0],
-      plan: 'free',
-      credits: 1,
-      lastResetDate: new Date().toISOString()
-    };
-    if (state.authForm.email === 'test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'ultra'; newUser.credits = 999999; newUser.isTestAccount = true; }
-    if (state.authForm.email === 'pro_test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'pro'; newUser.credits = 999999; }
-    if (state.authForm.email === 'max_test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'max'; newUser.credits = 999999; }
-    users.push(newUser);
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-    state.authUser = newUser;
-    state.showAuthModal = false;
-    state.authForm = { email:'', password:'', username:'' };
-  } else {
-    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    const found = users.find(u => u.email === state.authForm.email && u.password === state.authForm.password);
-    if (found) {
-      state.authUser = found;
-      state.showAuthModal = false;
-      state.authForm = { email:'', password:'', username:'' };
-    } else {
-      alert('Invalid email or password.');
-      state.loginAttempts++;
-      if (state.loginAttempts >= 3) { alert('Too many attempts. Please try again later.'); state.loginAttempts = 0; }
-    }
-  }
-  render();
-}
-
-function handleLogout() { state.authUser = null; state.currentPage = 'home'; window.location.hash = ''; render(); }
-
-function handleUpgrade(plan) {
-  if (!state.authUser || state.authUser.plan === plan) return;
-  const productIds = {
-    pro: 'prod_4H4HFyU8mKDxgxypLC1SFt',
-    max: 'prod_2ON9GVgkuxGBGQF1uSL1V7',
-    ultra: 'prod_rpxbWmHuILh972X7TwcsN'
-  };
-  const productId = productIds[plan];
-  if (!productId) return;
-  window.location.href = 'https://www.creem.io/payment/' + productId;
-}
-
-function navigateTo(page) {
-  if (window.location.pathname === '/google3be17941974cac5b.html') return;
-  window.location.hash = page === 'home' ? '' : page;
-  state.currentPage = page;
-  render();
-}
-
-window.addEventListener('hashchange', () => {
-  if (window.location.pathname === '/google3be17941974cac5b.html') return;
-  state.currentPage = window.location.hash.slice(1) || 'home';
-  render();
-});
-
-function closeAuthModal() { state.showAuthModal = false; render(); }
-function closeUpgradeModal() { state.showUpgradeModal = false; render(); }
+function handleAuth(e) { e.preventDefault();
+  if(state.authMode==='register'){ let users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); if(users.some(u=>u.email===state.authForm.email)){alert('Email already registered.');return;}
+    const nu={email:state.authForm.email,password:state.authForm.password,username:state.authForm.username||state.authForm.email.split('@')[0],plan:'free',credits:1,lastResetDate:new Date().toISOString()};
+    if(state.authForm.email==='test@test.com'&&state.authForm.password==='test123'){nu.plan='ultra';nu.credits=999999;nu.isTestAccount=true;}
+    if(state.authForm.email==='pro_test@test.com'&&state.authForm.password==='test123'){nu.plan='pro';nu.credits=999999;}
+    if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
+    users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};
+  }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
+    if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};}else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
+  } render(); }
+function handleLogout(){state.authUser=null;state.currentPage='home';window.location.hash='';render();}
+function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href='https://www.creem.io/payment/'+pid; }
+function navigateTo(p){ if(window.location.pathname==='/google3be17941974cac5b.html')return; window.location.hash=p==='home'?'':p; state.currentPage=p; render(); }
+window.addEventListener('hashchange',()=>{ if(window.location.pathname==='/google3be17941974cac5b.html')return; state.currentPage=window.location.hash.slice(1)||'home'; render(); });
+function closeAuthModal(){state.showAuthModal=false;render();}
+function closeUpgradeModal(){state.showUpgradeModal=false;render();}
 
 function renderHeader() {
-  const header = document.createElement('header');
-  header.className = 'sticky-header';
-  header.innerHTML = `
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
-      <button onclick="navigateTo('home')" style="display:flex;align-items:center;gap:0.75rem;background:none;border:none;cursor:pointer;">
-        <div style="width:2.5rem;height:2.5rem;border-radius:0.75rem;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;">
-          <svg class="icon icon-lg" style="color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5.5L18 9l-4.5 2L12 16l-1.5-5L6 9l4.5-1.5z"/></svg>
-        </div>
-        <h1 style="font-size:1.25rem;font-weight:bold;">PetArt Lab</h1>
-      </button>
-      <div style="display:flex;align-items:center;gap:1rem;">
-        <button onclick="navigateTo('guides')" style="background:none;border:none;cursor:pointer;font-size:0.875rem;color:var(--color-slate-600);font-weight:500;">Guides</button>
-        ${state.authUser ? `
-          <span style="font-size:0.875rem;">Remaining: ${state.authUser.credits}</span>
-          <span style="padding:0.25rem 0.5rem;background:var(--color-amber-100);color:var(--color-amber-700);border-radius:9999px;font-size:0.75rem;">${PLANS[state.authUser.plan].name}</span>
-          <button onclick="navigateTo('account')" style="display:flex;align-items:center;gap:0.5rem;padding:0.375rem 0.75rem;border-radius:9999px;background:var(--color-slate-100);border:none;cursor:pointer;">
-            <div style="width:1.5rem;height:1.5rem;border-radius:9999px;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.75rem;font-weight:bold;">${state.authUser.username[0].toUpperCase()}</div>
-            <span style="font-size:0.875rem;">${state.authUser.username}</span>
-          </button>
-        ` : `
-          <button class="btn btn-secondary" onclick="state.showAuthModal=true;state.authMode='login';render();">Sign In</button>
-        `}
-        ${state.authUser && state.authUser.plan === 'free' ? `
-          <button class="btn btn-primary" onclick="state.showUpgradeModal=true;render();">Upgrade to Pro</button>
-        ` : ''}
-      </div>
-    </div>`;
-  return header;
+  const h=document.createElement('header'); h.className='sticky-header';
+  h.innerHTML=`<div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
+    <button onclick="navigateTo('home')" style="display:flex;align-items:center;gap:0.75rem;background:none;border:none;cursor:pointer;">
+      <div style="width:2.5rem;height:2.5rem;border-radius:0.75rem;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;">
+        <svg class="icon icon-lg" style="color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5.5L18 9l-4.5 2L12 16l-1.5-5L6 9l4.5-1.5z"/></svg></div><h1 style="font-size:1.25rem;font-weight:bold;">PetArt Lab</h1></button>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <button onclick="navigateTo('guides')" style="background:none;border:none;cursor:pointer;font-size:0.875rem;color:var(--color-slate-600);font-weight:500;">Guides</button>
+      ${state.authUser?`<span style="font-size:0.875rem;">Remaining: ${state.authUser.credits}</span><span style="padding:0.25rem 0.5rem;background:var(--color-amber-100);color:var(--color-amber-700);border-radius:9999px;font-size:0.75rem;">${PLANS[state.authUser.plan].name}</span><button onclick="navigateTo('account')" style="display:flex;align-items:center;gap:0.5rem;padding:0.375rem 0.75rem;border-radius:9999px;background:var(--color-slate-100);border:none;cursor:pointer;"><div style="width:1.5rem;height:1.5rem;border-radius:9999px;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.75rem;font-weight:bold;">${state.authUser.username[0].toUpperCase()}</div><span style="font-size:0.875rem;">${state.authUser.username}</span></button>`:`<button class="btn btn-secondary" onclick="state.showAuthModal=true;state.authMode='login';render();">Sign In</button>`}
+      ${state.authUser&&state.authUser.plan==='free'?`<button class="btn btn-primary" onclick="state.showUpgradeModal=true;render();">Upgrade to Pro</button>`:''}
+    </div></div>`; return h;
 }
 
 function renderHome() {
-  const main = document.createElement('main');
-  main.className = 'container';
-  main.style.padding = '3rem 1rem';
-  main.innerHTML = `
-    <div class="text-center mb-8 animate-fade-in-up">
-      <h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Turn Your Pet into Art</h2>
-      <p style="font-size:1.125rem;color:var(--color-slate-600);">Upload a photo and transform it into amazing portrait</p>
-    </div>
-    <div class="grid-2">
-      <div class="card animate-fade-in-left">
-        <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload
-        </h3>
-        <div id="upload-area" onclick="document.getElementById('file-input').click()" style="aspect-ratio:1;border:2px dashed ${state.selectedImage ? 'var(--color-amber-400)' : 'var(--color-slate-300)'};border-radius:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-          ${state.selectedImage ? `<img src="${state.selectedImage}" style="width:100%;height:100%;object-fit:contain;padding:1rem;">` : `
-            <div style="text-align:center;color:var(--color-slate-400);">
-              <svg class="icon icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <p>Click to upload</p>
-            </div>
-          `}
-        </div>
-        <input id="file-input" type="file" accept="image/*" onchange="handleFileSelect(event)" style="display:none;">
-        ${state.selectedImage ? `
-          <div class="mt-4">
-            <label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Select Style</label>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-height:10rem;overflow-y:auto;padding:0.5rem;border:1px solid var(--color-slate-200);border-radius:0.75rem;">
-              ${ART_STYLES.map(s => {
-                const sel = state.selectedStyles.includes(s.id);
-                const avail = canSelectStyle(s.id);
-                return `<button onclick="toggleStyle('${s.id}')" ${!avail ? 'disabled' : ''} style="padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.875rem;text-align:left;cursor:pointer;border:none;${sel ? 'background:var(--color-amber-400);color:#fff;' : !avail ? 'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;' : 'background:var(--color-slate-50);'}">${s.name}${!avail ? ' 🔒' : ''}</button>`;
-              }).join('')}
-            </div>
-            <p style="font-size:0.75rem;color:var(--color-slate-500);margin-top:0.5rem;">Selected: ${state.selectedStyles.length} / ${getMaxStylesCount()} styles</p>
-          </div>
-          <div class="mt-4">
-            <label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Batch Count</label>
-            <div style="display:flex;gap:0.5rem;">
-              ${[1,5,10].map(c => {
-                const dis = (c===5 && ['free','pro'].includes(state.authUser?.plan)) || (c===10 && state.authUser?.plan !== 'ultra');
-                return `<button onclick="setBatch(${c})" ${dis ? 'disabled' : ''} style="flex:1;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;cursor:pointer;border:none;${state.batchCount===c ? 'background:var(--color-amber-400);color:#fff;' : dis ? 'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;' : 'background:var(--color-slate-50);'}">${c} Image${c>1?'s':''}${dis ? ' 🔒' : ''}</button>`;
-              }).join('')}
-            </div>
-          </div>
-          <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;">
-            <p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount * state.selectedStyles.length} images (Credits: ${state.authUser?.credits || 0} available)</p>
-          </div>
-          <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating || !state.authUser || state.selectedStyles.length===0 ? 'disabled' : ''}>
-            ${state.isGenerating ? '<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...' : state.authUser ? `Generate ${state.batchCount * state.selectedStyles.length} Portrait(s)` : 'Sign in to generate'}
-          </button>
-        ` : ''}
-      </div>
-      <div class="card animate-fade-in-right">
-        <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          Result
-        </h3>
-        <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">
-          ${state.isGenerating ? `
-            <div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>
-          ` : state.generatedImages.length > 0 ? `
-            <div style="width:100%;padding:1rem;display:grid;grid-template-columns:repeat(${state.generatedImages.length===1?1:state.generatedImages.length<=4?2:3}, 1fr);gap:1rem;">
-              ${state.generatedImages.map((img,i) => `
-                <div style="position:relative;">
-                  <img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;">
-                  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'">
-                    <button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button>
-                    <a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          ` : '<p style="color:var(--color-slate-400);">Result will appear here</p>'}
-        </div>
-      </div>
-    </div>`;
-  return main;
+  const m=document.createElement('main'); m.className='container'; m.style.padding='3rem 1rem';
+  m.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Turn Your Pet into Art</h2><p style="font-size:1.125rem;color:var(--color-slate-600);">Upload a photo and transform it into amazing portrait</p></div>
+  <div class="grid-2"><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload</h3>
+  <div id="upload-area" onclick="document.getElementById('file-input').click()" style="aspect-ratio:1;border:2px dashed ${state.selectedImage?'var(--color-amber-400)':'var(--color-slate-300)'};border-radius:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+    ${state.selectedImage?`<img src="${state.selectedImage}" style="width:100%;height:100%;object-fit:contain;padding:1rem;">`:`<div style="text-align:center;color:var(--color-slate-400);"><svg class="icon icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>Click to upload</p></div>`}
+  </div><input id="file-input" type="file" accept="image/*" onchange="handleFileSelect(event)" style="display:none;">
+  ${state.selectedImage?`<div class="mt-4"><label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Select Style</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-height:10rem;overflow-y:auto;padding:0.5rem;border:1px solid var(--color-slate-200);border-radius:0.75rem;">${ART_STYLES.map(s=>{const sel=state.selectedStyles.includes(s.id);const avail=canSelectStyle(s.id);return`<button onclick="toggleStyle('${s.id}')" ${!avail?'disabled':''} style="padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.875rem;text-align:left;cursor:pointer;border:none;${sel?'background:var(--color-amber-400);color:#fff;':!avail?'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;':'background:var(--color-slate-50);'}">${s.name}${!avail?' 🔒':''}</button>`;}).join('')}</div><p style="font-size:0.75rem;color:var(--color-slate-500);margin-top:0.5rem;">Selected: ${state.selectedStyles.length} / ${getMaxStylesCount()} styles</p></div>
+  <div class="mt-4"><label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Batch Count</label><div style="display:flex;gap:0.5rem;">${[1,5,10].map(c=>{const dis=(c===5&&['free','pro'].includes(state.authUser?.plan))||(c===10&&state.authUser?.plan!=='ultra');return`<button onclick="setBatch(${c})" ${dis?'disabled':''} style="flex:1;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;cursor:pointer;border:none;${state.batchCount===c?'background:var(--color-amber-400);color:#fff;':dis?'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;':'background:var(--color-slate-50);'}">${c} Image${c>1?'s':''}${dis?' 🔒':''}</button>`;}).join('')}</div></div>
+  <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;"><p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount*state.selectedStyles.length} images (Credits: ${state.authUser?.credits||0} available)</p></div>
+  <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating||!state.authUser||state.selectedStyles.length===0?'disabled':''}>${state.isGenerating?'<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...':state.authUser?`Generate ${state.batchCount*state.selectedStyles.length} Portrait(s)`:'Sign in to generate'}</button>`:''}
+  </div><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result</h3>
+  <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;display:grid;grid-template-columns:repeat(${state.generatedImages.length===1?1:state.generatedImages.length<=4?2:3},1fr);gap:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}</div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>`;
+  return m;
 }
 
-function renderGuides() {
+/* ===================== 文章详情页渲染函数 ===================== */
+function renderArticle(articleId) {
+  const articles = {
+    'senior-dog-joints': {
+      title: 'Effective Ways to Keep Your Senior Dog\'s Joints Healthy',
+      date: 'May 23, 2026',
+      badge: 'Joint Health',
+      badgeClass: 'badge-health',
+      keyPoints: ['Keep a healthy weight to reduce strain on joints','Use vet-recommended joint supplements daily','Invest in an orthopedic bed for pressure relief','Never give human pain meds—see a vet for safe options'],
+      content: `<p>As our dogs age, their joints often bear the brunt of a life well-lived. You might notice your old friend struggling to get up after a nap, hesitating before stairs, or limping after a long walk. While we can't turn back time, there are proven, effective ways to manage these signs of aging and keep your senior dog comfortable and active.</p>
+<h2>1. Weight Management: The Foundation of Joint Health</h2>
+<p>Excess weight is public enemy number one for aging joints. Every extra pound adds significant strain to your dog's hips, knees, and elbows. Keeping your senior dog lean isn't about aesthetics; it's about pain management. Feed a measured diet of high-quality senior dog food, limit treats to healthy options, and maintain low-impact exercise like walking or swimming.</p>
+<h2>2. Targeted Supplements</h2>
+<p>One of the most effective ways to support joint health is through daily supplements containing glucosamine, chondroitin, MSM, and omega-3 fatty acids. These ingredients work together to repair cartilage, reduce inflammation, and improve mobility.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Nutramax Cosequin Maximum Strength Joint Supplement</strong><p style="margin:0.5rem 0;">The #1 vet-recommended joint supplement brand. Contains glucosamine and chondroitin to support healthy cartilage.</p><a href="https://www.amazon.com/dp/B001VIFI1K?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<div class="product-card"><span class="pick-label">🛒 Also Great</span><strong>Zesty Paws Senior Advanced Mobility Chews</strong><p style="margin:0.5rem 0;">Features green-lipped mussel, glucosamine, chondroitin, and MSM for comprehensive joint support.</p><a href="https://www.amazon.com/dp/B09Q3R51HF?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>3. The Right Environment: Orthopedic Beds</h2>
+<p>Simple changes at home can drastically improve your senior dog's quality of life. An orthopedic dog bed made of memory foam conforms to your dog's body, relieving pressure points and providing support for achy joints.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>EHEYCIGA Orthopedic Dog Bed</strong><p style="margin:0.5rem 0;">Memory foam + egg crate foam dual-layer design that effectively relieves joint pressure in medium to large dogs.</p><a href="https://www.amazon.com/dp/B0BDLGZCTY?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>4. Veterinary-Supervised Pain Management</h2><p>If your dog shows significant pain, see the vet. They can prescribe safe anti-inflammatory drugs or new treatments like monoclonal antibody injections for targeted monthly relief.</p>`
+    },
+    'cat-diet-tips': {
+      title: 'What to Feed Your Cat: Daily Diet Tips for a Healthy Feline',
+      date: 'May 23, 2026',
+      badge: 'Diet',
+      badgeClass: 'badge-health',
+      keyPoints: ['Choose high-protein food with real meat as the first ingredient','Use stainless steel bowls to prevent bacteria','Always provide fresh, clean water','Never feed your cat dog food—it lacks essential taurine'],
+      content: `<p>A healthy diet is the foundation of your cat's well-being. Unlike dogs, cats are obligate carnivores—they must eat meat to survive. Here's what every cat owner should know about feeding their feline friend.</p>
+<h2>1. Prioritize High-Protein Food</h2><p>The first ingredient on any cat food label should be a named meat source like chicken, salmon, or turkey. Avoid foods where corn, wheat, or soy appear first. Cats need animal protein to thrive.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Hill's Science Diet Adult Optimal Care Chicken Recipe</strong><p style="margin:0.5rem 0;">Vet-recommended dry food with real chicken as the first ingredient. Balanced nutrition for adult cats.</p><a href="https://www.amazon.com/dp/B000084DWM?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>2. Choose the Right Bowls</h2><p>Stainless steel bowls are the gold standard. They're durable, easy to clean, and don't harbor bacteria like plastic bowls can. Plus, they won't cause chin acne in sensitive cats.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>HTRTRR Stainless Steel Cat Bowl Set</strong><p style="margin:0.5rem 0;">Non-slip stainless steel bowls, perfect for separating wet and dry food. Easy to clean and dishwasher-safe.</p><a href="https://www.amazon.com/dp/B0F1D1GFWP?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>3. Fresh Water Is Essential</h2><p>Cats naturally have a low thirst drive. Encourage drinking by providing fresh water daily and consider a pet water fountain. Many cats prefer running water.</p>
+<h2>4. Never Feed Dog Food to Cats</h2><p>Dog food lacks taurine, an amino acid cats can't produce on their own. Without taurine, cats can develop serious heart and eye problems. Always feed cat-specific food.</p>`
+    },
+    'grooming-supplies': {
+      title: 'Must-Have Pet Grooming Supplies for Every Pet Owner',
+      date: 'May 23, 2026',
+      badge: 'Grooming',
+      badgeClass: 'badge-gear',
+      keyPoints: ['A quiet pet clipper makes at-home grooming stress-free','Gentle shampoos with natural ingredients protect sensitive skin','Regular brushing prevents matting and reduces shedding','Use pet-specific nail clippers—never human ones'],
+      content: `<p>Regular grooming isn't just about keeping your pet looking good—it's essential for their health. From preventing skin issues to catching lumps and bumps early, a good grooming routine benefits both you and your pet.</p>
+<h2>1. A Quiet Clipper for Stress-Free Haircuts</h2><p>Loud clippers can terrify pets. Look for models specifically designed to be low-noise. Cordless options give you more flexibility and are safer for wiggly pets.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>DPISZONE Pet Grooming Kit</strong><p style="margin:0.5rem 0;">Quiet, cordless clipper suitable for Labradors, German Shepherds, and other long-haired breeds. Perfect for home grooming.</p><a href="https://www.amazon.com/dp/B0C558FCS6?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>2. Gentle Shampoo for Sensitive Skin</h2><p>Not all pet shampoos are created equal. Look for formulas with oatmeal, aloe vera, and argan oil. Avoid products with alcohol, parabens, or strong artificial fragrances.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>HOWND Got An Itch Dog Shampoo</strong><p style="margin:0.5rem 0;">Specifically designed for sensitive skin. Contains oatmeal, aloe vera, and argan oil. No alcohol, no parabens.</p><a href="https://www.amazon.com/dp/B00VRGZ506?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>3. Don't Forget the Basics</h2><p>A good slicker brush, nail clippers designed for pets, and styptic powder (in case you trim a nail too short) are essentials every pet owner should have in their grooming kit.</p>`
+    },
+    'senior-dog-food': {
+      title: 'How to Choose the Best Dog Food for Your Senior Dog',
+      date: 'May 23, 2026',
+      badge: 'Dog Food',
+      badgeClass: 'badge-gear',
+      keyPoints: ['Switch to senior-specific formulas around age 7','Look for glucosamine for joint support','Avoid fillers like corn, soy, and artificial additives','Consider wet food if your dog has dental issues'],
+      content: `<p>Your senior dog's nutritional needs change with age. The food that kept them healthy as an active adult may no longer be ideal. Here's how to pick the right senior dog food.</p>
+<h2>1. Senior-Specific Formulas Exist for a Reason</h2><p>Around age 7 (depending on breed), most dogs benefit from switching to a senior formula. These foods typically have fewer calories to match a slower metabolism, higher fiber for digestive health, and added joint-supporting nutrients.</p>
+<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Purina ONE SmartBlend Healthy Aging 7+</strong><p style="margin:0.5rem 0;">Amazon's Choice for senior dog food. Real chicken is the #1 ingredient, with glucosamine for joint support.</p><a href="https://www.amazon.com/dp/B07Q7J66J8?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>2. What to Avoid</h2><p>Steer clear of foods where corn, soy, or wheat appear high on the ingredient list. These are fillers with little nutritional value. Also avoid artificial colors, flavors, and preservatives.</p>
+<h2>3. Dry vs. Wet Food</h2><p>If your senior dog has dental problems, wet food can be easier to eat. You can also soften dry kibble with warm water. Some owners mix both for the best of both worlds.</p>
+<div class="product-card"><span class="pick-label">🛒 Also Consider</span><strong>Zesty Paws Senior Advanced Mobility Chews</strong><p style="margin:0.5rem 0;">Pair your dog's senior food with a joint supplement for maximum mobility support.</p><a href="https://www.amazon.com/dp/B09Q3R51HF?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>`
+    },
+    'dog-ailments': {
+      title: 'Common Small Ailments in Dogs and How to Prevent Them Naturally',
+      date: 'May 23, 2026',
+      badge: 'Prevention',
+      badgeClass: 'badge-health',
+      keyPoints: ['Spot early signs of ear infections, hot spots, and digestive issues','Use natural, vet-approved home care techniques','Keep a pet first-aid kit at home','Know when to seek professional veterinary help'],
+      content: `<p>Dogs can't tell us when something feels off, but their bodies often give us clues. Learning to spot early signs of common ailments can save your dog discomfort—and save you expensive vet bills.</p>
+<h2>1. Ear Infections</h2><p>Signs include head shaking, scratching at ears, redness, or a bad smell. Prevent them by keeping ears dry after baths and swimming. Clean ears gently with a vet-approved solution—never use cotton swabs deep in the ear canal.</p>
+<h2>2. Hot Spots</h2><p>These red, inflamed patches of skin can appear suddenly and spread fast. They're often triggered by allergies, moisture trapped in the coat, or excessive licking. Keep the area clean and dry, and prevent your dog from licking it.</p>
+<div class="product-card"><span class="pick-label">🛒 Helpful Product</span><strong>HOWND Got An Itch Dog Shampoo</strong><p style="margin:0.5rem 0;">A gentle, oatmeal-based shampoo that soothes sensitive and irritated skin. Perfect for dogs prone to hot spots.</p><a href="https://www.amazon.com/dp/B00VRGZ506?tag=petartlab-20" target="_blank">Check Price on Amazon →</a></div>
+<h2>3. Digestive Upsets</h2><p>Occasional vomiting or diarrhea can happen from eating something they shouldn't. For mild cases, a bland diet of boiled chicken and rice for 24 hours can help. Probiotic supplements may also support gut health. If symptoms persist beyond 24 hours, see your vet.</p>
+<h2>4. Dental Problems</h2><p>Bad breath isn't just unpleasant—it can signal dental disease. Regular brushing with dog-specific toothpaste and dental chews can help keep teeth clean. Annual dental check-ups are recommended for senior dogs.</p>`
+    }
+  };
+
+  const article = articles[articleId];
+  if (!article) { navigateTo('guides'); return document.createElement('div'); }
+
   const main = document.createElement('main');
-  main.className = 'container';
+  main.className = 'container-narrow';
   main.style.padding = '3rem 1rem';
   main.innerHTML = `
-    <div class="mb-8">
-      <h2 class="section-title">🐾 Pet Health & Supply Guides</h2>
-      <p class="section-subtitle">Expert tips for happy, healthy pets — backed by our community of pet lovers.</p>
-    </div>
-
-    <div class="mb-8">
-      <h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🩺 Health & Care</h3>
-      <div class="grid-2" style="grid-template-columns:1fr;">
-        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
-          <span class="badge badge-health">Joint Health</span>
-          <h3>Effective Ways to Keep Your Senior Dog's Joints Healthy</h3>
-          <p>Weight management, joint supplements, and an orthopedic bed can transform your old friend's golden years.</p>
-          <span class="read-more">Read More →</span>
-        </a>
-        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
-          <span class="badge badge-health">Diet</span>
-          <h3>What to Feed Your Cat: Daily Diet Tips for a Healthy Feline</h3>
-          <p>High-protein food, stainless steel bowls, and why cats should never eat dog food.</p>
-          <span class="read-more">Read More →</span>
-        </a>
-        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
-          <span class="badge badge-health">Prevention</span>
-          <h3>Common Small Ailments in Dogs and How to Prevent Them Naturally</h3>
-          <p>Spot the signs early and use vet-approved home care techniques to keep your dog healthy.</p>
-          <span class="read-more">Read More →</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="mb-8">
-      <h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🛒 Supplies & Gear</h3>
-      <div class="grid-2" style="grid-template-columns:1fr;">
-        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
-          <span class="badge badge-gear">Dog Food</span>
-          <h3>How to Choose the Best Dog Food for Your Senior Dog</h3>
-          <p>Senior-specific formulas with glucosamine, avoiding fillers, and when to choose wet food.</p>
-          <span class="read-more">Read More →</span>
-        </a>
-        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
-          <span class="badge badge-gear">Grooming</span>
-          <h3>Must-Have Pet Grooming Supplies for Every Pet Owner</h3>
-          <p>Quiet clippers, gentle shampoos, and the right tools to keep your pet looking their best.</p>
-          <span class="read-more">Read More →</span>
-        </a>
-      </div>
-    </div>
-
+    <div class="back-link" onclick="navigateTo('guides')">← Back to Guides</div>
+    <span class="badge ${article.badgeClass}" style="margin-bottom:0.75rem;">${article.badge}</span>
+    <h1 style="font-size:2.2rem;font-weight:800;line-height:1.3;margin-bottom:0.5rem;">${article.title}</h1>
+    <p class="article-meta">By PetArt Lab · ${article.date}</p>
+    <div class="key-points"><h4>Key Takeaways</h4><ul>${article.keyPoints.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+    <div class="article-body">${article.content}</div>
     <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
   `;
   return main;
 }
 
-function renderPricing() {
-  const div = document.createElement('div');
-  div.className = 'container';
-  div.style.padding = '3rem 1rem';
-  div.innerHTML = `
-    <div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
-    <div class="grid-4 mb-8">
-      ${Object.entries(PLANS).map(([key, plan]) => `
-        <div class="plan-card ${state.authUser?.plan === key ? 'active' : ''} ${key === 'pro' ? 'popular' : ''}">
-          ${key === 'pro' ? '<div class="popular-badge">Most Popular</div>' : ''}
-          <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${plan.name}</h3>
-          <div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${key==='free'?'0':key==='pro'?'9.99':key==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div>
-          <ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">
-            ${(key==='free' ? ['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history'] :
-               key==='pro' ? ['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history'] :
-               key==='max' ? ['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history'] :
-               ['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f => `<li>${f}</li>`).join('')}
-          </ul>
-          <button class="btn ${key==='pro' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${key}')" ${state.authUser?.plan === key ? 'disabled' : ''}>${state.authUser?.plan === key ? 'Current' : 'Select'}</button>
-        </div>
-      `).join('')}
+/* ===================== 栏目首页 ===================== */
+function renderGuides() {
+  const main = document.createElement('main');
+  main.className = 'container';
+  main.style.padding = '3rem 1rem';
+  main.innerHTML = `
+    <div class="mb-8"><h2 class="section-title">🐾 Pet Health & Supply Guides</h2><p class="section-subtitle">Expert tips for happy, healthy pets — backed by our community of pet lovers.</p></div>
+    <div class="mb-8"><h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🩺 Health & Care</h3>
+      <div class="grid-2">
+        <a class="article-card" onclick="navigateTo('article-senior-dog-joints')"><span class="badge badge-health">Joint Health</span><h3>Effective Ways to Keep Your Senior Dog's Joints Healthy</h3><p>Weight management, joint supplements, and an orthopedic bed can transform your old friend's golden years.</p><span class="read-more">Read More →</span></a>
+        <a class="article-card" onclick="navigateTo('article-cat-diet-tips')"><span class="badge badge-health">Diet</span><h3>What to Feed Your Cat: Daily Diet Tips for a Healthy Feline</h3><p>High-protein food, stainless steel bowls, and why cats should never eat dog food.</p><span class="read-more">Read More →</span></a>
+        <a class="article-card" onclick="navigateTo('article-dog-ailments')"><span class="badge badge-health">Prevention</span><h3>Common Small Ailments in Dogs and How to Prevent Them Naturally</h3><p>Spot the signs early and use vet-approved home care techniques to keep your dog healthy.</p><span class="read-more">Read More →</span></a>
+      </div>
     </div>
-    <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3>
-      <div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
-        <tr><td>Monthly Credits</td><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
-        <tr><td>Resolution</td><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
-        <tr><td>Watermark</td><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
-        <tr><td>Styles</td><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">3</td><td>6</td><td>All 31</td></tr>
-        <tr><td>Batch</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>5</td><td>10</td></tr>
-        <tr><td>History</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">7 days</td><td>30 days</td><td>180 days</td></tr>
-        <tr><td>Commercial License</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>-</td><td>Yes</td></tr>
-      </tbody></table></div>
-    </div>`;
-  return div;
-}
-
-function renderTerms() {
-  const div = document.createElement('div');
-  div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Terms of Service</h1><div class="card" style="line-height:1.8;">
-    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
-    <h2>1. Acceptance of Terms</h2><p>By accessing or using PetArt Lab ("we", "our", or "us") at https://www.petartlab.net (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service.</p>
-    <h2>2. Description of Service</h2><p>PetArt Lab is an AI-powered platform that generates artistic portraits of pets from user-uploaded photos. The Service offers both free and paid subscription tiers with varying features and usage limits.</p>
-    <h2>3. Account Registration</h2><p>You must provide a valid email address to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. One person may not maintain more than one account without permission.</p>
-    <h2>4. User Responsibilities</h2><p>You agree NOT to: upload or generate illegal, harmful, or copyrighted content; use the Service for any unlawful purpose; attempt to bypass usage limits or security features; reverse engineer the Service; use automated scripts or bots; interfere with the Service; impersonate others; upload images containing people without consent.</p>
-    <h2>5. Intellectual Property</h2><p>PetArt Lab, its branding, website design, and underlying technology are owned by us. You retain ownership of uploaded photos. Generated images are for personal use only; commercial use requires an Ultra subscription.</p>
-    <h2>6. Subscription Plans and Payment</h2><p>Plans: Free (1/day, watermark), Pro ($9.99/mo, 150 images, 3 styles), Max ($19.99/mo, 320 images, 6 styles), Ultra ($29.99/mo, 550 images, all 31 styles). All payments processed by Creem. Subscriptions auto-renew unless cancelled.</p>
-    <h2>7. Refund Policy</h2><p>Refunds are governed by our separate Refund Policy, including 14-day money-back guarantee, usage-based calculations, and 1 refund per lifetime limit.</p>
-    <h2>8. Service Termination</h2><p>We reserve the right to suspend or terminate accounts for violation of these Terms, fraudulent behavior, or chargeback abuse.</p>
-    <h2>9. Disclaimer of Warranties</h2><p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. We do not guarantee uninterrupted service or specific artistic results.</p>
-    <h2>10. Limitation of Liability</h2><p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, PETART LAB SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES. Our total liability shall not exceed the amount paid in the 12 months preceding the claim.</p>
-    <h2>11. Governing Law</h2><p>These Terms are governed by the laws of the United States.</p>
-    <h2>12. Contact</h2><p>Contact us at xych356761678@qq.com</p>
-  </div>`;
-  return div;
-}
-
-function renderPrivacy() {
-  const div = document.createElement('div');
-  div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Privacy Policy</h1><div class="card" style="line-height:1.8;">
-    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
-    <h2>1. Introduction</h2><p>PetArt Lab ("we", "our", or "us") operates https://www.petartlab.net (the "Service"). This Privacy Policy explains how we collect, use, and protect your personal information.</p>
-    <h2>2. Information We Collect</h2><p>We collect your email address and username for account registration. Uploaded pet photos are temporarily processed for image generation. We do NOT collect full name, physical address, phone number, or payment card details (handled by Creem).</p>
-    <h2>3. How We Use Your Information</h2><p>Your information is used solely for providing the Service, processing image generation requests, managing your account, and preventing fraud or abuse.</p>
-    <h2>4. Data Sharing</h2><p>We do NOT sell, trade, or rent your personal information. Data is shared only with Creem for payment processing and with AI service providers solely for image generation.</p>
-    <h2>5. Data Retention</h2><p>Account information is retained while active. Uploaded pet photos are deleted within 24 hours. Generated images are stored according to your plan (Free: not stored, Pro: 7 days, Max: 30 days, Ultra: 180 days). You may request deletion at any time.</p>
-    <h2>6. Security</h2><p>All data transmissions are encrypted via HTTPS/TLS. Passwords are stored using secure hashing. We regularly review our security practices.</p>
-    <h2>7. Your Rights</h2><p>You may request access, correction, or deletion of your data at any time by contacting us.</p>
-    <h2>8. Cookies</h2><p>We use essential cookies to maintain your login state. See our cookie banner for details.</p>
-    <h2>9. Children's Privacy</h2><p>Our Service is not directed to individuals under 13. We do not knowingly collect data from children.</p>
-    <h2>10. International Data Transfers</h2><p>Your information may be processed on servers outside your country. We ensure appropriate safeguards are in place.</p>
-    <h2>11. Contact</h2><p>For questions, contact us at xych356761678@qq.com</p>
-  </div>`;
-  return div;
-}
-
-function renderRefund() {
-  const div = document.createElement('div');
-  div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Refund Policy</h1><div class="card" style="line-height:1.8;">
-    <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
-    <h2>1. Overview</h2><p>PetArt Lab provides AI-powered pet portrait generation services. This Refund Policy explains the terms for requesting a refund.</p>
-    <h2>2. 14-Day Money-Back Guarantee</h2><p>You may request a refund within 14 calendar days of purchase or renewal. Refunds are calculated based on actual usage.</p>
-    <h2>3. How Refunds Are Calculated</h2><p>Refund = Paid Fee - (Images Used × Unit Price). Pro: $0.067/img, Max: $0.062/img, Ultra: $0.055/img. Example: Pro user using 50 images = $9.99 - (50 × $0.067) = $6.64.</p>
-    <h2>4. Non-Refundable Situations</h2><p>Refunds NOT available for: accounts using over 30% of monthly quota, bulk generation for commercial purposes, detected abusive behavior, or accounts that have already received a refund.</p>
-    <h2>5. Merchant of Record</h2><p>Creem is the Merchant of Record. Creem processes all payments and refunds to the original payment method.</p>
-    <h2>6. How to Request a Refund</h2><p>Contact us at xych356761678@qq.com with your registered email, order number, and reason.</p>
-    <h2>7. Processing Time</h2><p>Approved refunds are processed within 5-10 business days. Each account is limited to 1 refund request per lifetime.</p>
-    <h2>8. Chargebacks</h2><p>If you initiate a chargeback without contacting us first, we reserve the right to suspend your account. Please contact us to resolve issues first.</p>
-    <h2>9. Subscription Cancellation</h2><p>You may cancel anytime. Cancellation stops future billing but does not automatically refund the current period.</p>
-    <h2>10. Contact</h2><p>Contact us at xych356761678@qq.com</p>
-  </div>`;
-  return div;
-}
-
-function renderAccount() {
-  if (!state.authUser) return (() => { const d = document.createElement('div'); d.className = 'text-center'; d.style.padding = '5rem'; d.innerHTML = '<p>Please sign in</p>'; return d; })();
-  const plan = PLANS[state.authUser.plan];
-  const div = document.createElement('div');
-  div.className = 'container'; div.style.padding = '3rem 1rem';
-  div.innerHTML = `
-    <div class="card mb-6">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <div style="width:4rem;height:4rem;border-radius:9999px;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:bold;">${state.authUser.username[0].toUpperCase()}</div>
-          <div><h2 style="font-size:1.5rem;font-weight:bold;">${state.authUser.username}</h2><p style="color:var(--color-slate-500);">${state.authUser.email}</p></div>
-        </div>
-        <button class="btn btn-outline" onclick="handleLogout()" style="display:flex;align-items:center;gap:0.5rem;">↪ Logout</button>
+    <div class="mb-8"><h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🛒 Supplies & Gear</h3>
+      <div class="grid-2">
+        <a class="article-card" onclick="navigateTo('article-senior-dog-food')"><span class="badge badge-gear">Dog Food</span><h3>How to Choose the Best Dog Food for Your Senior Dog</h3><p>Senior-specific formulas with glucosamine, avoiding fillers, and when to choose wet food.</p><span class="read-more">Read More →</span></a>
+        <a class="article-card" onclick="navigateTo('article-grooming-supplies')"><span class="badge badge-gear">Grooming</span><h3>Must-Have Pet Grooming Supplies for Every Pet Owner</h3><p>Quiet clippers, gentle shampoos, and the right tools to keep your pet looking their best.</p><span class="read-more">Read More →</span></a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
-        <div style="background:var(--color-amber-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">Current Plan</p><p style="font-size:1.25rem;font-weight:bold;color:var(--color-amber-600);">${plan.name}</p></div>
-        <div style="background:var(--color-slate-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">Remaining</p><p style="font-size:1.25rem;font-weight:bold;">${state.authUser.credits} / ${plan.monthlyLimit}</p></div>
-        <div style="background:var(--color-slate-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">History</p><p style="font-size:1.25rem;font-weight:bold;">${plan.historyDays} days</p></div>
-      </div>
-      <button class="btn btn-primary mt-6" style="width:100%;" onclick="state.showUpgradeModal=true;render();">Upgrade Plan</button>
-    </div>`;
-  return div;
+    </div>
+    <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
+  `;
+  return main;
 }
 
-function handleFileSelect(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => { state.selectedImage = ev.target.result; render(); };
-  reader.readAsDataURL(file);
+/* ===================== 其他页面 (保持原有逻辑) ===================== */
+function renderPricing() {
+  const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
+  d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
+  <div class="grid-4 mb-8">${Object.entries(PLANS).map(([k,p])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''} ${k==='pro'?'popular':''}">${k==='pro'?'<div class="popular-badge">Most Popular</div>':''}<h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${p.name}</h3><div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div><ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">${(k==='free'?['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history']:k==='pro'?['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history']:k==='max'?['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history']:['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${k==='pro'?'btn-primary':'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div>
+  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
+    <tr><td>Monthly Credits</td><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
+    <tr><td>Resolution</td><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
+    <tr><td>Watermark</td><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
+    <tr><td>Styles</td><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">3</td><td>6</td><td>All 31</td></tr>
+    <tr><td>Batch</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>5</td><td>10</td></tr>
+    <tr><td>History</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">7 days</td><td>30 days</td><td>180 days</td></tr>
+    <tr><td>Commercial License</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>-</td><td>Yes</td></tr>
+  </tbody></table></div></div>`;
+  return d;
 }
 
-function toggleStyle(styleId) {
-  if (!canSelectStyle(styleId)) { state.showUpgradeModal = true; render(); return; }
-  if (state.selectedStyles.includes(styleId)) {
-    if (state.selectedStyles.length > 1) state.selectedStyles = state.selectedStyles.filter(id => id !== styleId);
-  } else {
-    if (state.selectedStyles.length < getMaxStylesCount()) state.selectedStyles.push(styleId);
-    else alert(`Your plan allows up to ${getMaxStylesCount()} style(s).`);
-  }
-  render();
+function renderTerms(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Terms of Service</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Acceptance</h2><p>By using PetArt Lab at https://www.petartlab.net, you agree to these Terms.</p><h2>2. Service</h2><p>PetArt Lab generates AI pet portraits from user photos. Free and paid tiers available.</p><h2>3. Account</h2><p>Provide valid email. One account per person.</p><h2>4. Responsibilities</h2><p>No illegal, harmful, or copyrighted content. No bots or reverse engineering.</p><h2>5. IP</h2><p>You own your photos. Generated images for personal use only; commercial use requires Ultra.</p><h2>6. Plans & Payment</h2><p>Free (1/day, watermark), Pro ($9.99/mo, 150 images), Max ($19.99/mo, 320 images), Ultra ($29.99/mo, 550 images). Payments by Creem.</p><h2>7. Refunds</h2><p>See our Refund Policy for details.</p><h2>8. Termination</h2><p>We may suspend accounts for violations.</p><h2>9. Disclaimer</h2><p>Service provided "as is."</p><h2>10. Liability</h2><p>Not liable for indirect damages.</p><h2>11. Law</h2><p>Governed by United States law.</p><h2>12. Contact</h2><p>xych356761678@qq.com</p></div>`; return d; }
+function renderPrivacy(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Privacy Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Introduction</h2><p>PetArt Lab operates https://www.petartlab.net.</p><h2>2. Information Collected</h2><p>Email and username for registration. Photos processed temporarily.</p><h2>3. Usage</h2><p>Data used solely for providing the Service.</p><h2>4. Sharing</h2><p>No selling of data. Shared only with Creem for payments and AI providers for generation.</p><h2>5. Retention</h2><p>Account data retained while active. Photos deleted within 24 hours.</p><h2>6. Security</h2><p>HTTPS/TLS encryption.</p><h2>7. Your Rights</h2><p>Request access, correction, or deletion.</p><h2>8. Cookies</h2><p>Essential cookies for login state.</p><h2>9. Children</h2><p>Not for individuals under 13.</p><h2>10. Contact</h2><p>xych356761678@qq.com</p></div>`; return d; }
+function renderRefund(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Refund Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Overview</h2><p>14-day money-back guarantee.</p><h2>2. Calculation</h2><p>Refund = Paid Fee - (Images Used × Unit Price).</p><h2>3. Non-Refundable</h2><p>Over 30% quota used, bulk generation, abuse, or prior refunds.</p><h2>4. MoR</h2><p>Creem is the Merchant of Record.</p><h2>5. Contact</h2><p>xych356761678@qq.com</p></div>`; return d; }
+function renderAccount(){
+  if(!state.authUser){ const d=document.createElement('div'); d.className='text-center'; d.style.padding='5rem'; d.innerHTML='<p>Please sign in</p>'; return d; }
+  const p=PLANS[state.authUser.plan]; const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
+  d.innerHTML=`<div class="card mb-6"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;"><div style="display:flex;align-items:center;gap:1rem;"><div style="width:4rem;height:4rem;border-radius:9999px;background:linear-gradient(135deg,var(--color-amber-400),var(--color-orange-500));display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:bold;">${state.authUser.username[0].toUpperCase()}</div><div><h2>${state.authUser.username}</h2><p style="color:var(--color-slate-500);">${state.authUser.email}</p></div></div><button class="btn btn-outline" onclick="handleLogout()">↪ Logout</button></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;"><div style="background:var(--color-amber-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">Current Plan</p><p style="font-size:1.25rem;font-weight:bold;color:var(--color-amber-600);">${p.name}</p></div><div style="background:var(--color-slate-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">Remaining</p><p style="font-size:1.25rem;font-weight:bold;">${state.authUser.credits}/${p.monthlyLimit}</p></div><div style="background:var(--color-slate-50);border-radius:0.75rem;padding:1rem;"><p style="font-size:0.875rem;color:var(--color-slate-500);">History</p><p style="font-size:1.25rem;font-weight:bold;">${p.historyDays} days</p></div></div><button class="btn btn-primary mt-6" style="width:100%;" onclick="state.showUpgradeModal=true;render();">Upgrade Plan</button></div>`;
+  return d;
 }
 
-function setBatch(count) {
-  if (!state.authUser) return;
-  if (state.authUser.isTestAccount) { state.batchCount = count; render(); return; }
-  const plan = state.authUser.plan;
-  if (count === 5 && (plan === 'free' || plan === 'pro')) { state.showUpgradeModal = true; render(); return; }
-  if (count === 10 && plan !== 'ultra') { state.showUpgradeModal = true; render(); return; }
-  state.batchCount = count;
-  render();
-}
+function handleFileSelect(e){ const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=ev=>{state.selectedImage=ev.target.result;render();}; r.readAsDataURL(f); }
+function toggleStyle(s){ if(!canSelectStyle(s)){state.showUpgradeModal=true;render();return;} if(state.selectedStyles.includes(s)){if(state.selectedStyles.length>1)state.selectedStyles=state.selectedStyles.filter(id=>id!==s);}else{if(state.selectedStyles.length<getMaxStylesCount())state.selectedStyles.push(s);else alert(`Your plan allows up to ${getMaxStylesCount()} style(s).`);} render(); }
+function setBatch(c){ if(!state.authUser)return; if(state.authUser.isTestAccount){state.batchCount=c;render();return;} const p=state.authUser.plan; if(c===5&&(p==='free'||p==='pro')){state.showUpgradeModal=true;render();return;} if(c===10&&p!=='ultra'){state.showUpgradeModal=true;render();return;} state.batchCount=c;render(); }
 
 function render() {
-  const root = document.getElementById('root');
-  root.innerHTML = '';
-  const container = document.createElement('div');
-  container.style.minHeight = '100vh';
-  container.appendChild(renderHeader());
+  const root=document.getElementById('root'); root.innerHTML='';
+  const c=document.createElement('div'); c.style.minHeight='100vh';
+  c.appendChild(renderHeader());
   let content;
-  switch(state.currentPage) {
-    case 'home': content = renderHome(); break;
-    case 'guides': content = renderGuides(); break;
-    case 'pricing': content = renderPricing(); break;
-    case 'terms': content = renderTerms(); break;
-    case 'privacy': content = renderPrivacy(); break;
-    case 'refund': content = renderRefund(); break;
-    case 'account': content = renderAccount(); break;
-    default: content = renderHome();
+  const page=state.currentPage;
+  if(page.startsWith('article-')) {
+    const articleId=page.replace('article-','');
+    content=renderArticle(articleId);
+  } else {
+    switch(page){
+      case 'home': content=renderHome(); break;
+      case 'guides': content=renderGuides(); break;
+      case 'pricing': content=renderPricing(); break;
+      case 'terms': content=renderTerms(); break;
+      case 'privacy': content=renderPrivacy(); break;
+      case 'refund': content=renderRefund(); break;
+      case 'account': content=renderAccount(); break;
+      default: content=renderHome();
+    }
   }
-  container.appendChild(content);
-  const footer = document.createElement('footer');
-  footer.style.marginTop = '3rem';
-  footer.style.padding = '2rem 0';
-  footer.style.borderTop = '1px solid var(--color-slate-200)';
-  footer.innerHTML = `
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-      <div style="display:flex;align-items:center;gap:0.5rem;color:var(--color-slate-600);">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5.5L18 9l-4.5 2L12 16l-1.5-5L6 9l4.5-1.5z"/></svg>
-        <span style="font-size:0.875rem;">PetArt Lab</span>
-      </div>
-      <div style="display:flex;gap:1.5rem;font-size:0.875rem;color:var(--color-slate-500);">
-        <span onclick="navigateTo('guides')" style="cursor:pointer;">Guides</span>
-        <span onclick="navigateTo('pricing')" style="cursor:pointer;">Pricing</span>
-        <span onclick="navigateTo('terms')" style="cursor:pointer;">Terms</span>
-        <span onclick="navigateTo('privacy')" style="cursor:pointer;">Privacy</span>
-        <span onclick="navigateTo('refund')" style="cursor:pointer;">Refund</span>
-      </div>
-      <a href="https://www.robloxhelp.xyz" target="_blank" style="font-size:0.875rem;color:var(--color-slate-500);text-decoration:none;">Roblox Tips</a>
-      <span style="font-size:0.75rem;color:var(--color-slate-400);">This site is intended for users aged 13 and above.</span>
-    </div>`;
-  container.appendChild(footer);
+  c.appendChild(content);
+  const footer=document.createElement('footer'); footer.style.marginTop='3rem'; footer.style.padding='2rem 0'; footer.style.borderTop='1px solid var(--color-slate-200)';
+  footer.innerHTML=`<div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;"><div style="display:flex;align-items:center;gap:0.5rem;color:var(--color-slate-600);"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 5.5L18 9l-4.5 2L12 16l-1.5-5L6 9l4.5-1.5z"/></svg><span style="font-size:0.875rem;">PetArt Lab</span></div><div style="display:flex;gap:1.5rem;font-size:0.875rem;color:var(--color-slate-500);"><span onclick="navigateTo('guides')" style="cursor:pointer;">Guides</span><span onclick="navigateTo('pricing')" style="cursor:pointer;">Pricing</span><span onclick="navigateTo('terms')" style="cursor:pointer;">Terms</span><span onclick="navigateTo('privacy')" style="cursor:pointer;">Privacy</span><span onclick="navigateTo('refund')" style="cursor:pointer;">Refund</span></div><a href="https://www.robloxhelp.xyz" target="_blank" style="font-size:0.875rem;color:var(--color-slate-500);text-decoration:none;">Roblox Tips</a><span style="font-size:0.75rem;color:var(--color-slate-400);">This site is intended for users aged 13 and above.</span></div>`;
+  c.appendChild(footer);
 
-  if (state.showAuthModal) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay animate-scale-in';
-    overlay.id = 'auth-modal-overlay';
-    overlay.innerHTML = `
-      <div class="modal-content" id="auth-modal-content">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-          <h3 style="font-size:1.25rem;font-weight:bold;">${state.authMode === 'login' ? 'Sign In' : 'Create Account'}</h3>
-          <button onclick="closeAuthModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
-        </div>
-        <form onsubmit="handleAuth(event)" style="display:flex;flex-direction:column;gap:1rem;">
-          <input class="input-field" type="email" placeholder="Email" value="${state.authForm.email}" oninput="state.authForm.email=this.value" required>
-          <div style="position:relative;">
-            <input class="input-field" type="${state.showPassword ? 'text' : 'password'}" placeholder="Password" value="${state.authForm.password}" oninput="state.authForm.password=this.value" required>
-            <button type="button" onclick="state.showPassword=!state.showPassword;render();" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;">${state.showPassword ? '🙈' : '👁'}</button>
-          </div>
-          ${state.authMode === 'register' ? `<input class="input-field" type="text" placeholder="Username" value="${state.authForm.username}" oninput="state.authForm.username=this.value">` : ''}
-          <button class="btn btn-primary" type="submit">${state.authMode === 'login' ? 'Sign In' : 'Create Account'}</button>
-        </form>
-        <p style="text-align:center;margin-top:1rem;font-size:0.875rem;color:var(--color-slate-500);">
-          ${state.authMode === 'login' ? "Don't have an account? " : "Already have an account? "}
-          <span onclick="state.authMode=state.authMode==='login'?'register':'login';render();" style="color:var(--color-amber-600);cursor:pointer;font-weight:500;">${state.authMode === 'login' ? 'Sign Up' : 'Sign In'}</span>
-        </p>
-      </div>`;
-    overlay.onclick = function(e) { if (e.target === this) { state.showAuthModal = false; render(); } };
-    container.appendChild(overlay);
+  if(state.showAuthModal){
+    const o=document.createElement('div'); o.className='modal-overlay'; o.innerHTML=`<div class="modal-content"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>${state.authMode==='login'?'Sign In':'Create Account'}</h3><button onclick="closeAuthModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div><form onsubmit="handleAuth(event)" style="display:flex;flex-direction:column;gap:1rem;"><input class="input-field" type="email" placeholder="Email" value="${state.authForm.email}" oninput="state.authForm.email=this.value" required><div style="position:relative;"><input class="input-field" type="${state.showPassword?'text':'password'}" placeholder="Password" value="${state.authForm.password}" oninput="state.authForm.password=this.value" required><button type="button" onclick="state.showPassword=!state.showPassword;render();" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;">${state.showPassword?'🙈':'👁'}</button></div>${state.authMode==='register'?`<input class="input-field" type="text" placeholder="Username" value="${state.authForm.username}" oninput="state.authForm.username=this.value">`:''}<button class="btn btn-primary" type="submit">${state.authMode==='login'?'Sign In':'Create Account'}</button></form><p style="text-align:center;margin-top:1rem;font-size:0.875rem;color:var(--color-slate-500);">${state.authMode==='login'?"Don't have an account? ":"Already have an account? "}<span onclick="state.authMode=state.authMode==='login'?'register':'login';render();" style="color:var(--color-amber-600);cursor:pointer;font-weight:500;">${state.authMode==='login'?'Sign Up':'Sign In'}</span></p></div>`;
+    o.onclick=function(e){if(e.target===this){state.showAuthModal=false;render();}}; c.appendChild(o);
   }
-
-  if (state.showUpgradeModal) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay animate-scale-in';
-    overlay.id = 'upgrade-modal-overlay';
-    overlay.innerHTML = `
-      <div class="modal-content wide" id="upgrade-modal-content">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-          <h3 style="font-size:1.25rem;font-weight:bold;">Select Plan</h3>
-          <button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button>
-        </div>
-        <div class="grid-4">
-          ${Object.entries(PLANS).map(([key,plan]) => `
-            <div class="plan-card ${state.authUser?.plan === key ? 'active' : ''}">
-              <h4>${plan.name}</h4>
-              <div style="font-size:1.5rem;font-weight:bold;">$${key==='free'?'0':key==='pro'?'9.99':key==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;">/mo</span></div>
-              <button class="btn ${state.authUser?.plan === key ? 'btn-outline' : 'btn-primary'}" style="width:100%;margin-top:1rem;" onclick="handleUpgrade('${key}')" ${state.authUser?.plan === key ? 'disabled' : ''}>${state.authUser?.plan === key ? 'Current' : 'Select'}</button>
-            </div>
-          `).join('')}
-        </div>
-      </div>`;
-    overlay.onclick = function(e) { if (e.target === this) { state.showUpgradeModal = false; render(); } };
-    container.appendChild(overlay);
+  if(state.showUpgradeModal){
+    const o=document.createElement('div'); o.className='modal-overlay'; o.innerHTML=`<div class="modal-content wide"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>Select Plan</h3><button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div><div class="grid-4">${Object.entries(PLANS).map(([k,pl])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''}"><h4>${pl.name}</h4><div style="font-size:1.5rem;font-weight:bold;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;">/mo</span></div><button class="btn ${state.authUser?.plan===k?'btn-outline':'btn-primary'}" style="width:100%;margin-top:1rem;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div></div>`;
+    o.onclick=function(e){if(e.target===this){state.showUpgradeModal=false;render();}}; c.appendChild(o);
   }
-
-  root.appendChild(container);
+  root.appendChild(c);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  state.currentPage = window.location.hash.slice(1) || 'home';
-  render();
-});
+window.addEventListener('DOMContentLoaded',()=>{ state.currentPage=window.location.hash.slice(1)||'home'; render(); });
 </script>
 </body>
 </html>
