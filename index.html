@@ -123,6 +123,44 @@
         .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mt-8 { margin-top: 2rem; }
         .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; } .mb-8 { margin-bottom: 2rem; }
         .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; }
+        .section-title {
+            font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;
+        }
+        .section-subtitle {
+            font-size: 1.1rem; color: var(--color-slate-500); margin-bottom: 2rem;
+        }
+        .article-card {
+            background: #fff; border-radius: 1rem;
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
+            padding: 1.5rem; transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer; text-decoration: none; color: inherit; display: block;
+        }
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08);
+        }
+        .article-card h3 {
+            font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .article-card p {
+            font-size: 0.9rem; color: var(--color-slate-500); line-height: 1.5;
+        }
+        .article-card .read-more {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            margin-top: 0.75rem; font-size: 0.9rem; font-weight: 600;
+            color: var(--color-amber-500);
+        }
+        .badge {
+            display: inline-block; padding: 0.2rem 0.6rem;
+            border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-health { background: #fef3c7; color: #92400e; }
+        .badge-gear { background: #e0e7ff; color: #3730a3; }
+        .affiliate-disclaimer {
+            font-size: 0.8rem; color: var(--color-slate-400);
+            text-align: center; margin-top: 3rem; padding-top: 1.5rem;
+            border-top: 1px solid var(--color-slate-100);
+        }
     </style>
 </head>
 <body>
@@ -157,12 +195,10 @@ function acceptCookies() {
   localStorage.setItem('cookies_accepted', 'true');
   document.getElementById('cookie-banner').style.display = 'none';
 }
-
 function declineCookies() {
   localStorage.setItem('cookies_declined', 'true');
   document.getElementById('cookie-banner').style.display = 'none';
 }
-
 (function checkCookieConsent() {
   if (localStorage.getItem('cookies_accepted') || localStorage.getItem('cookies_declined')) {
     var banner = document.getElementById('cookie-banner');
@@ -228,7 +264,6 @@ const ART_STYLES = [
       }
     }
   } catch(e) { localStorage.removeItem(OLD_USER_KEY); }
-
   let usersData = localStorage.getItem(USERS_KEY);
   if (!usersData || !Array.isArray(JSON.parse(usersData))) {
     localStorage.setItem(USERS_KEY, JSON.stringify([]));
@@ -265,10 +300,7 @@ function getDailyCount() {
 
 function incrementDailyCount(amount) {
   const current = getDailyCount();
-  localStorage.setItem(DAILY_COUNT_KEY, JSON.stringify({
-    count: current + amount,
-    date: new Date().toDateString()
-  }));
+  localStorage.setItem(DAILY_COUNT_KEY, JSON.stringify({ count: current + amount, date: new Date().toDateString() }));
 }
 
 function getPoseVariation(index) {
@@ -318,20 +350,16 @@ function addWatermark(imageUrl) {
 
 async function generateImage() {
   if (!state.selectedImage || !state.authUser) return;
-
   const plan = PLANS[state.authUser.plan];
   const totalNeeded = state.batchCount * state.selectedStyles.length;
   if (!state.authUser.isTestAccount && state.authUser.credits < totalNeeded) {
     state.showUpgradeModal = true; render(); return;
   }
-
   state.isGenerating = true;
   state.error = null;
   state.generatedImages = [];
   render();
-
   if (!state.authUser.isTestAccount) incrementDailyCount(totalNeeded);
-
   const tasks = [];
   for (let i = 0; i < state.batchCount; i++) {
     for (const styleId of state.selectedStyles) {
@@ -339,18 +367,14 @@ async function generateImage() {
       if (style) tasks.push({ style, batchIndex: i, pose: getPoseVariation(i) });
     }
   }
-
   const results = [];
   const SINGLE_PROMPT_SUFFIX = 'This is a single, complete, independent picture. Do NOT split the image into multiple small panels or grids. Show only one pose, one angle, one composition in this single image.';
-
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const randomSeed = Math.floor(Math.random() * 2147483647);
     const enhancedPrompt = `${task.style.prompt}, ${task.pose}, ${SINGLE_PROMPT_SUFFIX}`;
-
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
-
     try {
       const response = await fetch(API_WORKER_URL, {
         method: 'POST',
@@ -369,22 +393,15 @@ async function generateImage() {
         }),
         signal: controller.signal
       });
-
       clearTimeout(timeoutId);
       const rawData = await response.json();
       let data = rawData;
-      if (data.body) {
-        data = JSON.parse(data.body);
-      }
-      if (!data.data) {
-        throw new Error('Unexpected response format: ' + JSON.stringify(data).substring(0, 500));
-      }
+      if (data.body) { data = JSON.parse(data.body); }
+      if (!data.data) { throw new Error('Unexpected response format: ' + JSON.stringify(data).substring(0, 500)); }
       const imageUrl = data.data[0].url;
-
       let finalImage = imageUrl;
       // ===== 暂时跳过水印，解决普通用户生成失败问题 =====
       // if (state.authUser.plan === 'free') finalImage = await addWatermark(imageUrl);
-
       results.push(finalImage);
       if (!state.authUser.isTestAccount && state.authUser.credits > 0) {
         state.authUser.credits--;
@@ -397,7 +414,6 @@ async function generateImage() {
       console.error(`[Generate ${i+1}] Error:`, err);
     }
   }
-
   state.generatedImages = results;
   state.isGenerating = false;
   if (results.length === 0) alert('Generation failed, please try again');
@@ -408,10 +424,7 @@ function handleAuth(e) {
   e.preventDefault();
   if (state.authMode === 'register') {
     let users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    if (users.some(u => u.email === state.authForm.email)) {
-      alert('Email already registered.');
-      return;
-    }
+    if (users.some(u => u.email === state.authForm.email)) { alert('Email already registered.'); return; }
     const newUser = {
       email: state.authForm.email,
       password: state.authForm.password,
@@ -420,19 +433,9 @@ function handleAuth(e) {
       credits: 1,
       lastResetDate: new Date().toISOString()
     };
-    if (state.authForm.email === 'test@test.com' && state.authForm.password === 'test123') {
-      newUser.plan = 'ultra';
-      newUser.credits = 999999;
-      newUser.isTestAccount = true;
-    }
-    if (state.authForm.email === 'pro_test@test.com' && state.authForm.password === 'test123') {
-      newUser.plan = 'pro';
-      newUser.credits = 999999;
-    }
-    if (state.authForm.email === 'max_test@test.com' && state.authForm.password === 'test123') {
-      newUser.plan = 'max';
-      newUser.credits = 999999;
-    }
+    if (state.authForm.email === 'test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'ultra'; newUser.credits = 999999; newUser.isTestAccount = true; }
+    if (state.authForm.email === 'pro_test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'pro'; newUser.credits = 999999; }
+    if (state.authForm.email === 'max_test@test.com' && state.authForm.password === 'test123') { newUser.plan = 'max'; newUser.credits = 999999; }
     users.push(newUser);
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
     state.authUser = newUser;
@@ -454,25 +457,17 @@ function handleAuth(e) {
   render();
 }
 
-function handleLogout() {
-  state.authUser = null;
-  state.currentPage = 'home';
-  window.location.hash = '';
-  render();
-}
+function handleLogout() { state.authUser = null; state.currentPage = 'home'; window.location.hash = ''; render(); }
 
 function handleUpgrade(plan) {
   if (!state.authUser || state.authUser.plan === plan) return;
-
   const productIds = {
     pro: 'prod_4H4HFyU8mKDxgxypLC1SFt',
     max: 'prod_2ON9GVgkuxGBGQF1uSL1V7',
     ultra: 'prod_rpxbWmHuILh972X7TwcsN'
   };
-
   const productId = productIds[plan];
   if (!productId) return;
-
   window.location.href = 'https://www.creem.io/payment/' + productId;
 }
 
@@ -489,15 +484,8 @@ window.addEventListener('hashchange', () => {
   render();
 });
 
-function closeAuthModal() {
-  state.showAuthModal = false;
-  render();
-}
-
-function closeUpgradeModal() {
-  state.showUpgradeModal = false;
-  render();
-}
+function closeAuthModal() { state.showAuthModal = false; render(); }
+function closeUpgradeModal() { state.showUpgradeModal = false; render(); }
 
 function renderHeader() {
   const header = document.createElement('header');
@@ -511,6 +499,7 @@ function renderHeader() {
         <h1 style="font-size:1.25rem;font-weight:bold;">PetArt Lab</h1>
       </button>
       <div style="display:flex;align-items:center;gap:1rem;">
+        <button onclick="navigateTo('guides')" style="background:none;border:none;cursor:pointer;font-size:0.875rem;color:var(--color-slate-600);font-weight:500;">Guides</button>
         ${state.authUser ? `
           <span style="font-size:0.875rem;">Remaining: ${state.authUser.credits}</span>
           <span style="padding:0.25rem 0.5rem;background:var(--color-amber-100);color:var(--color-amber-700);border-radius:9999px;font-size:0.75rem;">${PLANS[state.authUser.plan].name}</span>
@@ -609,6 +598,63 @@ function renderHome() {
   return main;
 }
 
+function renderGuides() {
+  const main = document.createElement('main');
+  main.className = 'container';
+  main.style.padding = '3rem 1rem';
+  main.innerHTML = `
+    <div class="mb-8">
+      <h2 class="section-title">🐾 Pet Health & Supply Guides</h2>
+      <p class="section-subtitle">Expert tips for happy, healthy pets — backed by our community of pet lovers.</p>
+    </div>
+
+    <div class="mb-8">
+      <h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🩺 Health & Care</h3>
+      <div class="grid-2" style="grid-template-columns:1fr;">
+        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
+          <span class="badge badge-health">Joint Health</span>
+          <h3>Effective Ways to Keep Your Senior Dog's Joints Healthy</h3>
+          <p>Weight management, joint supplements, and an orthopedic bed can transform your old friend's golden years.</p>
+          <span class="read-more">Read More →</span>
+        </a>
+        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
+          <span class="badge badge-health">Diet</span>
+          <h3>What to Feed Your Cat: Daily Diet Tips for a Healthy Feline</h3>
+          <p>High-protein food, stainless steel bowls, and why cats should never eat dog food.</p>
+          <span class="read-more">Read More →</span>
+        </a>
+        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
+          <span class="badge badge-health">Prevention</span>
+          <h3>Common Small Ailments in Dogs and How to Prevent Them Naturally</h3>
+          <p>Spot the signs early and use vet-approved home care techniques to keep your dog healthy.</p>
+          <span class="read-more">Read More →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <h3 style="font-size:1.4rem;font-weight:600;margin-bottom:1.2rem;">🛒 Supplies & Gear</h3>
+      <div class="grid-2" style="grid-template-columns:1fr;">
+        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
+          <span class="badge badge-gear">Dog Food</span>
+          <h3>How to Choose the Best Dog Food for Your Senior Dog</h3>
+          <p>Senior-specific formulas with glucosamine, avoiding fillers, and when to choose wet food.</p>
+          <span class="read-more">Read More →</span>
+        </a>
+        <a class="article-card" onclick="navigateTo('home'); return false;" style="cursor:pointer;">
+          <span class="badge badge-gear">Grooming</span>
+          <h3>Must-Have Pet Grooming Supplies for Every Pet Owner</h3>
+          <p>Quiet clippers, gentle shampoos, and the right tools to keep your pet looking their best.</p>
+          <span class="read-more">Read More →</span>
+        </a>
+      </div>
+    </div>
+
+    <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
+  `;
+  return main;
+}
+
 function renderPricing() {
   const div = document.createElement('div');
   div.className = 'container';
@@ -655,7 +701,7 @@ function renderTerms() {
     <h2>3. Account Registration</h2><p>You must provide a valid email address to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. One person may not maintain more than one account without permission.</p>
     <h2>4. User Responsibilities</h2><p>You agree NOT to: upload or generate illegal, harmful, or copyrighted content; use the Service for any unlawful purpose; attempt to bypass usage limits or security features; reverse engineer the Service; use automated scripts or bots; interfere with the Service; impersonate others; upload images containing people without consent.</p>
     <h2>5. Intellectual Property</h2><p>PetArt Lab, its branding, website design, and underlying technology are owned by us. You retain ownership of uploaded photos. Generated images are for personal use only; commercial use requires an Ultra subscription.</p>
-    <h2>6. Subscription Plans and Payment</h2><p>Plans: Free (1/day, watermark), Pro ($9.99/mo, 150 images, 3 styles), Max ($19.99/mo, 320 images, 6 styles), Ultra ($29.99/mo, 550 images, all 31 styles). All payments processed by Paddle. Subscriptions auto-renew unless cancelled.</p>
+    <h2>6. Subscription Plans and Payment</h2><p>Plans: Free (1/day, watermark), Pro ($9.99/mo, 150 images, 3 styles), Max ($19.99/mo, 320 images, 6 styles), Ultra ($29.99/mo, 550 images, all 31 styles). All payments processed by Creem. Subscriptions auto-renew unless cancelled.</p>
     <h2>7. Refund Policy</h2><p>Refunds are governed by our separate Refund Policy, including 14-day money-back guarantee, usage-based calculations, and 1 refund per lifetime limit.</p>
     <h2>8. Service Termination</h2><p>We reserve the right to suspend or terminate accounts for violation of these Terms, fraudulent behavior, or chargeback abuse.</p>
     <h2>9. Disclaimer of Warranties</h2><p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. We do not guarantee uninterrupted service or specific artistic results.</p>
@@ -672,13 +718,13 @@ function renderPrivacy() {
   div.innerHTML = `<h1 style="font-size:2rem;font-weight:bold;margin-bottom:2rem;">Privacy Policy</h1><div class="card" style="line-height:1.8;">
     <p style="margin-bottom:1rem;">Last updated: May 18, 2026</p>
     <h2>1. Introduction</h2><p>PetArt Lab ("we", "our", or "us") operates https://www.petartlab.net (the "Service"). This Privacy Policy explains how we collect, use, and protect your personal information.</p>
-    <h2>2. Information We Collect</h2><p>We collect your email address and username for account registration. Uploaded pet photos are temporarily processed for image generation. We do NOT collect full name, physical address, phone number, or payment card details (handled by Paddle).</p>
+    <h2>2. Information We Collect</h2><p>We collect your email address and username for account registration. Uploaded pet photos are temporarily processed for image generation. We do NOT collect full name, physical address, phone number, or payment card details (handled by Creem).</p>
     <h2>3. How We Use Your Information</h2><p>Your information is used solely for providing the Service, processing image generation requests, managing your account, and preventing fraud or abuse.</p>
-    <h2>4. Data Sharing</h2><p>We do NOT sell, trade, or rent your personal information. Data is shared only with Paddle for payment processing and with AI service providers solely for image generation.</p>
+    <h2>4. Data Sharing</h2><p>We do NOT sell, trade, or rent your personal information. Data is shared only with Creem for payment processing and with AI service providers solely for image generation.</p>
     <h2>5. Data Retention</h2><p>Account information is retained while active. Uploaded pet photos are deleted within 24 hours. Generated images are stored according to your plan (Free: not stored, Pro: 7 days, Max: 30 days, Ultra: 180 days). You may request deletion at any time.</p>
     <h2>6. Security</h2><p>All data transmissions are encrypted via HTTPS/TLS. Passwords are stored using secure hashing. We regularly review our security practices.</p>
     <h2>7. Your Rights</h2><p>You may request access, correction, or deletion of your data at any time by contacting us.</p>
-    <h2>8. Cookies</h2><p>We do NOT use cookies for tracking. Only essential session cookies maintain your login state.</p>
+    <h2>8. Cookies</h2><p>We use essential cookies to maintain your login state. See our cookie banner for details.</p>
     <h2>9. Children's Privacy</h2><p>Our Service is not directed to individuals under 13. We do not knowingly collect data from children.</p>
     <h2>10. International Data Transfers</h2><p>Your information may be processed on servers outside your country. We ensure appropriate safeguards are in place.</p>
     <h2>11. Contact</h2><p>For questions, contact us at xych356761678@qq.com</p>
@@ -695,7 +741,7 @@ function renderRefund() {
     <h2>2. 14-Day Money-Back Guarantee</h2><p>You may request a refund within 14 calendar days of purchase or renewal. Refunds are calculated based on actual usage.</p>
     <h2>3. How Refunds Are Calculated</h2><p>Refund = Paid Fee - (Images Used × Unit Price). Pro: $0.067/img, Max: $0.062/img, Ultra: $0.055/img. Example: Pro user using 50 images = $9.99 - (50 × $0.067) = $6.64.</p>
     <h2>4. Non-Refundable Situations</h2><p>Refunds NOT available for: accounts using over 30% of monthly quota, bulk generation for commercial purposes, detected abusive behavior, or accounts that have already received a refund.</p>
-    <h2>5. Merchant of Record</h2><p>Paddle is the Merchant of Record. Paddle processes all payments and refunds to the original payment method.</p>
+    <h2>5. Merchant of Record</h2><p>Creem is the Merchant of Record. Creem processes all payments and refunds to the original payment method.</p>
     <h2>6. How to Request a Refund</h2><p>Contact us at xych356761678@qq.com with your registered email, order number, and reason.</p>
     <h2>7. Processing Time</h2><p>Approved refunds are processed within 5-10 business days. Each account is limited to 1 refund request per lifetime.</p>
     <h2>8. Chargebacks</h2><p>If you initiate a chargeback without contacting us first, we reserve the right to suspend your account. Please contact us to resolve issues first.</p>
@@ -761,15 +807,13 @@ function setBatch(count) {
 function render() {
   const root = document.getElementById('root');
   root.innerHTML = '';
-
   const container = document.createElement('div');
   container.style.minHeight = '100vh';
-
   container.appendChild(renderHeader());
-
   let content;
   switch(state.currentPage) {
     case 'home': content = renderHome(); break;
+    case 'guides': content = renderGuides(); break;
     case 'pricing': content = renderPricing(); break;
     case 'terms': content = renderTerms(); break;
     case 'privacy': content = renderPrivacy(); break;
@@ -778,7 +822,6 @@ function render() {
     default: content = renderHome();
   }
   container.appendChild(content);
-
   const footer = document.createElement('footer');
   footer.style.marginTop = '3rem';
   footer.style.padding = '2rem 0';
@@ -790,6 +833,7 @@ function render() {
         <span style="font-size:0.875rem;">PetArt Lab</span>
       </div>
       <div style="display:flex;gap:1.5rem;font-size:0.875rem;color:var(--color-slate-500);">
+        <span onclick="navigateTo('guides')" style="cursor:pointer;">Guides</span>
         <span onclick="navigateTo('pricing')" style="cursor:pointer;">Pricing</span>
         <span onclick="navigateTo('terms')" style="cursor:pointer;">Terms</span>
         <span onclick="navigateTo('privacy')" style="cursor:pointer;">Privacy</span>
@@ -824,9 +868,7 @@ function render() {
           <span onclick="state.authMode=state.authMode==='login'?'register':'login';render();" style="color:var(--color-amber-600);cursor:pointer;font-weight:500;">${state.authMode === 'login' ? 'Sign Up' : 'Sign In'}</span>
         </p>
       </div>`;
-    overlay.onclick = function(e) {
-      if (e.target === this) { state.showAuthModal = false; render(); }
-    };
+    overlay.onclick = function(e) { if (e.target === this) { state.showAuthModal = false; render(); } };
     container.appendChild(overlay);
   }
 
@@ -850,9 +892,7 @@ function render() {
           `).join('')}
         </div>
       </div>`;
-    overlay.onclick = function(e) {
-      if (e.target === this) { state.showUpgradeModal = false; render(); }
-    };
+    overlay.onclick = function(e) { if (e.target === this) { state.showUpgradeModal = false; render(); } };
     container.appendChild(overlay);
   }
 
