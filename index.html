@@ -438,7 +438,6 @@ function handleLogout() {
 function handleUpgrade(plan) {
   if (!state.authUser || state.authUser.plan === plan) return;
 
-  // Creem 产品 ID 映射
   const productIds = {
     pro: 'prod_4H4HFyU8mKDxgxypLC1SFt',
     max: 'prod_2ON9GVgkuxGBGQF1uSL1V7',
@@ -448,8 +447,7 @@ function handleUpgrade(plan) {
   const productId = productIds[plan];
   if (!productId) return;
 
-  // 跳转到 Creem 支付页面
-  window.location.href = 'https://creem.io/pay/' + productId;
+  window.location.href = 'https://www.creem.io/payment/' + productId;
 }
 
 function navigateTo(page) {
