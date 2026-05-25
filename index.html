@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetArt Lab - AI Pet Portrait Generator & Pet Care Guides</title>
     <meta name="description" content="Turn your pet photos into stunning AI artwork. Plus, read expert pet health and supply guides.">
-    <!-- NativeBanner 广告脚本 -->
     <script async="async" data-cfasync="false" src="https://pl29531757.effectivecpmnetwork.com/985ac62541d3a3b4394cfdd9c98ad260/invoke.js"></script>
     <style>
         :root {
@@ -158,6 +157,15 @@
         .key-points ul { list-style: none; padding: 0; }
         .key-points ul li { padding: 0.25rem 0; font-size: 0.95rem; color: var(--color-slate-700); }
         .key-points ul li::before { content: "• "; color: var(--color-amber-500); font-weight: bold; }
+        .product-option {
+            display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem;
+            border: 2px solid var(--color-slate-200); border-radius: 0.75rem;
+            margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s;
+        }
+        .product-option:hover, .product-option.active {
+            border-color: var(--color-amber-400);
+            background: var(--color-amber-50);
+        }
     </style>
 </head>
 <body>
@@ -176,6 +184,7 @@
 const PLANS = { free:{name:'Free',monthlyLimit:1,resolution:'Basic',watermark:true,historyDays:0}, pro:{name:'Pro',monthlyLimit:150,resolution:'HD 2K',watermark:false,historyDays:7}, max:{name:'Max',monthlyLimit:320,resolution:'4K',watermark:false,historyDays:30}, ultra:{name:'Ultra',monthlyLimit:550,resolution:'4K',watermark:false,historyDays:180} };
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-proxy-v-jgrjgkeobd.cn-hangzhou.fcapp.run';
+const API_BASE_URL = 'https://api.petartlab.net/api';
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -246,7 +255,9 @@ let state = {
   selectedImage: null, generatedImages: [], isGenerating: false, error: null,
   showAuthModal: false, showUpgradeModal: false, authMode: 'login',
   authForm: { email: '', password: '', username: '' }, showPassword: false, loginAttempts: 0,
-  selectedStyles: ['ghibli'], batchCount: 1
+  selectedStyles: ['ghibli'], batchCount: 1,
+  showPrintfulModal: false, printfulProducts: [], selectedProduct: null,
+  shippingAddress: { name: '', address1: '', city: '', state: '', country: 'US', zip: '' }
 };
 
 function getDailyCount() { const d=localStorage.getItem(DAILY_COUNT_KEY); if(!d)return 0; try{ const p=JSON.parse(d); if(p.date!==new Date().toDateString()){localStorage.removeItem(DAILY_COUNT_KEY);return 0;} return p.count; }catch(e){return 0;} }
@@ -279,6 +290,67 @@ async function generateImage() {
     }catch(e){clearTimeout(tid);console.error(`[Generate ${i+1}] Error:`,e);}
   }
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
+}
+
+// ============ Printful 实物定制逻辑 ============
+async function loadPrintfulProducts() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/printful-catalog`);
+    const data = await response.json();
+    if (data.success && data.data) {
+      state.printfulProducts = data.data;
+      state.showPrintfulModal = true;
+      render();
+    } else {
+      alert('No products available. Please try again later.');
+    }
+  } catch (error) {
+    console.error('Load Printful products error:', error);
+    alert('Failed to load products. Please try again.');
+  }
+}
+
+function selectPrintfulProduct(variantId) {
+  const product = state.printfulProducts.find(p => p.variant_id === variantId);
+  state.selectedProduct = product;
+  render();
+}
+
+async function submitPrintfulOrder() {
+  if (!state.selectedProduct || !state.generatedImages.length || !state.authUser) {
+    alert('Please select a product and generate an image first.');
+    return;
+  }
+  const addr = state.shippingAddress;
+  if (!addr.name || !addr.address1 || !addr.city || !addr.state || !addr.zip) {
+    alert('Please fill in your complete shipping address.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/create-printful-order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageUrl: state.generatedImages[0],
+        variantId: state.selectedProduct.variant_id,
+        shippingAddress: addr,
+        userEmail: state.authUser.email
+      })
+    });
+    const result = await response.json();
+    if (result.success) {
+      alert(`Order placed! Your order number: ${result.orderNumber}`);
+      state.showPrintfulModal = false;
+      state.selectedProduct = null;
+      render();
+    } else {
+      alert('Order failed: ' + (result.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Submit order error:', error);
+    alert('Order submission failed. Please try again.');
+  }
 }
 
 function handleAuth(e) { e.preventDefault();
@@ -322,7 +394,7 @@ function renderHome() {
   <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;"><p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount*state.selectedStyles.length} images (Credits: ${state.authUser?.credits||0} available)</p></div>
   <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating||!state.authUser||state.selectedStyles.length===0?'disabled':''}>${state.isGenerating?'<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...':state.authUser?`Generate ${state.batchCount*state.selectedStyles.length} Portrait(s)`:'Sign in to generate'}</button>`:''}
   </div><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result</h3>
-  <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;display:grid;grid-template-columns:repeat(${state.generatedImages.length===1?1:state.generatedImages.length<=4?2:3},1fr);gap:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}</div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
+  <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;border:2px solid var(--color-amber-400);color:var(--color-amber-600);font-weight:600;" onclick="loadPrintfulProducts()">🖼️ Order Custom Framed Print</button></div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
   <div class="mt-8"><h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2><p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
     <div class="grid-2" style="grid-template-columns:1fr 1fr 1fr;">
       <a class="article-card" onclick="navigateTo('article-senior-dog-joints')"><span class="badge badge-health">Joint Health</span><h3>Keep Senior Dog Joints Healthy</h3><p>Weight tips, supplements, and beds that make a real difference.</p><span class="read-more">Read More →</span></a>
@@ -426,7 +498,6 @@ function renderArticle(articleId) {
   return main;
 }
 
-/* ===================== 栏目首页 ===================== */
 function renderGuides() {
   const main = document.createElement('main');
   main.className = 'container';
@@ -451,7 +522,6 @@ function renderGuides() {
   return main;
 }
 
-/* ===================== 其他页面 (保持原有逻辑) ===================== */
 function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
@@ -516,6 +586,26 @@ function render() {
     const o=document.createElement('div'); o.className='modal-overlay'; o.innerHTML=`<div class="modal-content wide"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>Select Plan</h3><button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div><div class="grid-4">${Object.entries(PLANS).map(([k,pl])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''}"><h4>${pl.name}</h4><div style="font-size:1.5rem;font-weight:bold;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;">/mo</span></div><button class="btn ${state.authUser?.plan===k?'btn-outline':'btn-primary'}" style="width:100%;margin-top:1rem;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div></div>`;
     o.onclick=function(e){if(e.target===this){state.showUpgradeModal=false;render();}}; c.appendChild(o);
   }
+
+  // Printful 定制弹窗
+  if(state.showPrintfulModal){
+    const o=document.createElement('div'); o.className='modal-overlay';
+    o.innerHTML=`<div class="modal-content wide"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>🖼️ Order Custom Framed Print</h3><button onclick="state.showPrintfulModal=false;state.selectedProduct=null;render();" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div>
+    <h4 style="margin-bottom:0.75rem;">Select Product</h4>
+    <div style="max-height:200px;overflow-y:auto;margin-bottom:1rem;">${state.printfulProducts.map(p=>`<div class="product-option ${state.selectedProduct&&state.selectedProduct.variant_id===p.variant_id?'active':''}" onclick="selectPrintfulProduct('${p.variant_id}')"><div style="font-weight:600;">${p.product_name}</div><div style="margin-left:auto;color:var(--color-amber-600);font-weight:600;">$${p.price}</div></div>`).join('')}${state.printfulProducts.length===0?'<p style="color:var(--color-slate-400);">Loading products...</p>':''}</div>
+    <h4 style="margin-bottom:0.75rem;">Shipping Address</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+      <input class="input-field" type="text" placeholder="Full Name" value="${state.shippingAddress.name}" oninput="state.shippingAddress.name=this.value">
+      <input class="input-field" type="text" placeholder="Address Line 1" value="${state.shippingAddress.address1}" oninput="state.shippingAddress.address1=this.value">
+      <input class="input-field" type="text" placeholder="City" value="${state.shippingAddress.city}" oninput="state.shippingAddress.city=this.value">
+      <input class="input-field" type="text" placeholder="State (e.g. CA)" value="${state.shippingAddress.state}" oninput="state.shippingAddress.state=this.value">
+      <input class="input-field" type="text" placeholder="Country (e.g. US)" value="${state.shippingAddress.country}" oninput="state.shippingAddress.country=this.value">
+      <input class="input-field" type="text" placeholder="ZIP Code" value="${state.shippingAddress.zip}" oninput="state.shippingAddress.zip=this.value">
+    </div>
+    <button class="btn btn-primary mt-4" style="width:100%;" onclick="submitPrintfulOrder()" ${!state.selectedProduct?'disabled':''}>Place Order</button></div>`;
+    o.onclick=function(e){if(e.target===this){state.showPrintfulModal=false;state.selectedProduct=null;render();}}; c.appendChild(o);
+  }
+
   root.appendChild(c);
 }
 
