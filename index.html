@@ -185,6 +185,7 @@ const PLANS = { free:{name:'Free',monthlyLimit:1,resolution:'Basic',watermark:tr
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-proxy-v-jgrjgkeobd.cn-hangzhou.fcapp.run';
 const API_BASE_URL = 'https://api.petartlab.net/api';
+const CREEM_MODERATION_KEY = 'YOUR_CREEM_API_KEY_HERE'; // ← 替换为你的真实 API Key
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -273,59 +274,7 @@ async function generateImage() {
   const plan=PLANS[state.authUser.plan]; const needed=state.batchCount*state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-  // ============ Creem 内容审核 ============
-  // 拼接所有选中风格的 prompt 用于审核
-  const promptsToCheck = state.selectedStyles.map(sid => {
-    const style = ART_STYLES.find(x => x.id === sid);
-    return style ? style.prompt : '';
-  }).join(' ');
-
-  try {
-    const moderationRes = await fetch('https://api.creem.io/v1/moderation/check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: promptsToCheck,
-        type: 'image_generation_prompt'
-      })
-    });
-
-    const moderationData = await moderationRes.json();
-
-    // 如果审核不通过，阻止生成并提示用户
-    if (!moderationData.flagged) {
-      // 通过审核，继续生成
-    } else {
-      alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
-      return;
-    }
-  } catch (modError) {
-    // 审核 API 调用失败时不阻塞用户，记录日志后继续
-    console.error('Moderation check failed, proceeding with generation:', modError);
-  }
-  // ============ 审核结束 ============
-
-  state.isGenerating=true;state.error=null;state.generatedImages=[];render();
-  if(!state.authUser.isTestAccount)incrementDailyCount(needed);
-  const tasks=[];
-  for(let i=0;i<state.batchCount;i++){ for(const sid of state.selectedStyles){ const s=ART_STYLES.find(x=>x.id===sid); if(s)tasks.push({style:s,batchIndex:i,pose:getPoseVariation(i)}); } }
-  const results=[]; const SUFFIX='This is a single, complete, independent picture. Do NOT split the image into multiple small panels or grids. Show only one pose, one angle, one composition in this single image.';
-  for(let i=0;i<tasks.length;i++){
-    const t=tasks[i]; const seed=Math.floor(Math.random()*2147483647); const prompt=`${t.style.prompt}, ${t.pose}, ${SUFFIX}`;
-    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),60000);
-    try{
-      const r=await fetch(API_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'doubao-seedream-4-5-251128',prompt,image:[state.selectedImage],size:'2K',response_format:'url',watermark:true,seed,image_strength:0.25,guidance_scale:7.5,num_images:1}),signal:ctrl.signal});
-      clearTimeout(tid); let d=await r.json(); if(d.body)d=JSON.parse(d.body);
-      if(!d.data)throw new Error('Unexpected response format: '+JSON.stringify(d).substring(0,500));
-      let img=d.data[0].url;
-      results.push(img);
-      if(!state.authUser.isTestAccount&&state.authUser.credits>0){ state.authUser.credits--; const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const idx=users.findIndex(u=>u.email===state.authUser.email); if(idx>=0){users[idx].credits=state.authUser.credits;localStorage.setItem(USERS_KEY,JSON.stringify(users));} }
-    }catch(e){clearTimeout(tid);console.error(`[Generate ${i+1}] Error:`,e);}
-  }
-  state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
-}
-
-  // ============ Creem 内容审核（官方标准集成） ============
+  // ============ Creem Content Moderation (Official API) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.prompt : '';
@@ -335,7 +284,7 @@ async function generateImage() {
     const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
       method: 'POST',
       headers: {
-        'x-api-key': '你的Creem API Key',
+        'x-api-key': CREEM_MODERATION_KEY,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -360,14 +309,56 @@ async function generateImage() {
       alert('Your request could not be processed. Please revise and try again.');
       return;
     }
-    // decision === 'allow' → 安全，继续生成
   } catch (modError) {
-    // 审核 API 故障 → 阻止生成（官方要求 fail closed）
     console.error('Moderation check failed:', modError);
     alert('Content moderation is temporarily unavailable. Please try again.');
     return;
   }
-  // ============ 审核结束 ============
+  // ============ Moderation End ============
+
+  state.isGenerating=true;state.error=null;state.generatedImages=[];render();
+  if(!state.authUser.isTestAccount)incrementDailyCount(needed);
+  const tasks=[];
+  for(let i=0;i<state.batchCount;i++){ for(const sid of state.selectedStyles){ const s=ART_STYLES.find(x=>x.id===sid); if(s)tasks.push({style:s,batchIndex:i,pose:getPoseVariation(i)}); } }
+  const results=[]; const SUFFIX='This is a single, complete, independent picture. Do NOT split the image into multiple small panels or grids. Show only one pose, one angle, one composition in this single image.';
+  for(let i=0;i<tasks.length;i++){
+    const t=tasks[i]; const seed=Math.floor(Math.random()*2147483647); const prompt=`${t.style.prompt}, ${t.pose}, ${SUFFIX}`;
+    const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),60000);
+    try{
+      const r=await fetch(API_WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'doubao-seedream-4-5-251128',prompt,image:[state.selectedImage],size:'2K',response_format:'url',watermark:true,seed,image_strength:0.25,guidance_scale:7.5,num_images:1}),signal:ctrl.signal});
+      clearTimeout(tid); let d=await r.json(); if(d.body)d=JSON.parse(d.body);
+      if(!d.data)throw new Error('Unexpected response format: '+JSON.stringify(d).substring(0,500));
+      let img=d.data[0].url;
+      results.push(img);
+      if(!state.authUser.isTestAccount&&state.authUser.credits>0){ state.authUser.credits--; const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const idx=users.findIndex(u=>u.email===state.authUser.email); if(idx>=0){users[idx].credits=state.authUser.credits;localStorage.setItem(USERS_KEY,JSON.stringify(users));} }
+    }catch(e){clearTimeout(tid);console.error(`[Generate ${i+1}] Error:`,e);}
+  }
+  state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
+}
+
+// ============ Printful 实物定制逻辑 ============
+async function loadPrintfulProducts() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/printful-catalog`);
+    const data = await response.json();
+    if (data.success && data.data) {
+      state.printfulProducts = data.data;
+      state.showPrintfulModal = true;
+      render();
+    } else {
+      alert('No products available. Please try again later.');
+    }
+  } catch (error) {
+    console.error('Load Printful products error:', error);
+    alert('Failed to load products. Please try again.');
+  }
+}
+
+function selectPrintfulProduct(variantId) {
+  const product = state.printfulProducts.find(p => p.variant_id === variantId);
+  state.selectedProduct = product;
+  render();
+}
 
 async function submitPrintfulOrder() {
   if (!state.selectedProduct || !state.generatedImages.length || !state.authUser) {
@@ -591,9 +582,9 @@ function renderPricing() {
   return d;
 }
 
-function renderTerms(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Terms of Service</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Acceptance</h2><p>By using PetArt Lab at https://www.petartlab.net, you agree to these Terms.</p><h2>2. Service</h2><p>PetArt Lab generates AI pet portraits from user photos. Free and paid tiers available.</p><h2>3. Account</h2><p>Provide valid email. One account per person.</p><h2>4. Responsibilities</h2><p>You agree NOT to: upload or generate illegal, harmful, or copyrighted content; generate NSFW, sexually explicit, or adult content; generate any content depicting minors in such contexts; use the Service for any unlawful purpose; attempt to bypass usage limits or security features; reverse engineer the Service; use automated scripts or bots; interfere with the Service; impersonate others; upload images containing people without consent.</p><h2>5. IP</h2><p>You own your photos. Generated images for personal use only; commercial use requires Ultra.</p><h2>6. Plans & Payment</h2><p>Free (1/day, watermark), Pro ($9.99/mo, 150 images), Max ($19.99/mo, 320 images), Ultra ($29.99/mo, 550 images). Payments by Creem.</p><h2>7. Refunds</h2><p>See our Refund Policy for details.</p><h2>8. Termination</h2><p>We may suspend accounts for violations.</p><h2>9. Disclaimer</h2><p>Service provided "as is."</p><h2>10. Liability</h2><p>Not liable for indirect damages.</p><h2>11. Law</h2><p>Governed by United States law.</p><h2>12. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
-function renderPrivacy(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Privacy Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Introduction</h2><p>PetArt Lab operates https://www.petartlab.net.</p><h2>2. Information Collected</h2><p>Email and username for registration. Photos processed temporarily.</p><h2>3. Usage</h2><p>Data used solely for providing the Service.</p><h2>4. Sharing</h2><p>No selling of data. Shared only with Creem for payments and AI providers for generation.</p><h2>5. Retention</h2><p>Account data retained while active. Photos deleted within 24 hours.</p><h2>6. Security</h2><p>HTTPS/TLS encryption.</p><h2>7. Your Rights</h2><p>Request access, correction, or deletion.</p><h2>8. Cookies</h2><p>Essential cookies for login state.</p><h2>9. Children</h2><p>Not for individuals under 13.</p><h2>10. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
-function renderRefund(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Refund Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 18, 2026</p><h2>1. Overview</h2><p>14-day money-back guarantee.</p><h2>2. Calculation</h2><p>Refund = Paid Fee - (Images Used × Unit Price).</p><h2>3. Non-Refundable</h2><p>Over 30% quota used, bulk generation, abuse, or prior refunds.</p><h2>4. MoR</h2><p>Creem is the Merchant of Record.</p><h2>5. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
+function renderTerms(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Terms of Service</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 27, 2026</p><h2>1. Acceptance</h2><p>By using PetArt Lab at https://www.petartlab.net, you agree to these Terms.</p><h2>2. Service</h2><p>PetArt Lab generates AI pet portraits from user photos. Free and paid tiers available.</p><h2>3. Account</h2><p>Provide valid email. One account per person.</p><h2>4. Responsibilities</h2><p>You agree NOT to: upload or generate illegal, harmful, or copyrighted content; generate NSFW, sexually explicit, or adult content; generate any content depicting minors in such contexts; use the Service for any unlawful purpose; attempt to bypass usage limits or security features; reverse engineer the Service; use automated scripts or bots; interfere with the Service; impersonate others; upload images containing people without consent.</p><h2>5. IP</h2><p>You own your photos. Generated images for personal use only; commercial use requires Ultra.</p><h2>6. Plans & Payment</h2><p>Free (1/day, watermark), Pro ($9.99/mo, 150 images), Max ($19.99/mo, 320 images), Ultra ($29.99/mo, 550 images). Payments by Creem.</p><h2>7. Refunds</h2><p>See our Refund Policy for details.</p><h2>8. Termination</h2><p>We may suspend accounts for violations.</p><h2>9. Disclaimer</h2><p>Service provided "as is."</p><h2>10. Liability</h2><p>Not liable for indirect damages.</p><h2>11. Law</h2><p>Governed by United States law.</p><h2>12. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
+function renderPrivacy(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Privacy Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 27, 2026</p><h2>1. Introduction</h2><p>PetArt Lab operates https://www.petartlab.net.</p><h2>2. Information Collected</h2><p>Email and username for registration. Photos processed temporarily.</p><h2>3. Usage</h2><p>Data used solely for providing the Service.</p><h2>4. Sharing</h2><p>No selling of data. Shared only with Creem for payments and AI providers for generation.</p><h2>5. Retention</h2><p>Account data retained while active. Photos deleted within 24 hours.</p><h2>6. Security</h2><p>HTTPS/TLS encryption.</p><h2>7. Your Rights</h2><p>Request access, correction, or deletion.</p><h2>8. Cookies</h2><p>Essential cookies for login state.</p><h2>9. Children</h2><p>Not for individuals under 13.</p><h2>10. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
+function renderRefund(){ const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem'; d.innerHTML=`<h1>Refund Policy</h1><div class="card" style="line-height:1.8;"><p>Last updated: May 27, 2026</p><h2>1. Overview</h2><p>14-day money-back guarantee.</p><h2>2. Calculation</h2><p>Refund = Paid Fee - (Images Used × Unit Price).</p><h2>3. Non-Refundable</h2><p>Over 30% quota used, bulk generation, abuse, or prior refunds.</p><h2>4. MoR</h2><p>Creem is the Merchant of Record.</p><h2>5. Contact</h2><p>xych356761678@petartlab.net</p></div>`; return d; }
 function renderAccount(){
   if(!state.authUser){ const d=document.createElement('div'); d.className='text-center'; d.style.padding='5rem'; d.innerHTML='<p>Please sign in</p>'; return d; }
   const p=PLANS[state.authUser.plan]; const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
