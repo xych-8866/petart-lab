@@ -272,6 +272,39 @@ async function generateImage() {
   if(!state.selectedImage||!state.authUser)return;
   const plan=PLANS[state.authUser.plan]; const needed=state.batchCount*state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
+
+  // ============ Creem 内容审核 ============
+  // 拼接所有选中风格的 prompt 用于审核
+  const promptsToCheck = state.selectedStyles.map(sid => {
+    const style = ART_STYLES.find(x => x.id === sid);
+    return style ? style.prompt : '';
+  }).join(' ');
+
+  try {
+    const moderationRes = await fetch('https://api.creem.io/v1/moderation/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: promptsToCheck,
+        type: 'image_generation_prompt'
+      })
+    });
+
+    const moderationData = await moderationRes.json();
+
+    // 如果审核不通过，阻止生成并提示用户
+    if (!moderationData.flagged) {
+      // 通过审核，继续生成
+    } else {
+      alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
+      return;
+    }
+  } catch (modError) {
+    // 审核 API 调用失败时不阻塞用户，记录日志后继续
+    console.error('Moderation check failed, proceeding with generation:', modError);
+  }
+  // ============ 审核结束 ============
+
   state.isGenerating=true;state.error=null;state.generatedImages=[];render();
   if(!state.authUser.isTestAccount)incrementDailyCount(needed);
   const tasks=[];
