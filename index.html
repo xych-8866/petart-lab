@@ -306,11 +306,8 @@ async function generateImage() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        prompt: promptsToCheck,
-        external_id: state.authUser.email || 'anonymous'
-      }),
-      signal: AbortSignal.timeout(5000)
-    });
+    prompt: promptsToCheck
+}),
 
     if (!moderationRes.ok) {
       alert('Content moderation is temporarily unavailable. Please try again.');
