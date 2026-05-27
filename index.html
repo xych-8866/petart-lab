@@ -325,29 +325,49 @@ async function generateImage() {
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
 }
 
-// ============ Printful 实物定制逻辑 ============
-async function loadPrintfulProducts() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/printful-catalog`);
-    const data = await response.json();
-    if (data.success && data.data) {
-      state.printfulProducts = data.data;
-      state.showPrintfulModal = true;
-      render();
-    } else {
-      alert('No products available. Please try again later.');
-    }
-  } catch (error) {
-    console.error('Load Printful products error:', error);
-    alert('Failed to load products. Please try again.');
-  }
-}
+  // ============ Creem 内容审核（官方标准集成） ============
+  const promptsToCheck = state.selectedStyles.map(sid => {
+    const style = ART_STYLES.find(x => x.id === sid);
+    return style ? style.prompt : '';
+  }).join(' ');
 
-function selectPrintfulProduct(variantId) {
-  const product = state.printfulProducts.find(p => p.variant_id === variantId);
-  state.selectedProduct = product;
-  render();
-}
+  try {
+    const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
+      method: 'POST',
+      headers: {
+        'x-api-key': '你的Creem API Key',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: promptsToCheck,
+        external_id: state.authUser.email || 'anonymous'
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+
+    if (!moderationRes.ok) {
+      alert('Content moderation is temporarily unavailable. Please try again.');
+      return;
+    }
+
+    const moderationData = await moderationRes.json();
+
+    if (moderationData.decision === 'deny') {
+      alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
+      return;
+    }
+    if (moderationData.decision === 'flag') {
+      alert('Your request could not be processed. Please revise and try again.');
+      return;
+    }
+    // decision === 'allow' → 安全，继续生成
+  } catch (modError) {
+    // 审核 API 故障 → 阻止生成（官方要求 fail closed）
+    console.error('Moderation check failed:', modError);
+    alert('Content moderation is temporarily unavailable. Please try again.');
+    return;
+  }
+  // ============ 审核结束 ============
 
 async function submitPrintfulOrder() {
   if (!state.selectedProduct || !state.generatedImages.length || !state.authUser) {
