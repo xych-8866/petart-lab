@@ -276,9 +276,10 @@ async function generateImage() {
 
   // ============ Creem Content Moderation (Official API) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
+    const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
-    return style ? style.prompt : '';
-  }).join(' ');
+    return style ? style.name : '';
+}).join(', ') + ' - pet portrait generation from user-uploaded photo';
 
   try {
     const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
