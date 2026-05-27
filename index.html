@@ -274,12 +274,11 @@ async function generateImage() {
   const plan=PLANS[state.authUser.plan]; const needed=state.batchCount*state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-  // ============ Creem Content Moderation (Official API) ============
+   // ============ Creem Content Moderation (Official API) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
-    const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
-}).join(', ') + ' - pet portrait generation from user-uploaded photo';
+  }).join(', ') + ' - pet portrait generation from user-uploaded photo';
 
   try {
     const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
