@@ -311,7 +311,6 @@ async function generateImage() {
     });
 
     if (!moderationRes.ok) {
-      // 审核 API 失败时不阻塞用户，继续生成
       console.error('Moderation check failed, proceeding with generation.');
     } else {
       const moderationData = await moderationRes.json();
@@ -325,7 +324,6 @@ async function generateImage() {
       }
     }
   } catch (modError) {
-    // 审核 API 调用失败时不阻塞用户，记录日志后继续
     console.error('Moderation check failed, proceeding with generation:', modError);
   }
   // ============ Moderation End ============
@@ -417,11 +415,11 @@ function handleAuth(e) { e.preventDefault();
     if(state.authForm.email==='test@test.com'&&state.authForm.password==='test123'){nu.plan='ultra';nu.credits=999999;nu.isTestAccount=true;}
     if(state.authForm.email==='pro_test@test.com'&&state.authForm.password==='test123'){nu.plan='pro';nu.credits=999999;}
     if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
-    users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};
+    users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', nu.email);
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
-    if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};}else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
+    if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);}else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
-function handleLogout(){state.authUser=null;state.currentPage='home';window.location.hash='';render();}
+function handleLogout(){localStorage.removeItem('logged_in_email');state.authUser=null;state.currentPage='home';window.location.hash='';render();}
 function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href='https://www.creem.io/payment/'+pid; }
 function navigateTo(p){ if(window.location.pathname==='/google3be17941974cac5b.html')return; window.location.hash=p==='home'?'':p; state.currentPage=p; render(); }
 window.addEventListener('hashchange',()=>{ if(window.location.pathname==='/google3be17941974cac5b.html')return; state.currentPage=window.location.hash.slice(1)||'home'; render(); });
@@ -698,7 +696,19 @@ function render() {
   root.appendChild(c);
 }
 
-window.addEventListener('DOMContentLoaded',()=>{ state.currentPage=window.location.hash.slice(1)||'home'; render(); });
+window.addEventListener('DOMContentLoaded', () => {
+  // 恢复上次登录状态
+  const savedEmail = localStorage.getItem('logged_in_email');
+  if (savedEmail) {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const savedUser = users.find(u => u.email === savedEmail);
+    if (savedUser) {
+      state.authUser = savedUser;
+    }
+  }
+  state.currentPage = window.location.hash.slice(1) || 'home';
+  render();
+});
 </script>
 </body>
 </html>
