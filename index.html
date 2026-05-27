@@ -271,7 +271,25 @@ function addWatermark(url) { return new Promise(r=>{ const i=new Image(); i.cros
 
 async function generateImage() {
   if(!state.selectedImage||!state.authUser)return;
-  const plan=PLANS[state.authUser.plan]; const needed=state.batchCount*state.selectedStyles.length;
+  const plan=PLANS[state.authUser.plan];
+    // ============ 每天重置免费用户次数 ============
+  if (state.authUser.plan === 'free') {
+    const today = new Date().toDateString();
+    const lastReset = state.authUser.lastResetDate ? new Date(state.authUser.lastResetDate).toDateString() : null;
+    if (lastReset !== today) {
+      state.authUser.credits = 1;
+      state.authUser.lastResetDate = new Date().toISOString();
+      // 同步更新 localStorage
+      const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+      const idx = users.findIndex(u => u.email === state.authUser.email);
+      if (idx >= 0) {
+        users[idx].credits = 1;
+        users[idx].lastResetDate = state.authUser.lastResetDate;
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+    }
+  }
+  // ============ 重置结束 ============ const needed=state.batchCount*state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
    // ============ Creem Content Moderation (Official API) ============
