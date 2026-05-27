@@ -185,7 +185,7 @@ const PLANS = { free:{name:'Free',monthlyLimit:1,resolution:'Basic',watermark:tr
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-proxy-v-jgrjgkeobd.cn-hangzhou.fcapp.run';
 const API_BASE_URL = 'https://api.petartlab.net/api';
-const CREEM_MODERATION_KEY = 'creem_10xdsF1tTuIYjKqbT6RHa5'; // ← 替换为你的真实 API Key
+const CREEM_MODERATION_KEY = 'creem_10xdsF1tTuIYjKqbT6RHa5';
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -279,7 +279,6 @@ async function generateImage() {
     if (lastReset !== today) {
       state.authUser.credits = 1;
       state.authUser.lastResetDate = new Date().toISOString();
-      // 同步更新 localStorage
       const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
       const idx = users.findIndex(u => u.email === state.authUser.email);
       if (idx >= 0) {
@@ -289,10 +288,11 @@ async function generateImage() {
       }
     }
   }
-  // ============ 重置结束 ============ const needed=state.batchCount*state.selectedStyles.length;
+  // ============ 重置结束 ============
+  const needed = state.batchCount * state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-   // ============ Creem Content Moderation (Official API) ============
+  // ============ Creem Content Moderation (Official API) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
@@ -306,28 +306,27 @@ async function generateImage() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-    prompt: promptsToCheck
-}),
+        prompt: promptsToCheck
+      })
+    });
 
     if (!moderationRes.ok) {
-      alert('Content moderation is temporarily unavailable. Please try again.');
-      return;
-    }
-
-    const moderationData = await moderationRes.json();
-
-    if (moderationData.decision === 'deny') {
-      alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
-      return;
-    }
-    if (moderationData.decision === 'flag') {
-      alert('Your request could not be processed. Please revise and try again.');
-      return;
+      // 审核 API 失败时不阻塞用户，继续生成
+      console.error('Moderation check failed, proceeding with generation.');
+    } else {
+      const moderationData = await moderationRes.json();
+      if (moderationData.decision === 'deny') {
+        alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
+        return;
+      }
+      if (moderationData.decision === 'flag') {
+        alert('Your request could not be processed. Please revise and try again.');
+        return;
+      }
     }
   } catch (modError) {
-    console.error('Moderation check failed:', modError);
-    alert('Content moderation is temporarily unavailable. Please try again.');
-    return;
+    // 审核 API 调用失败时不阻塞用户，记录日志后继续
+    console.error('Moderation check failed, proceeding with generation:', modError);
   }
   // ============ Moderation End ============
 
