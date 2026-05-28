@@ -220,12 +220,12 @@ const ART_STYLES = [
   { id: 'yandere', name: 'Yandere Dark', prompt: 'Anime style portrait of this pet, Cool broken delicate weak atmosphere, low cold light dark exclusive color system, niche cool melancholy quiet atmosphere, cool expression with faint melancholy temperament, cool simple elegant dark picture tones, soft偏 cold quiet light shadow, overall cool疏离小众 atmosphere, delicate soft偏 cool lines, digital art, high quality, masterpiece' },
   { id: 'school', name: 'School Life', prompt: 'Anime style portrait of this pet, Fresh bright transparent overall tones, full of vibrant youth vitality sense, fresh daily Japanese campus healing scene, sunny元气 young boy girl vivid style, fresh bright clean color scheme, lively open bright元气满满 expression, picture full of youth healing sense, relaxed bright warm atmosphere, digital art, high quality, masterpiece' },
   { id: 'dunhuang', name: 'Dunhuang Ancient', prompt: 'Anime style portrait of this pet, Magnificent鎏金 advanced elegant exclusive color scheme, flowing smart飞天 classical ancient charm styling,华丽 rich elegant west region national style beauty, traditional Dunhuang classical art style,精致繁复华丽 decorative patterns, rich华丽 grand tones, with millennium Dunhuang classical神韵, elegant solemn aesthetic artistic conception, digital art, high quality, masterpiece' },
-  { id: 'wasteland', name: 'Post-Apocalyptic', prompt: 'Anime style portrait of this pet, Gray dark barren retro tones,破败 bleak barren苍凉 real scene,苍凉 bleak末世 cool atmosphere,颓废慵懒 bleak overall temperament, picture tones dark gray为主, dark dim low压抑 light shadow, overall full of末世 barren lonely气息, bleak real有氛围感 style, digital art, high quality, masterpiece' },
+  { id: 'wasteland', name: 'Post-Apocalyptic', prompt: 'Anime style portrait of this pet, Gray dark barren retro tones,破败 barren bleak苍凉 real scene,苍凉 bleak末世 cool atmosphere,颓废慵懒 bleak overall temperament, picture tones dark gray为主, dark dim low压抑 light shadow, overall full of末世 barren lonely气息, bleak real有氛围感 style, digital art, high quality, masterpiece' },
   { id: 'macaron', name: 'Macaron Sweet', prompt: 'Anime style portrait of this pet, Light soft sticky macaron exclusive gentle color scheme, overall soft sticky sweet甜美 temperament, full of少女心 gentle healing style, pink soft clear sweet tones, picture atmosphere soft sticky sweet gentle, round soft smooth lines, sweet clever smart expression, overall gentle sweet atmosphere full, digital art, high quality, masterpiece' },
   { id: 'cold', name: 'Cool Minimalist', prompt: 'Anime style portrait of this pet, Low cold elegant clean cool pure色 color system, cool疏离 clean advanced cool temperament, overall simple clean simple elegant picture,疏离淡然 high cold advanced atmosphere, simple elegant clean low-key color scheme, cool clean transparent light shadow, simple sharp elegant styling, with cool禁欲淡然气场, clean克制 advanced style, digital art, high quality, masterpiece' },
   { id: 'esports', name: 'E-sports Tech', prompt: 'Anime style portrait of this pet, Trendy炫酷精致机甲 trendy styling, sharp cool酷飒穿搭 design, frontier trendy tech炫酷 elements, trendy炫酷 young cool exclusive style, cold tone trendy炫酷 color scheme, cool sharp帅气 aura, mechanical机能 texture精致 delicate, overall trendy tech感十足, digital art, high quality, masterpiece' },
-  { id: 'republic', name: 'Republican Vintage', prompt: 'Anime style portrait of this pet, Gentle elegant classic旗袍 long gown classic styling, rich old Shanghai retro风情 charm, gentle retro quiet Republican专属 charm, retro warm nostalgic soft tones, picture atmosphere gentle quiet elegant, elegant dignified retro styling, with old Republican gentle风情, warm nostalgic elegant tones, digital art, high quality, masterpiece' },
-  { id: 'fantasy', name: 'Dreamy Iridescent', prompt: 'Anime style portrait of this pet, Delicate pearl gradual流光 aesthetic tones, transparent empty ethereal flowing light overflowing transparent texture,空灵 aesthetic misty梦幻 fairy artistic conception,琉璃 transparent梦幻专属 style, flowing smart light shadow, natural梦幻 color gradual, overall空灵 aesthetic fairy萦绕 picture, misty romantic梦幻 artistic conception, digital art, high quality, masterpiece' },
+  { id: 'republic', name: 'Republican Vintage', prompt: 'Anime style portrait of this pet, Gentle elegant classic旗袍长衫 classic styling, rich old Shanghai retro风情 charm, gentle retro quiet Republican专属 charm, retro warm nostalgic soft tones, picture atmosphere gentle quiet elegant, elegant dignified retro styling, with old Republican gentle风情, warm nostalgic elegant tones, digital art, high quality, masterpiece' },
+  { id: 'fantasy', name: 'Dreamy Iridescent', prompt: 'Anime style portrait of this pet, Delicate pearl gradual流光 aesthetic tones, transparent empty ethereal flowing light overflowing transparent texture,空灵 aesthetic misty梦幻 fairy artistic conception,琉璃透明梦幻专属 style, flowing smart light shadow, natural梦幻 color gradual, overall空灵 aesthetic fairy萦绕 picture, misty romantic梦幻 artistic conception, digital art, high quality, masterpiece' },
   { id: 'island', name: 'Fresh Forest Island', prompt: 'Anime style portrait of this pet, Elegant light green gentle natural soft color system, forest seaside清幽恬静 natural scene, gentle恬静 peaceful healing temperament, authentic Japanese forest seaside fresh atmosphere, fresh elegant gentle tones,轻盈舒缓 natural light shadow, quiet peaceful舒心 picture, full of natural forest gentle气息, digital art, high quality, masterpiece' }
 ];
 
@@ -261,6 +261,29 @@ let state = {
   shippingAddress: { name: '', address1: '', city: '', state: '', country: 'US', zip: '' }
 };
 
+// ========== 免费用户每日次数自动刷新（页面加载/登录/跨天时自动重置） ==========
+function refreshFreeUserCredits() {
+  if (!state.authUser) return;
+  if (state.authUser.plan !== 'free') return;
+  
+  const today = new Date().toDateString();
+  const lastReset = state.authUser.lastResetDate ? new Date(state.authUser.lastResetDate).toDateString() : null;
+  
+  if (lastReset !== today) {
+    state.authUser.credits = 1;
+    state.authUser.lastResetDate = new Date().toISOString();
+    // 同步到 localStorage
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const idx = users.findIndex(u => u.email === state.authUser.email);
+    if (idx >= 0) {
+      users[idx].credits = 1;
+      users[idx].lastResetDate = state.authUser.lastResetDate;
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    render(); // 刷新界面
+  }
+}
+
 function getDailyCount() { const d=localStorage.getItem(DAILY_COUNT_KEY); if(!d)return 0; try{ const p=JSON.parse(d); if(p.date!==new Date().toDateString()){localStorage.removeItem(DAILY_COUNT_KEY);return 0;} return p.count; }catch(e){return 0;} }
 function incrementDailyCount(a) { const c=getDailyCount(); localStorage.setItem(DAILY_COUNT_KEY,JSON.stringify({count:c+a,date:new Date().toDateString()})); }
 function getPoseVariation(i) { const p=['relaxed sitting, front view','playful running, side profile','lying down, looking up','looking back over shoulder','standing alert, curious expression']; return p[i%5]; }
@@ -272,7 +295,7 @@ function addWatermark(url) { return new Promise(r=>{ const i=new Image(); i.cros
 async function generateImage() {
   if(!state.selectedImage||!state.authUser)return;
   const plan=PLANS[state.authUser.plan];
-    // ============ 每天重置免费用户次数 ============
+    // ============ 每天重置免费用户次数（生成前再检查一次，防止显示未刷新） ============
   if (state.authUser.plan === 'free') {
     const today = new Date().toDateString();
     const lastReset = state.authUser.lastResetDate ? new Date(state.authUser.lastResetDate).toDateString() : null;
@@ -286,6 +309,7 @@ async function generateImage() {
         users[idx].lastResetDate = state.authUser.lastResetDate;
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
       }
+      render();
     }
   }
   // ============ 重置结束 ============
@@ -416,8 +440,13 @@ function handleAuth(e) { e.preventDefault();
     if(state.authForm.email==='pro_test@test.com'&&state.authForm.password==='test123'){nu.plan='pro';nu.credits=999999;}
     if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
     users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', nu.email);
+    // 新注册后刷新免费次数（虽然新用户就是1，但保证逻辑统一）
+    refreshFreeUserCredits();
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
-    if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);}else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
+    if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);
+      // 登录成功后刷新免费次数
+      refreshFreeUserCredits();
+    }else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
 function handleLogout(){localStorage.removeItem('logged_in_email');state.authUser=null;state.currentPage='home';window.location.hash='';render();}
 function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href='https://www.creem.io/payment/'+pid; }
@@ -453,64 +482,16 @@ function renderHome() {
   <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;border:2px solid var(--color-amber-400);color:var(--color-amber-600);font-weight:600;" onclick="loadPrintfulProducts()">🖼️ Order Custom Framed Print</button></div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
   <div class="mt-8"><h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2><p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
     <div class="grid-2" style="grid-template-columns:1fr 1fr 1fr;">
-  <!-- 健康/医疗类 6 篇 -->
-  <a class="article-card" onclick="navigateTo('article-senior-dog-joints')">
-    <span class="badge badge-health">Joint Health</span>
-    <h3>Keep Senior Dog Joints Healthy</h3>
-    <p>Weight tips, supplements, and beds that make a real difference.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-cat-diet-tips')">
-    <span class="badge badge-health">Diet</span>
-    <h3>Daily Diet Tips for Cats</h3>
-    <p>High-protein food, safest bowls, and what never to feed.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-dog-ailments')">
-    <span class="badge badge-health">Prevention</span>
-    <h3>Common Small Ailments in Dogs</h3>
-    <p>Spot early signs and use natural, vet-approved home care.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-summer-dog-cooling')">
-    <span class="badge badge-health">Summer Care</span>
-    <h3>Keep Your Dog Cool in Summer</h3>
-    <p>Heat safety tips, cooling gear, and how to spot heatstroke.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-dog-teeth-brushing')">
-    <span class="badge badge-health">Dental Care</span>
-    <h3>How to Brush Your Dog's Teeth</h3>
-    <p>Right supplies, gentle techniques, and positive habits.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-cat-hairball-remedies')">
-    <span class="badge badge-health">Digestive Health</span>
-    <h3>Best Cat Hairball Control</h3>
-    <p>Effective food, gels, and brushing routines to reduce hairballs.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-
-  <!-- 用品/装备类 3 篇 -->
-  <a class="article-card" onclick="navigateTo('article-senior-dog-food')">
-    <span class="badge badge-gear">Dog Food</span>
-    <h3>Best Dog Food for Senior Dogs</h3>
-    <p>Senior-specific formulas with glucosamine and no fillers.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-grooming-supplies')">
-    <span class="badge badge-gear">Grooming</span>
-    <h3>Must-Have Grooming Supplies</h3>
-    <p>Quiet clippers, gentle shampoos, and essential home tools.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-  <a class="article-card" onclick="navigateTo('article-cat-scratching-posts')">
-    <span class="badge badge-gear">Cat Essentials</span>
-    <h3>Best Cat Scratching Posts</h3>
-    <p>Why cats scratch, what to look for, and how to place them.</p>
-    <span class="read-more">Read More →</span>
-  </a>
-</div>
+      <a class="article-card" onclick="navigateTo('article-senior-dog-joints')"><span class="badge badge-health">Joint Health</span><h3>Keep Senior Dog Joints Healthy</h3><p>Weight tips, supplements, and beds that make a real difference.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-cat-diet-tips')"><span class="badge badge-health">Diet</span><h3>Daily Diet Tips for Cats</h3><p>High-protein food, the safest bowls, and what never to feed.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-grooming-supplies')"><span class="badge badge-gear">Grooming</span><h3>Must-Have Grooming Supplies</h3><p>Quiet clippers, gentle shampoos, and essentials for home care.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-cat-scratching-posts')"><span class="badge badge-gear">Cat Essentials</span><h3>Best Cat Scratching Posts to Save Your Furniture</h3><p>Why cats scratch, what to look for in a post, and how to place them for success.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-summer-dog-cooling')"><span class="badge badge-health">Summer Care</span><h3>Keep Your Dog Cool in Summer</h3><p>Heat safety tips, cooling gear, and how to spot heatstroke.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-dog-teeth-brushing')"><span class="badge badge-health">Dental Care</span><h3>How to Brush Your Dog's Teeth</h3><p>Step-by-step guide with right supplies and positive techniques.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-cat-hairball-remedies')"><span class="badge badge-health">Digestive Health</span><h3>Best Cat Hairball Control Food</h3><p>Effective remedies, food, and brushing routines to reduce hairballs.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-dog-ailments')"><span class="badge badge-health">Prevention</span><h3>Common Small Ailments in Dogs</h3><p>Spot early signs and use natural vet-approved home care.</p><span class="read-more">Read More →</span></a>
+      <a class="article-card" onclick="navigateTo('article-senior-dog-food')"><span class="badge badge-gear">Dog Food</span><h3>Best Dog Food for Senior Dogs</h3><p>Senior-specific formulas with glucosamine, no fillers.</p><span class="read-more">Read More →</span></a>
+    </div>
     <div class="text-center mt-6"><button class="btn btn-secondary" onclick="navigateTo('guides')">View All Guides →</button></div>
   </div>`;
   return m;
@@ -695,14 +676,14 @@ function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
   <div class="grid-4 mb-8">${Object.entries(PLANS).map(([k,p])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''} ${k==='pro'?'popular':''}">${k==='pro'?'<div class="popular-badge">Most Popular</div>':''}<h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${p.name}</h3><div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div><ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">${(k==='free'?['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history']:k==='pro'?['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history']:k==='max'?['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history']:['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${k==='pro'?'btn-primary':'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div>
-  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
-    <tr><td>Monthly Credits</td><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
-    <tr><td>Resolution</td><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
-    <tr><td>Watermark</td><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
-    <tr><td>Styles</td><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">3</td><td>6</td><td>All 31</td></tr>
-    <tr><td>Batch</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>5</td><td>10</td></tr>
-    <tr><td>History</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">7 days</td><td>30 days</td><td>180 days</td></tr>
-    <tr><td>Commercial License</td><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>-</td><td>Yes</td></tr>
+  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th><tr></thead><tbody>
+    <tr><th>Monthly Credits</th><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
+    <tr><th>Resolution</th><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
+    <tr><th>Watermark</th><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
+    <tr><th>Styles</th><td>1 (Ghibli)</td><td style="color:var(--color-amber-600);font-weight:500;">3</td><td>6</td><td>All 31</td></tr>
+    <tr><th>Batch</th><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>5</td><td>10</td></tr>
+    <tr><th>History</th><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">7 days</td><td>30 days</td><td>180 days</td></tr>
+    <tr><th>Commercial License</th><td>-</td><td style="color:var(--color-amber-600);font-weight:500;">-</td><td>-</td><td>Yes</td></tr>
   </tbody></table></div></div>`;
   return d;
 }
@@ -788,6 +769,8 @@ window.addEventListener('DOMContentLoaded', () => {
       state.authUser = savedUser;
     }
   }
+  // 关键：页面加载时刷新免费用户次数（自动重置）
+  refreshFreeUserCredits();
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
 });
