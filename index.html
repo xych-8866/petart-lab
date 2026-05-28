@@ -316,11 +316,14 @@ async function generateImage() {
   const needed = state.batchCount * state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-  // ============ Creem Content Moderation (Official API) ============
+    // ============ Creem Content Moderation (强制拦截，审核必须通过才能生成) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
   }).join(', ') + ' - pet portrait generation from user-uploaded photo';
+
+  let moderationSuccess = false;
+  let moderationError = false;
 
   try {
     const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
@@ -329,26 +332,34 @@ async function generateImage() {
         'x-api-key': CREEM_MODERATION_KEY,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        prompt: promptsToCheck
-      })
+      body: JSON.stringify({ prompt: promptsToCheck })
     });
 
-    if (!moderationRes.ok) {
-      console.error('Moderation check failed, proceeding with generation.');
-    } else {
+    if (moderationRes.ok) {
       const moderationData = await moderationRes.json();
-      if (moderationData.decision === 'deny') {
-        alert('Your request contains prohibited content and cannot be processed. Please review our Terms of Service.');
+      if (moderationData.decision === 'allow') {
+        moderationSuccess = true;
+      } else if (moderationData.decision === 'deny') {
+        alert('Your request contains prohibited content. Please review our Terms of Service.');
         return;
-      }
-      if (moderationData.decision === 'flag') {
-        alert('Your request could not be processed. Please revise and try again.');
+      } else if (moderationData.decision === 'flag') {
+        alert('Your request needs review. Please try again with different content.');
         return;
+      } else {
+        moderationError = true;
       }
+    } else {
+      moderationError = true;
     }
-  } catch (modError) {
-    console.error('Moderation check failed, proceeding with generation:', modError);
+  } catch (err) {
+    console.error('Moderation API error:', err);
+    moderationError = true;
+  }
+
+  // 如果 moderation 调用失败或未明确返回 allow，则拒绝生成
+  if (moderationError || !moderationSuccess) {
+    alert('Content moderation service error. Please try again later.');
+    return;
   }
   // ============ Moderation End ============
 
