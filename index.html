@@ -261,7 +261,7 @@ let state = {
   shippingAddress: { name: '', address1: '', city: '', state: '', country: 'US', zip: '' }
 };
 
-// ========== 免费用户每日次数自动刷新 ==========
+// ========== 免费用户每日次数自动刷新（页面加载/登录/跨天时自动重置） ==========
 function refreshFreeUserCredits() {
   if (!state.authUser) return;
   if (state.authUser.plan !== 'free') return;
@@ -272,6 +272,7 @@ function refreshFreeUserCredits() {
   if (lastReset !== today) {
     state.authUser.credits = 1;
     state.authUser.lastResetDate = new Date().toISOString();
+    // 同步到 localStorage
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     const idx = users.findIndex(u => u.email === state.authUser.email);
     if (idx >= 0) {
@@ -279,7 +280,7 @@ function refreshFreeUserCredits() {
       users[idx].lastResetDate = state.authUser.lastResetDate;
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
-    render();
+    render(); // 刷新界面
   }
 }
 
@@ -294,6 +295,7 @@ function addWatermark(url) { return new Promise(r=>{ const i=new Image(); i.cros
 async function generateImage() {
   if(!state.selectedImage||!state.authUser)return;
   const plan=PLANS[state.authUser.plan];
+    // ============ 每天重置免费用户次数（生成前再检查一次，防止显示未刷新） ============
   if (state.authUser.plan === 'free') {
     const today = new Date().toDateString();
     const lastReset = state.authUser.lastResetDate ? new Date(state.authUser.lastResetDate).toDateString() : null;
@@ -310,9 +312,11 @@ async function generateImage() {
       render();
     }
   }
+  // ============ 重置结束 ============
   const needed = state.batchCount * state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
+  // ============ Creem Content Moderation (Official API) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
@@ -325,8 +329,11 @@ async function generateImage() {
         'x-api-key': CREEM_MODERATION_KEY,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ prompt: promptsToCheck })
+      body: JSON.stringify({
+        prompt: promptsToCheck
+      })
     });
+
     if (!moderationRes.ok) {
       console.error('Moderation check failed, proceeding with generation.');
     } else {
@@ -343,6 +350,7 @@ async function generateImage() {
   } catch (modError) {
     console.error('Moderation check failed, proceeding with generation:', modError);
   }
+  // ============ Moderation End ============
 
   state.isGenerating=true;state.error=null;state.generatedImages=[];render();
   if(!state.authUser.isTestAccount)incrementDailyCount(needed);
@@ -364,10 +372,10 @@ async function generateImage() {
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
 }
 
-// ========== Printify 实物定制逻辑（替换原来 Printful） ==========
+// ============ Printful 实物定制逻辑 ============
 async function loadPrintfulProducts() {
   try {
-    const response = await fetch(`${API_BASE_URL}/printify-catalog`);
+    const response = await fetch(`${API_BASE_URL}/printful-catalog`);
     const data = await response.json();
     if (data.success && data.data) {
       state.printfulProducts = data.data;
@@ -377,13 +385,13 @@ async function loadPrintfulProducts() {
       alert('No products available. Please try again later.');
     }
   } catch (error) {
-    console.error('Load Printify products error:', error);
+    console.error('Load Printful products error:', error);
     alert('Failed to load products. Please try again.');
   }
 }
 
 function selectPrintfulProduct(variantId) {
-  const product = state.printfulProducts.find(p => p.variant_id == variantId);
+  const product = state.printfulProducts.find(p => p.variant_id === variantId);
   state.selectedProduct = product;
   render();
 }
@@ -400,7 +408,7 @@ async function submitPrintfulOrder() {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/create-printify-order`, {
+    const response = await fetch(`${API_BASE_URL}/create-printful-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -417,7 +425,7 @@ async function submitPrintfulOrder() {
       state.selectedProduct = null;
       render();
     } else {
-      alert('Order failed: ' + (result.error?.message || JSON.stringify(result.error)));
+      alert('Order failed: ' + (result.error || 'Unknown error'));
     }
   } catch (error) {
     console.error('Submit order error:', error);
@@ -432,9 +440,11 @@ function handleAuth(e) { e.preventDefault();
     if(state.authForm.email==='pro_test@test.com'&&state.authForm.password==='test123'){nu.plan='pro';nu.credits=999999;}
     if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
     users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', nu.email);
+    // 新注册后刷新免费次数
     refreshFreeUserCredits();
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
     if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);
+      // 登录成功后刷新免费次数
       refreshFreeUserCredits();
     }else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
@@ -469,7 +479,7 @@ function renderHome() {
   <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;"><p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount*state.selectedStyles.length} images (Credits: ${state.authUser?.credits||0} available)</p></div>
   <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating||!state.authUser||state.selectedStyles.length===0?'disabled':''}>${state.isGenerating?'<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...':state.authUser?`Generate ${state.batchCount*state.selectedStyles.length} Portrait(s)`:'Sign in to generate'}</button>`:''}
   </div><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result</h3>
-  <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;border:2px solid var(--color-amber-400);color:var(--color-amber-600);font-weight:600;" onclick="loadPrintfulProducts()">🖼️ Order Custom Framed Print</button></div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
+  <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;background:#e2e8f0;color:#94a3b8;border:none;cursor:not-allowed;" disabled>🖼️ Coming Soon – Custom Framed Print</button></div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
   <div class="mt-8"><h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2><p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
     <div class="grid-2" style="grid-template-columns:1fr 1fr 1fr;">
       <a class="article-card" onclick="navigateTo('article-senior-dog-joints')"><span class="badge badge-health">Joint Health</span><h3>Keep Senior Dog Joints Healthy</h3><p>Weight tips, supplements, and beds that make a real difference.</p><span class="read-more">Read More →</span></a>
@@ -486,7 +496,6 @@ function renderHome() {
   </div>`;
   return m;
 }
-
 function renderArticle(articleId) {
   const articles = {
     'senior-dog-joints': {
@@ -726,11 +735,12 @@ function render() {
     o.onclick=function(e){if(e.target===this){state.showUpgradeModal=false;render();}}; c.appendChild(o);
   }
 
+  // Printful 定制弹窗（注意：按钮已禁用，但弹窗逻辑保留，以防后续恢复）
   if(state.showPrintfulModal){
     const o=document.createElement('div'); o.className='modal-overlay';
     o.innerHTML=`<div class="modal-content wide"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>🖼️ Order Custom Framed Print</h3><button onclick="state.showPrintfulModal=false;state.selectedProduct=null;render();" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div>
     <h4 style="margin-bottom:0.75rem;">Select Product</h4>
-    <div style="max-height:200px;overflow-y:auto;margin-bottom:1rem;">${state.printfulProducts.map(p=>`<div class="product-option ${state.selectedProduct&&state.selectedProduct.variant_id==p.variant_id?'active':''}" onclick="selectPrintfulProduct('${p.variant_id}')"><div style="font-weight:600;">${p.product_name}</div><div style="margin-left:auto;color:var(--color-amber-600);font-weight:600;">$${p.price}</div></div>`).join('')}${state.printfulProducts.length===0?'<p style="color:var(--color-slate-400);">Loading products...</p>':''}</div>
+    <div style="max-height:200px;overflow-y:auto;margin-bottom:1rem;">${state.printfulProducts.map(p=>`<div class="product-option ${state.selectedProduct&&state.selectedProduct.variant_id===p.variant_id?'active':''}" onclick="selectPrintfulProduct('${p.variant_id}')"><div style="font-weight:600;">${p.product_name}</div><div style="margin-left:auto;color:var(--color-amber-600);font-weight:600;">$${p.price}</div></div>`).join('')}${state.printfulProducts.length===0?'<p style="color:var(--color-slate-400);">Loading products...</p>':''}</div>
     <h4 style="margin-bottom:0.75rem;">Shipping Address</h4>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
       <input class="input-field" type="text" placeholder="Full Name" value="${state.shippingAddress.name}" oninput="state.shippingAddress.name=this.value">
@@ -748,6 +758,7 @@ function render() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  // 恢复上次登录状态
   const savedEmail = localStorage.getItem('logged_in_email');
   if (savedEmail) {
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
@@ -756,10 +767,11 @@ window.addEventListener('DOMContentLoaded', () => {
       state.authUser = savedUser;
     }
   }
+  // 关键：页面加载时刷新免费用户次数（自动重置）
   refreshFreeUserCredits();
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
 });
 </script>
 </body>
-</html>
+</html>    
