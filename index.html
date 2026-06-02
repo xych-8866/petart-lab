@@ -506,7 +506,7 @@ function handleAuth(e) { e.preventDefault();
     }else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
 function handleLogout(){localStorage.removeItem('logged_in_email');state.authUser=null;state.currentPage='home';window.location.hash='';render();}
-function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href='https://www.creem.io/payment/'+pid; }
+function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href = 'https://www.creem.io/payment/' + pid + '?metadata[plan]=' + plan; }
 function navigateTo(p){ if(window.location.pathname==='/google3be17941974cac5b.html')return; window.location.hash=p==='home'?'':p; state.currentPage=p; render(); }
 window.addEventListener('hashchange',()=>{ if(window.location.pathname==='/google3be17941974cac5b.html')return; state.currentPage=window.location.hash.slice(1)||'home'; render(); });
 function closeAuthModal(){state.showAuthModal=false;render();}
