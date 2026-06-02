@@ -450,6 +450,33 @@ function handleAuth(e) { e.preventDefault();
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
     if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);
       refreshFreeUserCredits();
+          // 从后端同步订阅信息（自动升级）
+      (async () => {
+        try {
+          const res = await fetch(`${API_BASE_URL}/user-status`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: state.authUser.email })
+          });
+          const data = await res.json();
+          if (data && data.credits !== undefined) {
+            state.authUser.credits = data.credits;
+            state.authUser.plan = data.plan;
+            state.authUser.lastResetDate = data.lastResetDate;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+            const idx = users.findIndex(u => u.email === state.authUser.email);
+            if (idx !== -1) {
+              users[idx].credits = data.credits;
+              users[idx].plan = data.plan;
+              users[idx].lastResetDate = data.lastResetDate;
+              localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            }
+            render();
+          }
+        } catch (err) {
+          console.error('同步用户状态失败:', err);
+        }
+      })();
     }else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
 function handleLogout(){localStorage.removeItem('logged_in_email');state.authUser=null;state.currentPage='home';window.location.hash='';render();}
