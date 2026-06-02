@@ -447,6 +447,32 @@ function handleAuth(e) { e.preventDefault();
     if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
     users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', nu.email);
     refreshFreeUserCredits();
+                                  // 强制修复：从后端同步最新订阅信息，覆盖本地旧数据
+  if (state.authUser) {
+    fetch(`${API_BASE_URL}/user-status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: state.authUser.email })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.credits !== undefined && state.authUser.credits != data.credits) {
+        state.authUser.credits = data.credits;
+        state.authUser.plan = data.plan;
+        state.authUser.lastResetDate = data.lastResetDate;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+        const idx = users.findIndex(u => u.email === state.authUser.email);
+        if (idx !== -1) {
+          users[idx].credits = data.credits;
+          users[idx].plan = data.plan;
+          users[idx].lastResetDate = data.lastResetDate;
+          localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+        render();
+      }
+    })
+    .catch(err => console.error('强制同步失败:', err));
+  }
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
     if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);
       refreshFreeUserCredits();
