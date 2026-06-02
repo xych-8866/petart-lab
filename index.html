@@ -185,7 +185,6 @@ const PLANS = { free:{name:'Free',monthlyLimit:1,resolution:'Basic',watermark:tr
 const WATERMARK_TEXT = 'petartlab.net';
 const API_WORKER_URL = 'https://petart-proxy-v-jgrjgkeobd.cn-hangzhou.fcapp.run';
 const API_BASE_URL = 'https://api.petartlab.net/api';
-const CREEM_MODERATION_KEY = 'creem_10xdsF1tTuIYjKqbT6RHa5';
 const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
@@ -261,7 +260,7 @@ let state = {
   shippingAddress: { name: '', address1: '', city: '', state: '', country: 'US', zip: '' }
 };
 
-// ========== 免费用户每日次数自动刷新（页面加载/登录/跨天时自动重置） ==========
+// ========== 免费用户每日次数自动刷新 ==========
 function refreshFreeUserCredits() {
   if (!state.authUser) return;
   if (state.authUser.plan !== 'free') return;
@@ -272,7 +271,6 @@ function refreshFreeUserCredits() {
   if (lastReset !== today) {
     state.authUser.credits = 1;
     state.authUser.lastResetDate = new Date().toISOString();
-    // 同步到 localStorage
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     const idx = users.findIndex(u => u.email === state.authUser.email);
     if (idx >= 0) {
@@ -280,7 +278,7 @@ function refreshFreeUserCredits() {
       users[idx].lastResetDate = state.authUser.lastResetDate;
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
-    render(); // 刷新界面
+    render();
   }
 }
 
@@ -295,7 +293,6 @@ function addWatermark(url) { return new Promise(r=>{ const i=new Image(); i.cros
 async function generateImage() {
   if(!state.selectedImage||!state.authUser)return;
   const plan=PLANS[state.authUser.plan];
-    // ============ 每天重置免费用户次数（生成前再检查一次，防止显示未刷新） ============
   if (state.authUser.plan === 'free') {
     const today = new Date().toDateString();
     const lastReset = state.authUser.lastResetDate ? new Date(state.authUser.lastResetDate).toDateString() : null;
@@ -312,11 +309,10 @@ async function generateImage() {
       render();
     }
   }
-  // ============ 重置结束 ============
   const needed = state.batchCount * state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-    // ============ Creem Content Moderation (强制拦截，审核必须通过才能生成) ============
+  // ============ Creem Content Moderation (通过后端代理，避免CORS) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
@@ -326,10 +322,10 @@ async function generateImage() {
   let moderationError = false;
 
   try {
-    const moderationRes = await fetch('https://api.creem.io/v1/moderation/prompt', {
+    // 调用自己的后端代理，而不是直接请求 Creem API
+    const moderationRes = await fetch(`${API_BASE_URL}/moderation-proxy`, {
       method: 'POST',
       headers: {
-        'x-api-key': CREEM_MODERATION_KEY,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ prompt: promptsToCheck })
@@ -356,7 +352,6 @@ async function generateImage() {
     moderationError = true;
   }
 
-  // 如果 moderation 调用失败或未明确返回 allow，则拒绝生成
   if (moderationError || !moderationSuccess) {
     alert('Content moderation service error. Please try again later.');
     return;
@@ -451,11 +446,9 @@ function handleAuth(e) { e.preventDefault();
     if(state.authForm.email==='pro_test@test.com'&&state.authForm.password==='test123'){nu.plan='pro';nu.credits=999999;}
     if(state.authForm.email==='max_test@test.com'&&state.authForm.password==='test123'){nu.plan='max';nu.credits=999999;}
     users.push(nu);localStorage.setItem(USERS_KEY,JSON.stringify(users));state.authUser=nu;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', nu.email);
-    // 新注册后刷新免费次数
     refreshFreeUserCredits();
   }else{ const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const f=users.find(u=>u.email===state.authForm.email&&u.password===state.authForm.password);
     if(f){state.authUser=f;state.showAuthModal=false;state.authForm={email:'',password:'',username:''};localStorage.setItem('logged_in_email', f.email);
-      // 登录成功后刷新免费次数
       refreshFreeUserCredits();
     }else{alert('Invalid email or password.');state.loginAttempts++;if(state.loginAttempts>=3){alert('Too many attempts. Please try again later.');state.loginAttempts=0;}}
   } render(); }
@@ -829,7 +822,6 @@ function render() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  // 恢复上次登录状态
   const savedEmail = localStorage.getItem('logged_in_email');
   if (savedEmail) {
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
@@ -838,11 +830,10 @@ window.addEventListener('DOMContentLoaded', () => {
       state.authUser = savedUser;
     }
   }
-  // 关键：页面加载时刷新免费用户次数（自动重置）
   refreshFreeUserCredits();
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
 });
 </script>
 </body>
-</html>    
+</html>
