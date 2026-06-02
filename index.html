@@ -932,7 +932,33 @@ window.addEventListener('DOMContentLoaded', () => {
       state.authUser = savedUser;
     }
   }
-  refreshFreeUserCredits();
+  refreshFreeUserCredits();  
+  // 强制同步：页面加载时从后端拉取真实额度
+  if (state.authUser) {
+    fetch(`${API_BASE_URL}/user-status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: state.authUser.email })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.credits !== undefined) {
+        state.authUser.credits = data.credits;
+        state.authUser.plan = data.plan;
+        state.authUser.lastResetDate = data.lastResetDate;
+        const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+        const idx = users.findIndex(u => u.email === state.authUser.email);
+        if (idx !== -1) {
+          users[idx].credits = data.credits;
+          users[idx].plan = data.plan;
+          users[idx].lastResetDate = data.lastResetDate;
+          localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+        render();
+      }
+    })
+    .catch(err => console.error('强制同步失败:', err));
+  }
   state.currentPage = window.location.hash.slice(1) || 'home';
   render();
 });
