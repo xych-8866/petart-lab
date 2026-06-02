@@ -499,7 +499,8 @@ function renderHome() {
       <a class="article-card" onclick="navigateTo('article-dog-basic-training')"><span class="badge badge-health">Training</span><h3>Basic Dog Training for Beginners</h3><p>Sit, stay, come – positive techniques that really work.</p><span class="read-more">Read More →</span></a>
       <a class="article-card" onclick="navigateTo('article-best-joint-supplements-senior-dogs')"><span class="badge badge-health">Joint Health</span><h3>Best Joint Supplements for Senior Dogs (2026)</h3><p>Vet-approved ingredients and top brands that actually help.</p><span class="read-more">Read More →</span></a>
       <a class="article-card" onclick="navigateTo('article-top-quiet-dog-nail-grinders')"><span class="badge badge-gear">Grooming</span><h3>Top 5 Quiet Dog Nail Grinders for Anxious Pets</h3><p>Low-noise models that won't scare your dog.</p><span class="read-more">Read More →</span></a>
-     <div class="text-center mt-6"><button class="btn btn-secondary" onclick="navigateTo('guides')">View All Guides →</button></div>
+    </div>
+    <div class="text-center mt-6"><button class="btn btn-secondary" onclick="navigateTo('guides')">View All Guides →</button></div>
   </div>`;
   return m;
 }
@@ -775,13 +776,13 @@ function renderGuides() {
         <a class="article-card" onclick="navigateTo('article-senior-dog-food')"><span class="badge badge-gear">Dog Food</span><h3>How to Choose the Best Dog Food for Your Senior Dog</h3><p>Senior-specific formulas with glucosamine, avoiding fillers, and when to choose wet food.</p><span class="read-more">Read More →</span></a>
         <a class="article-card" onclick="navigateTo('article-grooming-supplies')"><span class="badge badge-gear">Grooming</span><h3>Must-Have Pet Grooming Supplies for Every Pet Owner</h3><p>Quiet clippers, gentle shampoos, and the right tools to keep your pet looking their best.</p><span class="read-more">Read More →</span></a>
         <a class="article-card" onclick="navigateTo('article-cat-scratching-posts')"><span class="badge badge-gear">Cat Essentials</span><h3>Best Cat Scratching Posts to Save Your Furniture</h3><p>Why cats scratch, what to look for in a post, and how to place them for success.</p><span class="read-more">Read More →</span></a>
+        <a class="article-card" onclick="navigateTo('article-top-quiet-dog-nail-grinders')"><span class="badge badge-gear">Grooming</span><h3>Top 5 Quiet Dog Nail Grinders for Anxious Pets</h3><p>Low-noise models that won't scare your dog.</p><span class="read-more">Read More →</span></a>
       </div>
     </div>
     <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
   `;
   return main;
 }
-
 function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
@@ -884,4 +885,4 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 </body>
-</html>
+</html>    
