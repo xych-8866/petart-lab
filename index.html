@@ -381,17 +381,27 @@ async function generateImage() {
 // ============ Printful 实物定制逻辑 ============
 async function loadPrintfulProducts() {
   try {
-    const response = await fetch(`${API_BASE_URL}/printful-catalog`);
+    const response = await fetch(`${API_BASE_URL}/printify-catalog`);
     const data = await response.json();
-    if (data.success && data.data) {
-      state.printfulProducts = data.data;
+    if (data.success && data.products) {
+      // 将 Printify 产品转换为前端需要的格式
+      state.printfulProducts = [];
+      for (const product of data.products) {
+        for (const variant of product.variants) {
+          state.printfulProducts.push({
+            product_name: product.title,
+            variant_id: variant.variant_id,
+            price: (variant.price / 100).toFixed(2)  // 价格单位是美分，转为美元
+          });
+        }
+      }
       state.showPrintfulModal = true;
       render();
     } else {
       alert('No products available. Please try again later.');
     }
   } catch (error) {
-    console.error('Load Printful products error:', error);
+    console.error('Load Printify products error:', error);
     alert('Failed to load products. Please try again.');
   }
 }
