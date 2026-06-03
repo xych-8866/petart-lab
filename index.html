@@ -372,7 +372,23 @@ async function generateImage() {
       if(!d.data)throw new Error('Unexpected response format: '+JSON.stringify(d).substring(0,500));
       let img=d.data[0].url;
       results.push(img);
-      if(!state.authUser.isTestAccount&&state.authUser.credits>0){ state.authUser.credits--; const users=JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); const idx=users.findIndex(u=>u.email===state.authUser.email); if(idx>=0){users[idx].credits=state.authUser.credits;localStorage.setItem(USERS_KEY,JSON.stringify(users));} }
+      if(!state.authUser.isTestAccount && state.authUser.credits > 0){ 
+  // 前端扣减（乐观更新）
+  state.authUser.credits--; 
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); 
+  const idx = users.findIndex(u=>u.email===state.authUser.email); 
+  if(idx>=0){
+    users[idx].credits = state.authUser.credits;
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+  
+  // 调用后端接口，同步扣减数据库中的次数
+  fetch(`${API_BASE_URL}/use-credit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: state.authUser.email, amount: 1 })
+  }).catch(err => console.error('扣减后端次数失败:', err));
+}
     }catch(e){clearTimeout(tid);console.error(`[Generate ${i+1}] Error:`,e);}
   }
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
