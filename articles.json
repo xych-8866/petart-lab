@@ -141,5 +141,27 @@
     "category": "health",
     "cardDesc": "Sit, stay, come – positive techniques that really work.",
     "thumbnail": "🐕"
+  },
+  {
+    "id": "separation-anxiety-calming-aids",
+    "file": "article-separation-anxiety-calming-aids.html",
+    "title": "Separation Anxiety in Dogs & Cats: How to Recognize, Treat, and Best Calming Products",
+    "date": "June 6, 2026",
+    "badge": "Behavior",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Proven desensitization protocol and vet‑recommended calming chews, pheromones, and wraps.",
+    "thumbnail": "😟"
+  },
+  {
+    "id": "pet-travel-safety-gear",
+    "file": "article-pet-travel-safety-gear.html",
+    "title": "Pet Travel Safety: Best Car Harnesses, Crates & Road Trip Essentials",
+    "date": "June 6, 2026",
+    "badge": "Travel Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Crash‑tested harnesses, crates, and must‑have road trip gear to keep your pet safe on the road.",
+    "thumbnail": "🚗"
   }
 ]
