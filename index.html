@@ -666,11 +666,21 @@ async function renderHome() {
       </div>
     </div>
   `;
-  return m;
+    // 恢复之前保存的滚动位置
+  const savedScroll = sessionStorage.getItem('scrollPos');
+  if (savedScroll) {
+    setTimeout(() => {
+      window.scrollTo(0, parseInt(savedScroll));
+      sessionStorage.removeItem('scrollPos');
+    }, 100);
+  }
+ return m;
 }
 
 function navigateToArticle(event, file) {
   event.preventDefault();
+  // 保存当前滚动位置
+  sessionStorage.setItem('scrollPos', window.scrollY);
   state.currentPage = 'article';
   state.currentArticleFile = file;
   render();
