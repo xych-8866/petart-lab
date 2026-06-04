@@ -543,173 +543,22 @@ function renderHeader() {
       ${state.authUser&&state.authUser.plan==='free'?`<button class="btn btn-primary" onclick="state.showUpgradeModal=true;render();">Upgrade to Pro</button>`:''}
     </div></div>`; return h;
 }
+let articlesCache = null;
 
-// ========== 文章数据集中管理 ==========
-const ARTICLES_DATA = [
-  { id: 'senior-dog-joints', title: 'Effective Ways to Keep Your Senior Dog\'s Joints Healthy', date: 'May 23, 2026', badge: 'Joint Health', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Keep a healthy weight to reduce strain on joints','Use vet-recommended joint supplements daily','Invest in an orthopedic bed for pressure relief','Never give human pain meds—see a vet for safe options'],
-    content: `<p>As our dogs age, their joints often bear the brunt of a life well-lived. You might notice your old friend struggling to get up after a nap, hesitating before stairs, or limping after a long walk. While we can't turn back time, there are proven, effective ways to manage these signs of aging and keep your senior dog comfortable and active.</p>
-<h2>1. Weight Management: The Foundation of Joint Health</h2>
-<p>Excess weight is public enemy number one for aging joints. Every extra pound adds significant strain to your dog's hips, knees, and elbows. Keeping your senior dog lean isn't about aesthetics; it's about pain management. Feed a measured diet of high-quality senior dog food, limit treats to healthy options, and maintain low-impact exercise like walking or swimming.</p>
-<h2>2. Targeted Supplements</h2>
-<p>One of the most effective ways to support joint health is through daily supplements containing glucosamine, chondroitin, MSM, and omega-3 fatty acids. These ingredients work together to repair cartilage, reduce inflammation, and improve mobility.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Senior Dog Joint Supplements</strong><p style="margin:0.5rem 0;">Browse top-rated joint supplements for senior dogs. Look for glucosamine, chondroitin, and MSM.</p><a href="https://www.amazon.com/s?k=senior+dog+joint+supplement+glucosamine+chondroitin&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. The Right Environment: Orthopedic Beds</h2><p>Simple changes at home can drastically improve your senior dog's quality of life. An orthopedic dog bed made of memory foam conforms to your dog's body, relieving pressure points and providing support for achy joints.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Orthopedic Dog Beds</strong><p style="margin:0.5rem 0;">Memory foam beds that relieve joint pressure. Ideal for medium and large senior dogs.</p><a href="https://www.amazon.com/s?k=orthopedic+dog+bed+memory+foam+large&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>4. Veterinary-Supervised Pain Management</h2><p>If your dog shows significant pain, see the vet. They can prescribe safe anti-inflammatory drugs or new treatments like monoclonal antibody injections for targeted monthly relief.</p>`,
-    cardDesc: 'Weight tips, supplements, and beds that make a real difference.', thumbnail: '🐾' },
-  { id: 'cat-diet-tips', title: 'What to Feed Your Cat: Daily Diet Tips for a Healthy Feline', date: 'May 23, 2026', badge: 'Diet', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Choose high-protein food with real meat as the first ingredient','Use stainless steel bowls to prevent bacteria','Always provide fresh, clean water','Never feed your cat dog food—it lacks essential taurine'],
-    content: `<p>A healthy diet is the foundation of your cat's well-being. Unlike dogs, cats are obligate carnivores—they must eat meat to survive. Here's what every cat owner should know about feeding their feline friend.</p>
-<h2>1. Prioritize High-Protein Food</h2><p>The first ingredient on any cat food label should be a named meat source like chicken, salmon, or turkey. Avoid foods where corn, wheat, or soy appear first. Cats need animal protein to thrive.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>High-Protein Dry Cat Food</strong><p style="margin:0.5rem 0;">Browse vet-recommended dry cat foods with real chicken or salmon as the first ingredient.</p><a href="https://www.amazon.com/s?k=high+protein+adult+cat+dry+food+chicken&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. Choose the Right Bowls</h2><p>Stainless steel bowls are the gold standard. They're durable, easy to clean, and don't harbor bacteria like plastic bowls can. Plus, they won't cause chin acne in sensitive cats.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Stainless Steel Cat Bowls</strong><p style="margin:0.5rem 0;">Non-slip, dishwasher-safe stainless steel bowls. Perfect for wet and dry food.</p><a href="https://www.amazon.com/s?k=stainless+steel+cat+bowl+non+slip&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Fresh Water Is Essential</h2><p>Cats naturally have a low thirst drive. Encourage drinking by providing fresh water daily and consider a pet water fountain. Many cats prefer running water.</p>
-<h2>4. Never Feed Dog Food to Cats</h2><p>Dog food lacks taurine, an amino acid cats can't produce on their own. Without taurine, cats can develop serious heart and eye problems. Always feed cat-specific food.</p>`,
-    cardDesc: 'High-protein food, the safest bowls, and what never to feed.', thumbnail: '🐱' },
-  { id: 'grooming-supplies', title: 'Must-Have Pet Grooming Supplies for Every Pet Owner', date: 'May 23, 2026', badge: 'Grooming', badgeClass: 'badge-gear', category: 'supplies',
-    keyPoints: ['A quiet pet clipper makes at-home grooming stress-free','Gentle shampoos with natural ingredients protect sensitive skin','Regular brushing prevents matting and reduces shedding','Use pet-specific nail clippers—never human ones'],
-    content: `<p>Regular grooming isn't just about keeping your pet looking good—it's essential for their health. From preventing skin issues to catching lumps and bumps early, a good grooming routine benefits both you and your pet.</p>
-<h2>1. A Quiet Clipper for Stress-Free Haircuts</h2><p>Loud clippers can terrify pets. Look for models specifically designed to be low-noise. Cordless options give you more flexibility and are safer for wiggly pets.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Quiet Pet Grooming Clippers</strong><p style="margin:0.5rem 0;">Low-noise, cordless clippers suitable for long-haired dogs. Perfect for home grooming.</p><a href="https://www.amazon.com/s?k=quiet+pet+grooming+clippers+cordless&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. Gentle Shampoo for Sensitive Skin</h2><p>Not all pet shampoos are created equal. Look for formulas with oatmeal, aloe vera, and argan oil. Avoid products with alcohol, parabens, or strong artificial fragrances.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Gentle Dog Shampoo for Sensitive Skin</strong><p style="margin:0.5rem 0;">Oatmeal and aloe vera formulas. No alcohol, no parabens.</p><a href="https://www.amazon.com/s?k=oatmeal+dog+shampoo+sensitive+skin+aloe&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Don't Forget the Basics</h2><p>A good slicker brush, nail clippers designed for pets, and styptic powder (in case you trim a nail too short) are essentials every pet owner should have in their grooming kit.</p>`,
-    cardDesc: 'Quiet clippers, gentle shampoos, and essentials for home care.', thumbnail: '✂️' },
-  { id: 'senior-dog-food', title: 'How to Choose the Best Dog Food for Your Senior Dog', date: 'May 23, 2026', badge: 'Dog Food', badgeClass: 'badge-gear', category: 'supplies',
-    keyPoints: ['Switch to senior-specific formulas around age 7','Look for glucosamine for joint support','Avoid fillers like corn, soy, and artificial additives','Consider wet food if your dog has dental issues'],
-    content: `<p>Your senior dog's nutritional needs change with age. The food that kept them healthy as an active adult may no longer be ideal. Here's how to pick the right senior dog food.</p>
-<h2>1. Senior-Specific Formulas Exist for a Reason</h2><p>Around age 7 (depending on breed), most dogs benefit from switching to a senior formula. These foods typically have fewer calories to match a slower metabolism, higher fiber for digestive health, and added joint-supporting nutrients.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Senior Dry Dog Food with Glucosamine</strong><p style="margin:0.5rem 0;">Browse senior-specific formulas with real meat and joint-supporting glucosamine.</p><a href="https://www.amazon.com/s?k=senior+dry+dog+food+glucosamine+chicken&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. What to Avoid</h2><p>Steer clear of foods where corn, soy, or wheat appear high on the ingredient list. These are fillers with little nutritional value. Also avoid artificial colors, flavors, and preservatives.</p>
-<h2>3. Dry vs. Wet Food</h2><p>If your senior dog has dental problems, wet food can be easier to eat. You can also soften dry kibble with warm water. Some owners mix both for the best of both worlds.</p>`,
-    cardDesc: 'Senior-specific formulas with glucosamine, no fillers.', thumbnail: '🍲' },
-  { id: 'dog-ailments', title: 'Common Small Ailments in Dogs and How to Prevent Them Naturally', date: 'May 23, 2026', badge: 'Prevention', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Spot early signs of ear infections, hot spots, and digestive issues','Use natural, vet-approved home care techniques','Keep a pet first-aid kit at home','Know when to seek professional veterinary help'],
-    content: `<p>Dogs can't tell us when something feels off, but their bodies often give us clues. Learning to spot early signs of common ailments can save your dog discomfort—and save you expensive vet bills.</p>
-<h2>1. Ear Infections</h2><p>Signs include head shaking, scratching at ears, redness, or a bad smell. Prevent them by keeping ears dry after baths and swimming. Clean ears gently with a vet-approved solution—never use cotton swabs deep in the ear canal.</p>
-<h2>2. Hot Spots</h2><p>These red, inflamed patches of skin can appear suddenly and spread fast. They're often triggered by allergies, moisture trapped in the coat, or excessive licking. Keep the area clean and dry, and prevent your dog from licking it.</p>
-<div class="product-card"><span class="pick-label">🛒 Helpful Product</span><strong>Gentle Dog Shampoo for Sensitive Skin</strong><p style="margin:0.5rem 0;">Oatmeal-based shampoos that soothe irritated skin. Perfect for dogs prone to hot spots.</p><a href="https://www.amazon.com/s?k=oatmeal+dog+shampoo+sensitive+skin+aloe&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Digestive Upsets</h2><p>Occasional vomiting or diarrhea can happen from eating something they shouldn't. For mild cases, a bland diet of boiled chicken and rice for 24 hours can help. Probiotic supplements may also support gut health. If symptoms persist beyond 24 hours, see your vet.</p>
-<h2>4. Dental Problems</h2><p>Bad breath isn't just unpleasant—it can signal dental disease. Regular brushing with dog-specific toothpaste and dental chews can help keep teeth clean. Annual dental check-ups are recommended for senior dogs.</p>`,
-    cardDesc: 'Spot early signs and use natural vet-approved home care.', thumbnail: '🩺' },
-  { id: 'summer-dog-cooling', title: 'How to Keep Your Dog Cool in Summer: Heat Safety Tips', date: 'May 29, 2026', badge: 'Summer Care', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Never leave your dog in a parked car—even for a minute','Provide constant access to fresh, cool water','Use cooling mats and vests for outdoor walks','Know the signs of heatstroke: excessive panting, drooling, lethargy'],
-    content: `<p>Summer is a wonderful time for outdoor adventures with your dog, but rising temperatures can pose serious risks. Dogs can overheat quickly, and heatstroke can be fatal if not caught early. Here's how to keep your pup safe and cool all summer long.</p>
-<h2>1. Water, Water, and More Water</h2><p>Hydration is your dog's first line of defense against the heat. Always carry a portable water bottle and bowl when you're out. At home, consider a pet water fountain—many dogs drink more from running water.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Portable Dog Water Bottles</strong><p style="margin:0.5rem 0;">Leak-proof bottles with attached bowls—perfect for walks and road trips.</p><a href="https://www.amazon.com/s?k=portable+dog+water+bottle+bowl&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. Cooling Gear That Actually Works</h2><p>Cooling vests and mats use evaporative cooling or gel technology to lower your dog's body temperature. For hot pavement, dog booties protect sensitive paw pads from burns.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Dog Cooling Mats & Vests</strong><p style="margin:0.5rem 0;">Pressure-activated cooling gel mats—no refrigeration needed. Great for home and travel.</p><a href="https://www.amazon.com/s?k=dog+cooling+mat+gel&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Recognize the Warning Signs</h2><p>Excessive panting, thick drool, bright red gums, vomiting, or sudden lethargy are all signs of heatstroke. Move your dog to shade immediately, offer small amounts of cool (not ice-cold) water, and contact your vet.</p>
-<h2>4. Adjust Your Walk Schedule</h2><p>Walk early in the morning or late in the evening when pavement is cooler. Place the back of your hand on the ground—if it's too hot for you, it's too hot for your dog's paws.</p>`,
-    cardDesc: 'Heat safety tips, cooling gear, and how to spot heatstroke.', thumbnail: '☀️' },
-  { id: 'cat-scratching-posts', title: 'Best Cat Scratching Posts to Save Your Furniture', date: 'May 29, 2026', badge: 'Cat Essentials', badgeClass: 'badge-gear', category: 'supplies',
-    keyPoints: ['Scratching is a natural, healthy behavior—never punish your cat for it','Choose tall, sturdy posts that allow full-body stretching','Sisal rope posts last longer and satisfy scratching instincts better than carpet','Place posts near sleeping areas and in high-traffic rooms'],
-    content: `<p>Every cat owner knows the frustration of finding new claw marks on the sofa. But scratching isn't bad behavior—it's essential for your cat's physical and mental health. The key is providing the right scratching posts in the right places.</p>
-<h2>1. Why Cats Scratch</h2><p>Scratching helps cats shed old claw sheaths, stretch their muscles, and mark territory through scent glands in their paws. A good scratching post satisfies all these needs, keeping your furniture safe.</p>
-<h2>2. What Makes a Great Scratching Post</h2><p>The best posts are tall enough for your cat to fully stretch (at least 30 inches), sturdy enough that they won't tip over, and wrapped in sisal rope—the material cats prefer most. Avoid carpet-covered posts; they can confuse cats into thinking your carpet is also fair game.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Tall Sisal Scratching Posts</strong><p style="margin:0.5rem 0;">Sturdy, 32+ inch posts wrapped in sisal rope. Stable base prevents tipping.</p><a href="https://www.amazon.com/s?k=tall+sisal+cat+scratching+post&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Placement Is Everything</h2><p>Put scratching posts where your cat already spends time—near their bed, by windows, and in the living room. If they're scratching the arm of your sofa, place a post directly in front of that spot, then gradually move it away once they've switched.</p>
-<div class="product-card"><span class="pick-label">🛒 Also Great</span><strong>Cat Scratching Pads & Cardboard Scratchers</strong><p style="margin:0.5rem 0;">Affordable, replaceable cardboard scratchers that cats love. Great as secondary options.</p><a href="https://www.amazon.com/s?k=cat+scratching+pad+cardboard&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>4. Encourage, Don't Discourage</h2><p>Use catnip or treats to attract your cat to the new post. Praise them when they use it. Never force their paws onto it or punish them for scratching elsewhere—positive reinforcement works best.</p>`,
-    cardDesc: 'Why cats scratch, what to look for in a post, and how to place them for success.', thumbnail: '🐈' },
-  { id: 'dog-teeth-brushing', title: 'How to Brush Your Dog\'s Teeth: A Step-by-Step Guide', date: 'May 29, 2026', badge: 'Dental Care', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Use dog-specific toothpaste—never human toothpaste','Start slow and make it a positive experience','Aim for daily brushing, but even 2-3 times per week helps','Dental chews and toys are supplements, not replacements'],
-    content: `<p>Did you know that over 80% of dogs show signs of dental disease by age three? Poor oral hygiene doesn't just cause bad breath—it can lead to serious health problems like heart and kidney disease. The good news: brushing your dog's teeth is easier than you think when you follow the right steps.</p>
-<h2>1. Gather the Right Supplies</h2><p>You need two essentials: a dog-specific toothbrush and dog toothpaste. Never use human toothpaste—it contains xylitol and fluoride, which are toxic to dogs. Dog toothpaste comes in flavors like poultry and peanut butter, making the experience much more enjoyable for your pup.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Dog Toothbrush & Toothpaste Kits</strong><p style="margin:0.5rem 0;">Complete kits with enzymatic toothpaste in dog-friendly flavors plus dual-head brushes.</p><a href="https://www.amazon.com/s?k=dog+toothbrush+toothpaste+kit+enzymatic&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. Start Slow and Build Trust</h2><p>Week 1: Let your dog lick toothpaste off your finger. Week 2: Gently rub your finger along their gums. Week 3: Introduce the toothbrush with toothpaste on it, letting them lick and chew. Week 4: Begin gentle brushing in circular motions along the gumline. Always reward with praise and treats after each session.</p>
-<h2>3. The Brushing Technique</h2><p>Focus on the outer surfaces of the teeth where plaque builds up most. Hold the brush at a 45-degree angle to the gumline. Use gentle circular motions. Aim for 30 seconds per side. Don't worry about the inside surfaces—your dog's tongue naturally cleans those.</p>
-<div class="product-card"><span class="pick-label">🛒 Also Great</span><strong>Dental Chews for Dogs</strong><p style="margin:0.5rem 0;">Veterinary-approved dental chews that help reduce plaque and tartar between brushings.</p><a href="https://www.amazon.com/s?k=dental+chews+dogs+veterinary+plaque&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>4. How Often Should You Brush?</h2><p>Daily brushing is ideal, but even 2-3 times per week significantly reduces plaque and tartar. Pair brushing with dental chews, water additives, and annual professional cleanings for the best results.</p>`,
-    cardDesc: 'Step-by-step guide with right supplies and positive techniques.', thumbnail: '🦷' },
-  { id: 'best-joint-supplements-senior-dogs', title: 'Best Joint Supplements for Senior Dogs (Vet-Approved 2026)', date: 'June 2, 2026', badge: 'Joint Health', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Glucosamine and chondroitin are the most proven ingredients','Look for added MSM and omega-3 for extra anti-inflammatory effects','Soft chews are easier for older dogs to take than pills','Always consult your vet before starting a new supplement'],
-    content: `<p>If your senior dog struggles to get up, limps after walks, or hesitates on stairs, joint supplements can make a real difference. But with so many options, which one actually works? I've researched the top vet-recommended brands and tested them with my own 12-year-old Labrador, Max. Here are the 5 best joint supplements for senior dogs in 2026.</p>
-<h2>1. What to Look For in a Joint Supplement</h2>
-<p>Skip the fancy marketing. You need three key ingredients: <strong>glucosamine</strong> (repairs cartilage), <strong>chondroitin</strong> (prevents further breakdown), and <strong>MSM</strong> (reduces inflammation). Omega-3 fatty acids are a great bonus. Avoid products with artificial fillers or corn syrup.</p>
-<h2>2. Top 5 Supplements Compared</h2>
-<div class="product-card"><span class="pick-label">🥇 #1 Pick</span><strong>VetIQ Senior Joint Support Soft Chews</strong><p style="margin:0.5rem 0;">Contains glucosamine, chondroitin, MSM, and omega-3. Soft chew form – dogs love the taste. Most affordable option that actually works.</p><a href="https://www.amazon.com/s?k=VetIQ+senior+dog+joint+soft+chews&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<div class="product-card"><span class="pick-label">🥈 Best Premium</span><strong>Nutramax Dasuquin with MSM</strong><p style="margin:0.5rem 0;">Veterinarian-recommended brand. Uses a patented combination of glucosamine, chondroitin, and ASU. More expensive, but proven in clinical studies.</p><a href="https://www.amazon.com/s?k=dasuquin+with+msm+for+dogs&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<div class="product-card"><span class="pick-label">🥉 Best Liquid</span><strong>Liquid Health K9 Glucosamine</strong><p style="margin:0.5rem 0;">Ideal for dogs that refuse pills or chews. Just squirt into food. Fast absorption, contains glucosamine, chondroitin, and MSM.</p><a href="https://www.amazon.com/s?k=liquid+health+k9+glucosamine&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<h2>3. How to Use Joint Supplements Effectively</h2>
-<p>Give the supplement daily – consistency is key. Most dogs show improvement within 4-6 weeks. Pair with a healthy weight and low-impact exercise like swimming or leash walks on soft surfaces. Never give human pain relievers (like ibuprofen) to dogs – they are toxic.</p>
-<h2>4. When to See the Vet</h2>
-<p>If your dog doesn't improve after two months of quality supplements, or if they show severe pain (crying, unable to stand), see your veterinarian. They may prescribe prescription anti-inflammatories or recommend physical therapy.</p>`,
-    cardDesc: 'Vet-approved ingredients and top brands that actually help.', thumbnail: '💊' },
-  { id: 'top-quiet-dog-nail-grinders', title: 'Top 5 Quiet Dog Nail Grinders for Anxious Pets (2026 Guide)', date: 'June 2, 2026', badge: 'Grooming', badgeClass: 'badge-gear', category: 'supplies',
-    keyPoints: ['Quiet grinders reduce noise anxiety – look for models below 60dB','Cordless is safer and easier for wiggly dogs','Diamond bit wheels last longer than sandpaper bands','Start with short sessions and reward heavily'],
-    content: `<p>Does your dog panic at the sound of nail clippers? Many dogs are terrified of the "snip" and the noise of traditional grinders. I've tested five low-noise models on my own nervous rescue dog, Bella. Here are the best quiet dog nail grinders that actually work without causing stress.</p>
-<h2>1. Why a Quiet Grinder Matters</h2>
-<p>Standard rotary tools (like Dremel) produce 70-90dB of noise – that's as loud as a vacuum cleaner. For anxious dogs, that sound triggers fear and escape attempts. Quiet models operate at <60dB (similar to normal conversation), making grooming much easier.</p>
-<h2>2. Top 5 Quietest Nail Grinders</h2>
-<div class="product-card"><span class="pick-label">🔇 #1 Quietest</span><strong>Casfuy Quiet Dog Nail Grinder</strong><p style="margin:0.5rem 0;">Operates at just 55dB – even skittish dogs tolerate it. Comes with a diamond bit wheel (lasts longer than sandpaper). Cordless, rechargable, and has a safety guard to prevent over-grinding.</p><a href="https://www.amazon.com/s?k=Casfuy+quiet+dog+nail+grinder&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<div class="product-card"><span class="pick-label">💰 Best Budget</span><strong>Resco Original Deluxe Pet Nail Trimmer</strong><p style="margin:0.5rem 0;">Not electric – it's a manual grinder with a diamond-coated wheel. Zero noise. Requires a bit more effort but works great for very anxious dogs.</p><a href="https://www.amazon.com/s?k=Resco+deluxe+dog+nail+grinder&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<div class="product-card"><span class="pick-label">⚡ Best Cordless</span><strong>Dremel 7350-Pet Dog Nail Grinder</strong><p style="margin:0.5rem 0;">Dremel is the trusted brand, and the 7350 model is quieter than older versions. Two-speed adjustable, cordless, and comes with a sanding drum. Good for larger breeds.</p><a href="https://www.amazon.com/s?k=dremel+7350+pet+dog+nail+grinder&tag=petartlab-20" target="_blank">Check price on Amazon →</a></div>
-<h2>3. How to Train Your Dog to Accept Grinding</h2>
-<p>First week: just turn on the grinder nearby while giving treats. Second week: touch the grinder (off) to their nails and reward. Third week: use the grinder (on) for one second per nail, then reward. Go slow, never force. Within a month, most dogs will tolerate it.</p>
-<h2>4. Tips for Safe Grinding</h2>
-<p>Use a high-speed setting for large dogs (faster but less vibration). For small dogs, use low speed. Grind in short bursts (2-3 seconds) and check the nail tip frequently – you'll see a darker oval when you're close to the quick. If you hit the quick, apply styptic powder immediately.</p>`,
-    cardDesc: 'Low-noise models that won\'t scare your dog.', thumbnail: '🔇' },
-  { id: 'cat-hairball-remedies', title: 'Best Cat Hairball Control Food and Remedies That Actually Work', date: 'May 29, 2026', badge: 'Digestive Health', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Hairballs are normal in moderation, but frequent hacking needs attention','Specialized hairball control foods contain fiber blends that help pass fur naturally','Regular brushing removes loose fur before your cat swallows it','Natural remedies like petroleum-free gels can lubricate the digestive tract'],
-    content: `<p>If you've ever stepped on a slimy hairball in the middle of the night, you know the struggle is real. While occasional hairballs are normal for cats, frequent hacking, gagging, or vomiting could mean your cat needs extra digestive support. Here are the most effective solutions that actually work.</p>
-<h2>1. Hairball Control Cat Food</h2><p>The right diet makes a huge difference. Look for formulas with specific fiber blends—beet pulp, cellulose, and psyllium husk help move hair through the digestive tract naturally. Some foods also contain omega-3 and omega-6 fatty acids for skin and coat health, which can reduce shedding at the source.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Hairball Control Dry Cat Food</strong><p style="margin:0.5rem 0;">Specialized formulas with natural fiber blends that help reduce hairballs safely and effectively.</p><a href="https://www.amazon.com/s?k=hairball+control+cat+food+dry+fiber&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>2. Natural Hairball Remedies</h2><p>Petroleum-free hairball gels contain lubricants like mineral oil or glycerin that help hair pass through the digestive system. A small amount on your cat's paw once or twice a week during shedding season can significantly reduce hairball incidents.</p>
-<div class="product-card"><span class="pick-label">🛒 Our Pick</span><strong>Cat Hairball Relief Gels</strong><p style="margin:0.5rem 0;">Petroleum-free, flavored gels that cats accept readily. Perfect for use during heavy shedding seasons.</p><a href="https://www.amazon.com/s?k=cat+hairball+gel+relief+petroleum+free&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Regular Brushing: The Best Prevention</h2><p>The most effective way to reduce hairballs is to remove loose fur before your cat swallows it. Brush long-haired cats daily, short-haired cats 2-3 times per week. During spring and fall shedding seasons, increase frequency. A good slicker brush or deshedding tool makes a noticeable difference.</p>
-<h2>4. When to See the Vet</h2><p>If your cat is gagging frequently without producing a hairball, vomiting more than once a month, losing appetite, or showing signs of constipation, schedule a vet visit. These could indicate a blockage or underlying health issue that needs professional attention.</p>`,
-    cardDesc: 'Effective remedies, food, and brushing routines to reduce hairballs.', thumbnail: '🧶' },
-  { id: 'pet-insurance', title: 'How to Choose the Best Pet Insurance for Your Pet', date: 'May 30, 2026', badge: 'Pet Insurance', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Understand the three main types: accident-only, accident & illness, and wellness plans','Look for policies that cover hereditary conditions and chronic illnesses','Compare deductibles, reimbursement rates, and annual limits','Check if the insurance has a waiting period and any exclusions'],
-    content: `<p>Pet insurance can save you thousands in unexpected veterinary bills, but not all policies are created equal. With so many providers and plans, it's hard to know what's best for your pet. This guide breaks down what you need to look for.</p>
-<h2>1. Types of Pet Insurance Plans</h2>
-<p>Most providers offer three levels of coverage:</p>
-<ul>
-<li><strong>Accident-only</strong>: Covers injuries like broken bones, cuts, or swallowing objects. Cheapest but limited.</li>
-<li><strong>Accident & Illness</strong>: The most common plan. Covers accidents plus infections, cancer, digestive issues, etc.</li>
-<li><strong>Wellness/Preventive</strong>: Optional add-on for routine care like vaccinations, dental cleanings, and flea prevention.</li>
-</ul>
-<div class="product-card"><span class="pick-label">🛒 Compare Providers</span><strong>Top pet insurance companies</strong><p style="margin:0.5rem 0;">Trupanion, Healthy Paws, Embrace, and Lemonade are popular choices. Always read the fine print.</p><a href="https://www.amazon.com/s?k=pet+insurance+guide&tag=petartlab-20" target="_blank">Compare on Amazon →</a></div>
-<h2>2. Key Terms to Understand</h2>
-<p><strong>Deductible</strong>: The amount you pay before insurance kicks in. Higher deductibles = lower monthly premiums. <strong>Reimbursement rate</strong>: Typically 70%, 80%, or 90% of covered costs. <strong>Annual limit</strong>: Maximum payout per year ($5k, $10k, unlimited). Choose based on your risk tolerance.</p>
-<h2>3. What to Watch Out For</h2>
-<p>Avoid policies that exclude hereditary conditions (common in purebreds), have long waiting periods (>30 days for illnesses), or require you to use specific vets. Most good insurances let you visit any licensed vet.</p>
-<div class="product-card"><span class="pick-label">🛒 Recommended Reading</span><strong>Pet Insurance Comparison Chart</strong><p style="margin:0.5rem 0;">A detailed side-by-side of the top 10 providers.</p><a href="https://www.amazon.com/s?k=pet+insurance+comparison&tag=petartlab-20" target="_blank">View on Amazon →</a></div>
-<h2>4. When to Buy Pet Insurance</h2>
-<p>Insure your pet when they're young and healthy – pre-existing conditions are almost never covered. Even puppies and kittens can get insured. For older pets, compare policies that have shorter waiting periods or no upper age limits.</p>`,
-    cardDesc: 'Coverage types, deductibles, and what to look for in a policy.', thumbnail: '📄' },
-  { id: 'dog-basic-training', title: 'Basic Dog Training: A Step-by-Step Guide for Beginners', date: 'May 30, 2026', badge: 'Training', badgeClass: 'badge-health', category: 'health',
-    keyPoints: ['Use positive reinforcement – treats and praise work best','Train in short, 5-10 minute sessions to keep your dog engaged','Teach one command at a time, starting with "sit"','Be consistent with hand signals and verbal cues'],
-    content: `<p>Training your dog isn't just about tricks – it builds trust, prevents behavior problems, and keeps your dog safe. This beginner's guide covers the essential commands every dog should know.</p>
-<h2>1. The Golden Rule: Positive Reinforcement</h2>
-<p>Never punish your dog for not understanding. Instead, reward the behavior you want with small treats, enthusiastic praise, or a favorite toy. Dogs repeat actions that bring them rewards.</p>
-<h2>2. Essential Commands to Teach</h2>
-<ul>
-<li><strong>Sit</strong>: Hold a treat above your dog's nose and move it back over their head. As their nose goes up, their bottom goes down. Say "sit" the moment they sit, then reward.</li>
-<li><strong>Stay</strong>: Ask your dog to sit, then open your palm in front of their face and say "stay". Take one step back, then immediately return and reward. Gradually increase distance and duration.</li>
-<li><strong>Come</strong>: Use a long leash in a safe area. Say "come" in an excited voice and gently reel them in. Always reward heavily when they reach you.</li>
-<li><strong>Down</strong>: From a sit, lure your dog's nose down to the ground with a treat, sliding it forward until they lie down. Say "down" as they lower.</li>
-</ul>
-<div class="product-card"><span class="pick-label">🛒 Training Tools</span><strong>Recommended Training Treats & Clickers</strong><p style="margin:0.5rem 0;">Small, low-calorie treats and a clicker for marker training.</p><a href="https://www.amazon.com/s?k=dog+training+treats+clicker&tag=petartlab-20" target="_blank">Shop on Amazon →</a></div>
-<h2>3. Common Mistakes to Avoid</h2>
-<p>Don't repeat commands over and over – if your dog doesn't respond, go back to training step. Avoid using their name in anger. Never call your dog to come for something unpleasant (like a bath). Keep sessions positive and short (5-10 minutes).</p>
-<h2>4. When to Seek Professional Help</h2>
-<p>If your dog shows fear, aggression, or extreme anxiety, hire a certified positive-reinforcement trainer. Many offer group classes or virtual sessions. Early intervention prevents bigger problems later.</p>
-<div class="product-card"><span class="pick-label">🛒 Further Reading</span><strong>Best Dog Training Books</strong><p style="margin:0.5rem 0;">Top-rated guides by professional trainers.</p><a href="https://www.amazon.com/s?k=dog+training+books+positive+reinforcement&tag=petartlab-20" target="_blank">View on Amazon →</a></div>`,
-    cardDesc: 'Sit, stay, come – positive techniques that really work.', thumbnail: '🐕' }
-];
-// 添加新文章时只需要在 ARTICLES_DATA 数组末尾添加对象即可，无需修改其他代码
+async function loadArticles() {
+  if (articlesCache) return articlesCache;
+  const res = await fetch('/articles.json');
+  articlesCache = await res.json();
+  return articlesCache;
+}
 
-function renderHome() {
+async function renderHome() {
   const m = document.createElement('main'); m.className = 'container'; m.style.padding = '3rem 1rem';
-  // 生成主页卡片列表
+  const articles = await loadArticles();
   let cardsHtml = '';
-  ARTICLES_DATA.forEach(article => {
+  articles.forEach(article => {
     cardsHtml += `
-      <a class="article-card" onclick="navigateTo('article-${article.id}')">
+      <a class="article-card" href="/${article.file}" onclick="navigateToArticle(event, '${article.file}')">
         <span class="badge ${article.badgeClass}">${article.badge}</span>
         <h3>${article.title}</h3>
         <p>${article.cardDesc}</p>
@@ -738,35 +587,35 @@ function renderHome() {
   return m;
 }
 
-function renderArticle(articleId) {
-  const article = ARTICLES_DATA.find(a => a.id === articleId);
-  if (!article) { navigateTo('guides'); return document.createElement('div'); }
+function navigateToArticle(event, file) {
+  event.preventDefault();
+  state.currentPage = 'article';
+  state.currentArticleFile = file;
+  render();
+}
+
+async function renderArticlePage() {
+  if (!state.currentArticleFile) { navigateTo('home'); return null; }
+  const res = await fetch(`/${state.currentArticleFile}`);
+  const html = await res.text();
   const main = document.createElement('main'); main.className = 'container-narrow'; main.style.padding = '3rem 1rem';
-  main.innerHTML = `
-    <div class="back-link" onclick="navigateTo('guides')">← Back to Guides</div>
-    <span class="badge ${article.badgeClass}" style="margin-bottom:0.75rem;">${article.badge}</span>
-    <h1 style="font-size:2.2rem;font-weight:800;line-height:1.3;margin-bottom:0.5rem;">${article.title}</h1>
-    <p class="article-meta">By PetArt Lab · ${article.date}</p>
-    <div class="key-points"><h4>Key Takeaways</h4><ul>${article.keyPoints.map(p=>`<li>${p}</li>`).join('')}</ul></div>
-    <div id="container-985ac62541d3a3b4394cfdd9c98ad260" style="margin:1.5rem 0;"></div>
-    <div class="article-body">${article.content}</div>
-    <p class="affiliate-disclaimer">As an Amazon Associate, I earn from qualifying purchases.</p>
-  `;
+  main.innerHTML = html;
   return main;
 }
 
-function renderGuides() {
+async function renderGuides() {
   const main = document.createElement('main'); main.className = 'container'; main.style.padding = '3rem 1rem';
-  const healthCards = ARTICLES_DATA.filter(a => a.category === 'health').map(a => `
-    <a class="article-card" onclick="navigateTo('article-${a.id}')">
+  const articles = await loadArticles();
+  const healthCards = articles.filter(a => a.category === 'health').map(a => `
+    <a class="article-card" href="/${a.file}" onclick="navigateToArticle(event, '${a.file}')">
       <span class="badge ${a.badgeClass}">${a.badge}</span>
       <h3>${a.title}</h3>
       <p>${a.cardDesc}</p>
       <span class="read-more">Read More →</span>
     </a>
   `).join('');
-  const suppliesCards = ARTICLES_DATA.filter(a => a.category === 'supplies').map(a => `
-    <a class="article-card" onclick="navigateTo('article-${a.id}')">
+  const suppliesCards = articles.filter(a => a.category === 'supplies').map(a => `
+    <a class="article-card" href="/${a.file}" onclick="navigateToArticle(event, '${a.file}')">
       <span class="badge ${a.badgeClass}">${a.badge}</span>
       <h3>${a.title}</h3>
       <p>${a.cardDesc}</p>
@@ -785,11 +634,12 @@ function renderGuides() {
   `;
   return main;
 }
+
 function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
   <div class="grid-4 mb-8">${Object.entries(PLANS).map(([k,p])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''} ${k==='pro'?'popular':''}">${k==='pro'?'<div class="popular-badge">Most Popular</div>':''}<h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${p.name}</h3><div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div><ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">${(k==='free'?['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history']:k==='pro'?['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history']:k==='max'?['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history']:['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${k==='pro'?'btn-primary':'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div>
-  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
+  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><tr><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
     <tr><th>Monthly Credits</th><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
     <tr><th>Resolution</th><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
     <tr><th>Watermark</th><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
@@ -815,26 +665,31 @@ function handleFileSelect(e){ const f=e.target.files[0]; if(!f)return; const r=n
 function toggleStyle(s){ if(!canSelectStyle(s)){state.showUpgradeModal=true;render();return;} if(state.selectedStyles.includes(s)){if(state.selectedStyles.length>1)state.selectedStyles=state.selectedStyles.filter(id=>id!==s);}else{if(state.selectedStyles.length<getMaxStylesCount())state.selectedStyles.push(s);else alert(`Your plan allows up to ${getMaxStylesCount()} style(s).`);} render(); }
 function setBatch(c){ if(!state.authUser)return; if(state.authUser.isTestAccount){state.batchCount=c;render();return;} const p=state.authUser.plan; if(c===5&&(p==='free'||p==='pro')){state.showUpgradeModal=true;render();return;} if(c===10&&p!=='ultra'){state.showUpgradeModal=true;render();return;} state.batchCount=c;render(); }
 
-function render() {
+async function render() {
   const root=document.getElementById('root'); root.innerHTML='';
   const c=document.createElement('div'); c.style.minHeight='100vh';
   c.appendChild(renderHeader());
   let content;
   const page=state.currentPage;
-  if(page.startsWith('article-')) {
-    const articleId=page.replace('article-','');
-    content=renderArticle(articleId);
+  if(page === 'article') {
+    content = await renderArticlePage();
+    if (!content) { navigateTo('home'); return; }
+  } else if(page === 'home') {
+    content = await renderHome();
+  } else if(page === 'guides') {
+    content = await renderGuides();
+  } else if(page === 'pricing') {
+    content = renderPricing();
+  } else if(page === 'terms') {
+    content = renderTerms();
+  } else if(page === 'privacy') {
+    content = renderPrivacy();
+  } else if(page === 'refund') {
+    content = renderRefund();
+  } else if(page === 'account') {
+    content = renderAccount();
   } else {
-    switch(page){
-      case 'home': content=renderHome(); break;
-      case 'guides': content=renderGuides(); break;
-      case 'pricing': content=renderPricing(); break;
-      case 'terms': content=renderTerms(); break;
-      case 'privacy': content=renderPrivacy(); break;
-      case 'refund': content=renderRefund(); break;
-      case 'account': content=renderAccount(); break;
-      default: content=renderHome();
-    }
+    content = await renderHome();
   }
   c.appendChild(content);
   const footer=document.createElement('footer'); footer.style.marginTop='3rem'; footer.style.padding='2rem 0'; footer.style.borderTop='1px solid var(--color-slate-200)';
@@ -850,12 +705,11 @@ function render() {
     o.onclick=function(e){if(e.target===this){state.showUpgradeModal=false;render();}}; c.appendChild(o);
   }
 
-  // Printful 定制弹窗（注意：按钮已禁用，但弹窗逻辑保留，以防后续恢复）
   if(state.showPrintfulModal){
     const o=document.createElement('div'); o.className='modal-overlay';
     o.innerHTML=`<div class="modal-content wide"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;"><h3>🖼️ Order Custom Framed Print</h3><button onclick="state.showPrintfulModal=false;state.selectedProduct=null;render();" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">×</button></div>
     <h4 style="margin-bottom:0.75rem;">Select Product</h4>
-    <div style="max-height:200px;overflow-y:auto;margin-bottom:1rem;">${state.printfulProducts.map(p=>`<div class="product-option ${state.selectedProduct&&state.selectedProduct.variant_id===p.variant_id?'active':''}" onclick="selectPrintfulProduct('${p.variant_id}')"><div style="font-weight:600;">${p.product_name}</div><div style="margin-left:auto;color:var(--color-amber-600);font-weight:600;">$${p.price}</div></div>`).join('')}${state.printfulProducts.length===0?'<p style="color:var(--color-slate-400);">Loading products...</p>':''}</div>
+    <div style="max-height:200px;overflow-y:auto;margin-bottom:1rem;">${state.printfulProducts.map(p=>`<div class="product-option ${state.selectedProduct&&state.selectedProduct.variant_id==p.variant_id?'active':''}" onclick="selectPrintfulProduct('${p.variant_id}')"><div style="font-weight:600;">${p.product_name}</div><div style="margin-left:auto;color:var(--color-amber-600);font-weight:600;">$${p.price}</div></div>`).join('')}${state.printfulProducts.length===0?'<p style="color:var(--color-slate-400);">Loading products...</p>':''}</div>
     <h4 style="margin-bottom:0.75rem;">Shipping Address</h4>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
       <input class="input-field" type="text" placeholder="Full Name" value="${state.shippingAddress.name}" oninput="state.shippingAddress.name=this.value">
@@ -882,7 +736,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   refreshFreeUserCredits();  
-  // 强制同步：页面加载时从后端拉取真实额度
   if (state.authUser) {
     fetch(`${API_BASE_URL}/user-status`, {
       method: 'POST',
