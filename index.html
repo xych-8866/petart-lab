@@ -673,12 +673,22 @@ function navigateToArticle(event, file) {
 async function renderArticlePage() {
   if (!state.currentArticleFile) { navigateTo('home'); return null; }
   const res = await fetch(`/${state.currentArticleFile}`);
-  const html = await res.text();
-  const main = document.createElement('main'); main.className = 'container-narrow'; main.style.padding = '3rem 1rem';
+  let html = await res.text();
+  
+  // 在 </body> 之前插入右下角的返回链接
+  const backLink = `
+    <div style="text-align:right; margin-top:2rem; margin-bottom:1rem;">
+      <a href="/" style="display:inline-flex; align-items:center; gap:0.3rem; font-size:0.9rem; color:#b45309; text-decoration:none; font-weight:500;">← Back to Home</a>
+    </div>
+  `;
+  html = html.replace('</body>', backLink + '</body>');
+  
+  const main = document.createElement('main');
+  main.className = 'container-narrow';
+  main.style.padding = '3rem 1rem';
   main.innerHTML = html;
   return main;
 }
-
 async function renderGuides() {
   const main = document.createElement('main'); main.className = 'container'; main.style.padding = '3rem 1rem';
   const articles = await loadArticles();
