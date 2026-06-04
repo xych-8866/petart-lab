@@ -1,0 +1,145 @@
+[
+  {
+    "id": "senior-dog-joints",
+    "file": "article-senior-dog-joints.html",
+    "title": "Effective Ways to Keep Your Senior Dog's Joints Healthy",
+    "date": "May 23, 2026",
+    "badge": "Joint Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Weight tips, supplements, and beds that make a real difference.",
+    "thumbnail": "🐾"
+  },
+  {
+    "id": "cat-diet-tips",
+    "file": "article-cat-diet-tips.html",
+    "title": "What to Feed Your Cat: Daily Diet Tips for a Healthy Feline",
+    "date": "May 23, 2026",
+    "badge": "Diet",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "High-protein food, the safest bowls, and what never to feed.",
+    "thumbnail": "🐱"
+  },
+  {
+    "id": "grooming-supplies",
+    "file": "article-grooming-supplies.html",
+    "title": "Must-Have Pet Grooming Supplies for Every Pet Owner",
+    "date": "May 23, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Quiet clippers, gentle shampoos, and essentials for home care.",
+    "thumbnail": "✂️"
+  },
+  {
+    "id": "senior-dog-food",
+    "file": "article-senior-dog-food.html",
+    "title": "How to Choose the Best Dog Food for Your Senior Dog",
+    "date": "May 23, 2026",
+    "badge": "Dog Food",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Senior-specific formulas with glucosamine, no fillers.",
+    "thumbnail": "🍲"
+  },
+  {
+    "id": "dog-ailments",
+    "file": "article-dog-ailments.html",
+    "title": "Common Small Ailments in Dogs and How to Prevent Them Naturally",
+    "date": "May 23, 2026",
+    "badge": "Prevention",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Spot early signs and use natural vet-approved home care.",
+    "thumbnail": "🩺"
+  },
+  {
+    "id": "summer-dog-cooling",
+    "file": "article-summer-dog-cooling.html",
+    "title": "How to Keep Your Dog Cool in Summer: Heat Safety Tips",
+    "date": "May 29, 2026",
+    "badge": "Summer Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Heat safety tips, cooling gear, and how to spot heatstroke.",
+    "thumbnail": "☀️"
+  },
+  {
+    "id": "cat-scratching-posts",
+    "file": "article-cat-scratching-posts.html",
+    "title": "Best Cat Scratching Posts to Save Your Furniture",
+    "date": "May 29, 2026",
+    "badge": "Cat Essentials",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Why cats scratch, what to look for in a post, and how to place them for success.",
+    "thumbnail": "🐈"
+  },
+  {
+    "id": "dog-teeth-brushing",
+    "file": "article-dog-teeth-brushing.html",
+    "title": "How to Brush Your Dog's Teeth: A Step-by-Step Guide",
+    "date": "May 29, 2026",
+    "badge": "Dental Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Step-by-step guide with right supplies and positive techniques.",
+    "thumbnail": "🦷"
+  },
+  {
+    "id": "best-joint-supplements-senior-dogs",
+    "file": "article-best-joint-supplements-senior-dogs.html",
+    "title": "Best Joint Supplements for Senior Dogs (Vet-Approved 2026)",
+    "date": "June 2, 2026",
+    "badge": "Joint Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Vet-approved ingredients and top brands that actually help.",
+    "thumbnail": "💊"
+  },
+  {
+    "id": "top-quiet-dog-nail-grinders",
+    "file": "article-top-quiet-dog-nail-grinders.html",
+    "title": "Top 5 Quiet Dog Nail Grinders for Anxious Pets (2026 Guide)",
+    "date": "June 2, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Low-noise models that won't scare your dog.",
+    "thumbnail": "🔇"
+  },
+  {
+    "id": "cat-hairball-remedies",
+    "file": "article-cat-hairball-remedies.html",
+    "title": "Best Cat Hairball Control Food and Remedies That Actually Work",
+    "date": "May 29, 2026",
+    "badge": "Digestive Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Effective remedies, food, and brushing routines to reduce hairballs.",
+    "thumbnail": "🧶"
+  },
+  {
+    "id": "pet-insurance",
+    "file": "article-pet-insurance.html",
+    "title": "How to Choose the Best Pet Insurance for Your Pet",
+    "date": "May 30, 2026",
+    "badge": "Pet Insurance",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Coverage types, deductibles, and what to look for in a policy.",
+    "thumbnail": "📄"
+  },
+  {
+    "id": "dog-basic-training",
+    "file": "article-dog-basic-training.html",
+    "title": "Basic Dog Training: A Step-by-Step Guide for Beginners",
+    "date": "May 30, 2026",
+    "badge": "Training",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Sit, stay, come – positive techniques that really work.",
+    "thumbnail": "🐕"
+  }
+]
