@@ -553,11 +553,20 @@ async function loadArticles() {
 }
 
 async function renderHome() {
-  const m = document.createElement('main'); m.className = 'container'; m.style.padding = '3rem 1rem';
+  const m = document.createElement('main');
+  m.className = 'container';
+  m.style.padding = '3rem 1rem';
+  
   const articles = await loadArticles();
-  let cardsHtml = '';
-  articles.forEach(article => {
-    cardsHtml += `
+  
+  // 按分类过滤
+  const healthArticles = articles.filter(a => a.category === 'health');
+  const suppliesArticles = articles.filter(a => a.category === 'supplies');
+  
+  // 生成健康类卡片 HTML
+  let healthCardsHtml = '';
+  healthArticles.forEach(article => {
+    healthCardsHtml += `
       <a class="article-card" href="/${article.file}" onclick="navigateToArticle(event, '${article.file}')">
         <span class="badge ${article.badgeClass}">${article.badge}</span>
         <h3>${article.title}</h3>
@@ -566,24 +575,91 @@ async function renderHome() {
       </a>
     `;
   });
+  
+  // 生成用品类卡片 HTML
+  let suppliesCardsHtml = '';
+  suppliesArticles.forEach(article => {
+    suppliesCardsHtml += `
+      <a class="article-card" href="/${article.file}" onclick="navigateToArticle(event, '${article.file}')">
+        <span class="badge ${article.badgeClass}">${article.badge}</span>
+        <h3>${article.title}</h3>
+        <p>${article.cardDesc}</p>
+        <span class="read-more">Read More →</span>
+      </a>
+    `;
+  });
+  
   m.innerHTML = `
-    <div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Turn Your Pet into Art</h2><p style="font-size:1.125rem;color:var(--color-slate-600);">Upload a photo and transform it into amazing portrait</p></div>
-    <div class="grid-2"><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload</h3>
-    <div id="upload-area" onclick="document.getElementById('file-input').click()" style="aspect-ratio:1;border:2px dashed ${state.selectedImage?'var(--color-amber-400)':'var(--color-slate-300)'};border-radius:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-      ${state.selectedImage?`<img src="${state.selectedImage}" style="width:100%;height:100%;object-fit:contain;padding:1rem;">`:`<div style="text-align:center;color:var(--color-slate-400);"><svg class="icon icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>Click to upload</p></div>`}
-    </div><input id="file-input" type="file" accept="image/*" onchange="handleFileSelect(event)" style="display:none;">
-    ${state.selectedImage?`<div class="mt-4"><label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Select Style</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-height:10rem;overflow-y:auto;padding:0.5rem;border:1px solid var(--color-slate-200);border-radius:0.75rem;">${ART_STYLES.map(s=>{const sel=state.selectedStyles.includes(s.id);const avail=canSelectStyle(s.id);return`<button onclick="toggleStyle('${s.id}')" ${!avail?'disabled':''} style="padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.875rem;text-align:left;cursor:pointer;border:none;${sel?'background:var(--color-amber-400);color:#fff;':!avail?'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;':'background:var(--color-slate-50);'}">${s.name}${!avail?' 🔒':''}</button>`;}).join('')}</div><p style="font-size:0.75rem;color:var(--color-slate-500);margin-top:0.5rem;">Selected: ${state.selectedStyles.length} / ${getMaxStylesCount()} styles</p></div>
-    <div class="mt-4"><label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Batch Count</label><div style="display:flex;gap:0.5rem;">${[1,5,10].map(c=>{const dis=(c===5&&['free','pro'].includes(state.authUser?.plan))||(c===10&&state.authUser?.plan!=='ultra');return`<button onclick="setBatch(${c})" ${dis?'disabled':''} style="flex:1;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;cursor:pointer;border:none;${state.batchCount===c?'background:var(--color-amber-400);color:#fff;':dis?'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;':'background:var(--color-slate-50);'}">${c} Image${c>1?'s':''}${dis?' 🔒':''}</button>`;}).join('')}</div></div>
-    <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;"><p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount*state.selectedStyles.length} images (Credits: ${state.authUser?.credits||0} available)</p></div>
-    <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating||!state.authUser||state.selectedStyles.length===0?'disabled':''}>${state.isGenerating?'<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...':state.authUser?`Generate ${state.batchCount*state.selectedStyles.length} Portrait(s)`:'Sign in to generate'}</button>`:''}
-    </div><div class="card"><h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result</h3>
-    <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">${state.isGenerating?`<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>`:state.generatedImages.length>0?`<div style="width:100%;padding:1rem;">${state.generatedImages.map((img,i)=>`<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;background:#e2e8f0;color:#94a3b8;border:none;cursor:not-allowed;" disabled>🖼️ Coming Soon – Custom Framed Print</button></div>`:'<p style="color:var(--color-slate-400);">Result will appear here</p>'}</div></div></div>
-    <div class="mt-8"><h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2><p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
-      <div class="grid-2" style="grid-template-columns:1fr 1fr 1fr;">
-        ${cardsHtml}
+    <div class="text-center mb-8">
+      <h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Turn Your Pet into Art</h2>
+      <p style="font-size:1.125rem;color:var(--color-slate-600);">Upload a photo and transform it into amazing portrait</p>
+    </div>
+    <div class="grid-2">
+      <!-- 左侧上传区域 -->
+      <div class="card">
+        <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>Upload
+        </h3>
+        <div id="upload-area" onclick="document.getElementById('file-input').click()" style="aspect-ratio:1;border:2px dashed ${state.selectedImage ? 'var(--color-amber-400)' : 'var(--color-slate-300)'};border-radius:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          ${state.selectedImage ? `<img src="${state.selectedImage}" style="width:100%;height:100%;object-fit:contain;padding:1rem;">` : `<div style="text-align:center;color:var(--color-slate-400);"><svg class="icon icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>Click to upload</p></div>`}
+        </div>
+        <input id="file-input" type="file" accept="image/*" onchange="handleFileSelect(event)" style="display:none;">
+        ${state.selectedImage ? `
+          <div class="mt-4">
+            <label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Select Style</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;max-height:10rem;overflow-y:auto;padding:0.5rem;border:1px solid var(--color-slate-200);border-radius:0.75rem;">
+              ${ART_STYLES.map(s => {
+                const sel = state.selectedStyles.includes(s.id);
+                const avail = canSelectStyle(s.id);
+                return `<button onclick="toggleStyle('${s.id}')" ${!avail ? 'disabled' : ''} style="padding:0.5rem 0.75rem;border-radius:0.5rem;font-size:0.875rem;text-align:left;cursor:pointer;border:none;${sel ? 'background:var(--color-amber-400);color:#fff;' : !avail ? 'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;' : 'background:var(--color-slate-50);'}">${s.name}${!avail ? ' 🔒' : ''}</button>`;
+              }).join('')}
+            </div>
+            <p style="font-size:0.75rem;color:var(--color-slate-500);margin-top:0.5rem;">Selected: ${state.selectedStyles.length} / ${getMaxStylesCount()} styles</p>
+          </div>
+          <div class="mt-4">
+            <label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem;">Batch Count</label>
+            <div style="display:flex;gap:0.5rem;">
+              ${[1, 5, 10].map(c => {
+                const dis = (c === 5 && ['free', 'pro'].includes(state.authUser?.plan)) || (c === 10 && state.authUser?.plan !== 'ultra');
+                return `<button onclick="setBatch(${c})" ${dis ? 'disabled' : ''} style="flex:1;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;cursor:pointer;border:none;${state.batchCount === c ? 'background:var(--color-amber-400);color:#fff;' : dis ? 'background:var(--color-slate-100);color:var(--color-slate-400);cursor:not-allowed;' : 'background:var(--color-slate-50);'}">${c} Image${c > 1 ? 's' : ''}${dis ? ' 🔒' : ''}</button>`;
+              }).join('')}
+            </div>
+          </div>
+          <div class="mt-4" style="padding:0.75rem;background:var(--color-amber-50);border-radius:0.75rem;">
+            <p style="font-size:0.875rem;color:var(--color-amber-700);">Total: ${state.batchCount * state.selectedStyles.length} images (Credits: ${state.authUser?.credits || 0} available)</p>
+          </div>
+          <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating || !state.authUser || state.selectedStyles.length === 0 ? 'disabled' : ''}>${state.isGenerating ? '<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...' : state.authUser ? `Generate ${state.batchCount * state.selectedStyles.length} Portrait(s)` : 'Sign in to generate'}</button>
+        ` : ''}
       </div>
-      <div class="text-center mt-6"><button class="btn btn-secondary" onclick="navigateTo('guides')">View All Guides →</button></div>
-    </div>`;
+      <!-- 右侧结果区域 -->
+      <div class="card">
+        <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result
+        </h3>
+        <div style="min-height:300px;background:var(--color-slate-100);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;">
+          ${state.isGenerating ? `<div class="text-center"><div class="icon-xl icon-spin" style="color:var(--color-amber-500);margin:0 auto;">⏳</div><p>Generating...</p></div>` : state.generatedImages.length > 0 ? `<div style="width:100%;padding:1rem;">${state.generatedImages.map((img, i) => `<div style="position:relative;margin-bottom:0.75rem;"><img src="${img}" style="width:100%;aspect-ratio:1;border-radius:0.5rem;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:0.5rem;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'"><button class="btn btn-outline" style="background:#fff;color:var(--color-slate-800);padding:0.5rem 0.75rem;" onclick="window.open('${img}','_blank')">Open</button><a class="btn btn-primary" style="padding:0.5rem 0.75rem;background:var(--color-amber-400);color:#fff;" href="${img}" download="pet-art-${i+1}.jpg">Download</a></div></div>`).join('')}<button class="btn btn-outline mt-4" style="width:100%;background:#e2e8f0;color:#94a3b8;border:none;cursor:not-allowed;" disabled>🖼️ Coming Soon – Custom Framed Print</button></div>` : '<p style="color:var(--color-slate-400);">Result will appear here</p>'}
+        </div>
+      </div>
+    </div>
+    
+    <!-- 左右两列文章分类板块 -->
+    <div class="grid-2" style="margin-top: 3rem;">
+      <div>
+        <h2 class="section-title" style="font-size:1.5rem; margin-bottom:1rem;">🩺 Health & Care</h2>
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          ${healthCardsHtml}
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title" style="font-size:1.5rem; margin-bottom:1rem;">🛒 Supplies & Gear</h2>
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+          ${suppliesCardsHtml}
+        </div>
+      </div>
+    </div>
+  `;
   return m;
 }
 
