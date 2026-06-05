@@ -163,5 +163,27 @@
     "category": "supplies",
     "cardDesc": "Crash‑tested harnesses, crates, and must‑have road trip gear to keep your pet safe on the road.",
     "thumbnail": "🚗"
+  },
+  {
+    "id": "pet-water-fountains",
+    "file": "article-pet-water-fountains.html",
+    "title": "Best Pet Water Fountains for Picky Drinkers (2026): Keep Your Cat or Dog Hydrated",
+    "date": "June 7, 2026",
+    "badge": "Hydration",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Top‑rated stainless steel and ceramic fountains that increase water intake by 50%.",
+    "thumbnail": "💧"
+  },
+  {
+    "id": "pet-hair-removal-tools",
+    "file": "article-pet-hair-removal-tools.html",
+    "title": "Best Pet Hair Removal Tools (2026): Vacuum, Lint Roller, Brush for Dog & Cat Fur",
+    "date": "June 7, 2026",
+    "badge": "Cleaning",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "ChomChom, rubber brooms, and deshedding shampoo – a complete system to conquer fur.",
+    "thumbnail": "🧹"
   }
 ]
