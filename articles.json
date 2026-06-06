@@ -185,5 +185,27 @@
     "category": "supplies",
     "cardDesc": "ChomChom, rubber brooms, and deshedding shampoo – a complete system to conquer fur.",
     "thumbnail": "🧹"
+  },
+  {
+    "id": "best-dog-beds-orthopedic",
+    "file": "article-best-dog-beds-orthopedic.html",
+    "title": "Best Orthopedic Dog Beds for Senior Dogs & Joint Pain (2026)",
+    "date": "June 7, 2026",
+    "badge": "Dog Bed",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Memory foam beds that relieve hip and elbow pressure. Clinically proven to improve mobility.",
+    "thumbnail": "🛏️"
+  },
+  {
+    "id": "best-interactive-dog-toys",
+    "file": "article-best-interactive-dog-toys.html",
+    "title": "Best Interactive Dog Toys for Boredom & Anxiety (2026) – Puzzle Toys for Mental Stimulation",
+    "date": "June 7, 2026",
+    "badge": "Toys",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Puzzle toys, treat dispensers, and snuffle mats that reduce destructive behavior.",
+    "thumbnail": "🧩"
   }
 ]
