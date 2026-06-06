@@ -658,24 +658,51 @@ async function renderHome() {
       <p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
     </div>
     
-    <!-- 左右两列文章分类板块 -->
+        <!-- 左右两列文章分类板块（配对行，高度自动相等） -->
     <div class="grid-2" style="margin-top: 3rem;">
-            <div>
-        <div style="background: #fff; border-radius: 0.75rem; padding: 0.75rem 1rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem;">
-          <h2 class="section-title" style="font-size:1.5rem; margin:0;">🩺 Health & Care</h2>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:1.5rem;">
-          ${healthCardsHtml}
-        </div>
-      </div>
-      <div>
-        <div style="background: #fff; border-radius: 0.75rem; padding: 0.75rem 1rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem;">
-          <h2 class="section-title" style="font-size:1.5rem; margin:0;">🛒 Supplies & Gear</h2>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:1.5rem;">
-          ${suppliesCardsHtml}
-        </div>
-      </div>
+      ${
+        (() => {
+          const maxLen = Math.max(healthArticles.length, suppliesArticles.length);
+          let rows = '';
+          for (let i = 0; i < maxLen; i++) {
+            const left = healthArticles[i];
+            const right = suppliesArticles[i];
+            rows += `
+              <div style="display: contents;">
+                <div style="height: 100%; display: flex; flex-direction: column;">
+                  ${left ? `
+                    <div style="background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem; transition: all 0.2s; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                      <a href="/${left.file}" onclick="navigateToArticle(event, '${left.file}')" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                        <div>
+                          <span class="badge ${left.badgeClass}">${left.badge}</span>
+                          <h3>${left.title}</h3>
+                          <p>${left.cardDesc}</p>
+                        </div>
+                        <span class="read-more" style="margin-top: 1rem;">Read More →</span>
+                      </a>
+                    </div>
+                  ` : '<div style="visibility: hidden;">&nbsp;</div>'}
+                </div>
+                <div style="height: 100%; display: flex; flex-direction: column;">
+                  ${right ? `
+                    <div style="background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem; transition: all 0.2s; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                      <a href="/${right.file}" onclick="navigateToArticle(event, '${right.file}')" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                        <div>
+                          <span class="badge ${right.badgeClass}">${right.badge}</span>
+                          <h3>${right.title}</h3>
+                          <p>${right.cardDesc}</p>
+                        </div>
+                        <span class="read-more" style="margin-top: 1rem;">Read More →</span>
+                      </a>
+                    </div>
+                  ` : '<div style="visibility: hidden;">&nbsp;</div>'}
+                </div>
+              </div>
+            `;
+          }
+          return rows;
+        })()
+      }
     </div>
   `;
     // 恢复之前保存的滚动位置
