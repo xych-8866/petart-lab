@@ -536,7 +536,19 @@ function handleAuth(e) { e.preventDefault();
 function handleLogout(){localStorage.removeItem('logged_in_email');state.authUser=null;state.currentPage='home';window.location.hash='';render();}
 function handleUpgrade(plan){ if(!state.authUser||state.authUser.plan===plan)return; const ids={pro:'prod_4H4HFyU8mKDxgxypLC1SFt',max:'prod_2ON9GVgkuxGBGQF1uSL1V7',ultra:'prod_rpxbWmHuILh972X7TwcsN'}; const pid=ids[plan]; if(!pid)return; window.location.href = 'https://www.creem.io/payment/' + pid + '?metadata[plan]=' + plan; }
 function navigateTo(p){ if(window.location.pathname==='/google3be17941974cac5b.html')return; window.location.hash=p==='home'?'':p; state.currentPage=p; render(); }
-window.addEventListener('hashchange',()=>{ if(window.location.pathname==='/google3be17941974cac5b.html')return; state.currentPage=window.location.hash.slice(1)||'home'; render(); });
+window.addEventListener('hashchange', () => {
+  if (window.location.pathname === '/google3be17941974cac5b.html') return;
+  const hash = window.location.hash.slice(1);
+  if (hash.startsWith('article-')) {
+    const file = hash.replace('article-', '') + '.html';
+    state.currentPage = 'article';
+    state.currentArticleFile = file;
+  } else {
+    state.currentPage = hash || 'home';
+    state.currentArticleFile = null;
+  }
+  render();
+});
 function closeAuthModal(){state.showAuthModal=false;render();}
 function closeUpgradeModal(){state.showUpgradeModal=false;render();}
 
@@ -720,6 +732,9 @@ function navigateToArticle(event, file) {
   event.preventDefault();
   // 保存当前滚动位置
   sessionStorage.setItem('scrollPos', window.scrollY);
+  // 更新 hash，让浏览器记录历史
+  const articleId = file.replace(/\.html$/, '');
+  window.location.hash = `article-${articleId}`;
   state.currentPage = 'article';
   state.currentArticleFile = file;
   render();
