@@ -229,5 +229,27 @@
     "category": "supplies",
     "cardDesc": "Pressure‑mounted, hardware‑mounted, and portable gates to keep pets out of danger.",
     "thumbnail": "🚪"
+    },
+  {
+    "id": "pet-food-storage-containers",
+    "file": "article-pet-food-storage-containers.html",
+    "title": "Best Pet Food Storage Containers: Keep Kibble Fresh & Pest‑Free (2026)",
+    "date": "June 7, 2026",
+    "badge": "Food Storage",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Airtight, BPA‑free containers that preserve nutrients and prevent pantry pests.",
+    "thumbnail": "🥫"
+  },
+  {
+    "id": "best-dog-raincoats",
+    "file": "article-best-dog-raincoats.html",
+    "title": "Best Dog Raincoats for Wet Walks (2026): Waterproof, Reflective, Easy On/Off",
+    "date": "June 7, 2026",
+    "badge": "Outerwear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Keep your dog dry and visible with these top‑rated raincoats for all breeds.",
+    "thumbnail": "☔"
   }
 ]
