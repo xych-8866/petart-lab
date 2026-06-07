@@ -892,6 +892,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   refreshFreeUserCredits();  
+
+  // 从后端同步用户状态
   if (state.authUser) {
     fetch(`${API_BASE_URL}/user-status`, {
       method: 'POST',
@@ -917,7 +919,17 @@ window.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => console.error('强制同步失败:', err));
   }
-  state.currentPage = window.location.hash.slice(1) || 'home';
+
+  // 关键修复：根据 hash 设置正确的页面状态
+  const hash = window.location.hash.slice(1);
+  if (hash.startsWith('article-')) {
+    const file = hash.replace('article-', '') + '.html';
+    state.currentPage = 'article';
+    state.currentArticleFile = file;
+  } else {
+    state.currentPage = hash || 'home';
+    state.currentArticleFile = null;
+  }
   render();
 });
 </script>
