@@ -207,5 +207,27 @@
     "category": "supplies",
     "cardDesc": "Puzzle toys, treat dispensers, and snuffle mats that reduce destructive behavior.",
     "thumbnail": "🧩"
+  },
+  {
+    "id": "best-flea-tick-heartworm-prevention",
+    "file": "article-best-flea-tick-heartworm-prevention.html",
+    "title": "Best Flea, Tick & Heartworm Prevention for Dogs & Cats (2026)",
+    "date": "June 8, 2026",
+    "badge": "Parasite Prevention",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Oral chews, topicals, and collars that protect your pet year-round. Vet‑recommended.",
+    "thumbnail": "🦟"
+  },
+  {
+    "id": "best-pet-gates-indoor-outdoor",
+    "file": "article-best-pet-gates-indoor-outdoor.html",
+    "title": "Best Pet Gates & Playpens: Indoor & Outdoor Safety for Dogs & Cats (2026)",
+    "date": "June 8, 2026",
+    "badge": "Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Pressure‑mounted, hardware‑mounted, and portable gates to keep pets out of danger.",
+    "thumbnail": "🚪"
   }
 ]
