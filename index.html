@@ -2,13 +2,18 @@
 <html lang="en-US">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KPK7H8SNH3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-KPK7H8SNH3');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPK7H8SNH3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KPK7H8SNH3');
+    </script>
+
+    <!-- Start cookieyes banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/1c418f67ff2f916b95fd705ea82b4bb8/script.js"></script>
+    <!-- End cookieyes banner -->
+
     <meta charset="UTF-8">
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="pragma" content="no-cache">
@@ -177,15 +182,6 @@
     </style>
 </head>
 <body>
-
-<!-- Cookie Banner -->
-<div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#1e293b;color:#f8fafc;padding:1rem;z-index:9999;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;font-size:0.875rem;box-shadow:0 -2px 10px rgba(0,0,0,0.2);">
-  <span style="flex:1;min-width:200px;">We use cookies to improve your experience, analyze traffic, and show personalized ads. <a href="#privacy" style="color:#f59e0b;text-decoration:underline;">Learn more</a></span>
-  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-    <button onclick="acceptCookies()" style="background:var(--color-amber-400);color:#fff;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;font-weight:600;">Accept All</button>
-    <button onclick="declineCookies()" style="background:transparent;color:#cbd5e1;border:1px solid #cbd5e1;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;">Decline</button>
-  </div>
-</div>
 <div id="root"></div>
 
 <script>
@@ -197,10 +193,6 @@ const USERS_KEY = 'petart_users';
 const SESSION_KEY = 'petart_session';
 const OLD_USER_KEY = 'petart_user';
 const DAILY_COUNT_KEY = 'petart_daily_count';
-
-function acceptCookies() { localStorage.setItem('cookies_accepted','true'); document.getElementById('cookie-banner').style.display='none'; }
-function declineCookies() { localStorage.setItem('cookies_declined','true'); document.getElementById('cookie-banner').style.display='none'; }
-(function(){ if(localStorage.getItem('cookies_accepted')||localStorage.getItem('cookies_declined')){ var b=document.getElementById('cookie-banner'); if(b)b.style.display='none'; } })();
 
 const ART_STYLES = [
   { id: 'ghibli', name: 'Studio Ghibli', prompt: 'Anime style portrait of this pet, Authentic Studio Ghibli animation texture, gentle and rounded flowing lines, natural soft diffused lighting, warm and delicate light layers, low saturation fresh and healing natural tones, clean and elegant soft colors, realistic and vivid fur and body texture, simple fresh natural scenes, overall warm and healing atmosphere, gentle and delicate hand-drawn style with warmth, unified and coordinated global tones, high-end natural and durable texture, digital art, high quality, masterpiece' },
@@ -330,7 +322,6 @@ async function generateImage() {
   let moderationError = false;
 
   try {
-    // 调用自己的后端代理，而不是直接请求 Creem API
     const moderationRes = await fetch(`${API_BASE_URL}/moderation-proxy`, {
       method: 'POST',
       headers: {
@@ -399,7 +390,7 @@ async function generateImage() {
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
 }
 
-// ============ Printful 实物定制逻辑 ============
+// ============ Printful 实物定制逻辑 ==========
 async function loadPrintfulProducts() {
   try {
     const response = await fetch(`${API_BASE_URL}/printify-catalog`);
@@ -664,7 +655,7 @@ async function renderHome() {
       </div>
     </div>
 
-    <!-- 原来的大标题 + 小字（已加回） -->
+    <!-- 原来的大标题 + 小字 -->
     <div class="mt-8">
       <h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2>
       <p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
@@ -795,7 +786,7 @@ function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
   <div class="grid-4 mb-8">${Object.entries(PLANS).map(([k,p])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''} ${k==='pro'?'popular':''}">${k==='pro'?'<div class="popular-badge">Most Popular</div>':''}<h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${p.name}</h3><div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div><ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">${(k==='free'?['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history']:k==='pro'?['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history']:k==='max'?['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history']:['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${k==='pro'?'btn-primary':'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div>
-  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><tr><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
+  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><tr><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th><tr></thead><tbody>
     <tr><th>Monthly Credits</th><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
     <tr><th>Resolution</th><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
     <tr><th>Watermark</th><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
@@ -934,4 +925,4 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 </body>
-</html>    
+</html>
