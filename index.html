@@ -312,7 +312,6 @@ async function generateImage() {
   const needed = state.batchCount * state.selectedStyles.length;
   if(!state.authUser.isTestAccount&&state.authUser.credits<needed){state.showUpgradeModal=true;render();return;}
 
-  // ============ Creem Content Moderation (通过后端代理，避免CORS) ============
   const promptsToCheck = state.selectedStyles.map(sid => {
     const style = ART_STYLES.find(x => x.id === sid);
     return style ? style.name : '';
@@ -324,38 +323,19 @@ async function generateImage() {
   try {
     const moderationRes = await fetch(`${API_BASE_URL}/moderation-proxy`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: promptsToCheck })
     });
-
     if (moderationRes.ok) {
       const moderationData = await moderationRes.json();
-      if (moderationData.decision === 'allow') {
-        moderationSuccess = true;
-      } else if (moderationData.decision === 'deny') {
-        alert('Your request contains prohibited content. Please review our Terms of Service.');
-        return;
-      } else if (moderationData.decision === 'flag') {
-        alert('Your request needs review. Please try again with different content.');
-        return;
-      } else {
-        moderationError = true;
-      }
-    } else {
-      moderationError = true;
-    }
-  } catch (err) {
-    console.error('Moderation API error:', err);
-    moderationError = true;
-  }
+      if (moderationData.decision === 'allow') moderationSuccess = true;
+      else if (moderationData.decision === 'deny') { alert('Your request contains prohibited content. Please review our Terms of Service.'); return; }
+      else if (moderationData.decision === 'flag') { alert('Your request needs review. Please try again with different content.'); return; }
+      else moderationError = true;
+    } else moderationError = true;
+  } catch (err) { moderationError = true; }
 
-  if (moderationError || !moderationSuccess) {
-    alert('Content moderation service error. Please try again later.');
-    return;
-  }
-  // ============ Moderation End ============
+  if (moderationError || !moderationSuccess) { alert('Content moderation service error. Please try again later.'); return; }
 
   state.isGenerating=true;state.error=null;state.generatedImages=[];render();
   if(!state.authUser.isTestAccount)incrementDailyCount(needed);
@@ -390,7 +370,6 @@ async function generateImage() {
   state.generatedImages=results;state.isGenerating=false;if(results.length===0)alert('Generation failed, please try again');render();
 }
 
-// ============ Printful 实物定制逻辑 ==========
 async function loadPrintfulProducts() {
   try {
     const response = await fetch(`${API_BASE_URL}/printify-catalog`);
@@ -433,7 +412,6 @@ async function submitPrintfulOrder() {
     alert('Please fill in your complete shipping address.');
     return;
   }
-
   try {
     const response = await fetch(`${API_BASE_URL}/create-printify-order`, {
       method: 'POST',
@@ -569,16 +547,13 @@ async function renderHome() {
   m.style.padding = '3rem 1rem';
   
   const articles = await loadArticles();
-  
-  // 按分类过滤
   const healthArticles = articles.filter(a => a.category === 'health');
   const suppliesArticles = articles.filter(a => a.category === 'supplies');
   
-  // 生成健康类卡片 HTML
   let healthCardsHtml = '';
   healthArticles.forEach(article => {
     healthCardsHtml += `
-      <a class="article-card" href="/${article.file}" onclick="navigateToArticle(event, '${article.file}')">
+      <a class="article-card" href="/${article.file}">
         <span class="badge ${article.badgeClass}">${article.badge}</span>
         <h3>${article.title}</h3>
         <p>${article.cardDesc}</p>
@@ -587,11 +562,10 @@ async function renderHome() {
     `;
   });
   
-  // 生成用品类卡片 HTML
   let suppliesCardsHtml = '';
   suppliesArticles.forEach(article => {
     suppliesCardsHtml += `
-      <a class="article-card" href="/${article.file}" onclick="navigateToArticle(event, '${article.file}')">
+      <a class="article-card" href="/${article.file}">
         <span class="badge ${article.badgeClass}">${article.badge}</span>
         <h3>${article.title}</h3>
         <p>${article.cardDesc}</p>
@@ -606,7 +580,6 @@ async function renderHome() {
       <p style="font-size:1.125rem;color:var(--color-slate-600);">Upload a photo and transform it into amazing portrait</p>
     </div>
     <div class="grid-2">
-      <!-- 左侧上传区域 -->
       <div class="card">
         <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2">
@@ -644,7 +617,6 @@ async function renderHome() {
           <button class="btn btn-primary mt-4" style="width:100%;" onclick="generateImage()" ${state.isGenerating || !state.authUser || state.selectedStyles.length === 0 ? 'disabled' : ''}>${state.isGenerating ? '<span class="icon icon-spin" style="margin-right:0.5rem;">⏳</span> Generating...' : state.authUser ? `Generate ${state.batchCount * state.selectedStyles.length} Portrait(s)` : 'Sign in to generate'}</button>
         ` : ''}
       </div>
-      <!-- 右侧结果区域 -->
       <div class="card">
         <h3 style="font-size:1.125rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber-500)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Result
@@ -655,13 +627,11 @@ async function renderHome() {
       </div>
     </div>
 
-    <!-- 原来的大标题 + 小字 -->
     <div class="mt-8">
       <h2 class="section-title" style="text-align:center;">🐾 Pet Health & Product Picks</h2>
       <p class="section-subtitle" style="text-align:center;">Expert tips & trusted product recommendations for happy, healthy pets.</p>
     </div>
     
-        <!-- 左右两列文章分类板块（配对行，高度自动相等） -->
     <div class="grid-2" style="margin-top: 3rem;">
       ${
         (() => {
@@ -675,7 +645,7 @@ async function renderHome() {
                 <div style="height: 100%; display: flex; flex-direction: column;">
                   ${left ? `
                     <div style="background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem; transition: all 0.2s; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                      <a href="/${left.file}" onclick="navigateToArticle(event, '${left.file}')" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                      <a href="/${left.file}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
                         <div>
                           <span class="badge ${left.badgeClass}">${left.badge}</span>
                           <h3>${left.title}</h3>
@@ -689,7 +659,7 @@ async function renderHome() {
                 <div style="height: 100%; display: flex; flex-direction: column;">
                   ${right ? `
                     <div style="background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); padding: 1.5rem; transition: all 0.2s; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                      <a href="/${right.file}" onclick="navigateToArticle(event, '${right.file}')" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                      <a href="/${right.file}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
                         <div>
                           <span class="badge ${right.badgeClass}">${right.badge}</span>
                           <h3>${right.title}</h3>
@@ -708,7 +678,6 @@ async function renderHome() {
       }
     </div>
   `;
-    // 恢复之前保存的滚动位置
   const savedScroll = sessionStorage.getItem('scrollPos');
   if (savedScroll) {
     setTimeout(() => {
@@ -716,14 +685,12 @@ async function renderHome() {
       sessionStorage.removeItem('scrollPos');
     }, 100);
   }
- return m;
+  return m;
 }
 
 function navigateToArticle(event, file) {
   event.preventDefault();
-  // 保存当前滚动位置
   sessionStorage.setItem('scrollPos', window.scrollY);
-  // 更新 hash，让浏览器记录历史
   const articleId = file.replace(/\.html$/, '');
   window.location.hash = `article-${articleId}`;
   state.currentPage = 'article';
@@ -735,15 +702,12 @@ async function renderArticlePage() {
   if (!state.currentArticleFile) { navigateTo('home'); return null; }
   const res = await fetch(`/${state.currentArticleFile}`);
   let html = await res.text();
-  
-  // 在 </body> 之前插入右下角的返回链接
   const backLink = `
     <div style="text-align:right; margin-top:2rem; margin-bottom:1rem;">
       <a href="/" style="display:inline-flex; align-items:center; gap:0.3rem; font-size:0.9rem; color:#b45309; text-decoration:none; font-weight:500;">← Back to Home</a>
     </div>
   `;
   html = html.replace('</body>', backLink + '</body>');
-  
   const main = document.createElement('main');
   main.className = 'container-narrow';
   main.style.padding = '3rem 1rem';
@@ -754,7 +718,7 @@ async function renderGuides() {
   const main = document.createElement('main'); main.className = 'container'; main.style.padding = '3rem 1rem';
   const articles = await loadArticles();
   const healthCards = articles.filter(a => a.category === 'health').map(a => `
-    <a class="article-card" href="/${a.file}" onclick="navigateToArticle(event, '${a.file}')">
+    <a class="article-card" href="/${a.file}">
       <span class="badge ${a.badgeClass}">${a.badge}</span>
       <h3>${a.title}</h3>
       <p>${a.cardDesc}</p>
@@ -762,7 +726,7 @@ async function renderGuides() {
     </a>
   `).join('');
   const suppliesCards = articles.filter(a => a.category === 'supplies').map(a => `
-    <a class="article-card" href="/${a.file}" onclick="navigateToArticle(event, '${a.file}')">
+    <a class="article-card" href="/${a.file}">
       <span class="badge ${a.badgeClass}">${a.badge}</span>
       <h3>${a.title}</h3>
       <p>${a.cardDesc}</p>
@@ -786,7 +750,7 @@ function renderPricing() {
   const d=document.createElement('div'); d.className='container'; d.style.padding='3rem 1rem';
   d.innerHTML=`<div class="text-center mb-8"><h2 style="font-size:2.5rem;font-weight:bold;margin-bottom:1rem;">Pricing Plans</h2><p style="color:var(--color-slate-600);">Start free, upgrade anytime</p></div>
   <div class="grid-4 mb-8">${Object.entries(PLANS).map(([k,p])=>`<div class="plan-card ${state.authUser?.plan===k?'active':''} ${k==='pro'?'popular':''}">${k==='pro'?'<div class="popular-badge">Most Popular</div>':''}<h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem;">${p.name}</h3><div style="font-size:2rem;font-weight:bold;margin-bottom:1rem;">$${k==='free'?'0':k==='pro'?'9.99':k==='max'?'19.99':'29.99'}<span style="font-size:0.875rem;color:var(--color-slate-500);">/mo</span></div><ul style="list-style:none;font-size:0.875rem;color:var(--color-slate-600);margin-bottom:1.5rem;line-height:2;">${(k==='free'?['1 generation/day','Basic resolution','With watermark','1 Style (Ghibli)','No history']:k==='pro'?['150 images/month','No watermark','HD 2K resolution','3 Styles (Ghibli + 2 choice)','7-day history']:k==='max'?['320 images/month','No watermark','Ultra HD 4K','6 Styles (Ghibli + 5 choice)','Batch 5 images','30-day history']:['550 images/month','No watermark','Ultra HD 4K','All 31 Styles','Batch 10 images','180-day history','Commercial license']).map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn ${k==='pro'?'btn-primary':'btn-outline'}" style="width:100%;" onclick="handleUpgrade('${k}')" ${state.authUser?.plan===k?'disabled':''}>${state.authUser?.plan===k?'Current':'Select'}</button></div>`).join('')}</div>
-  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><tr><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th><tr></thead><tbody>
+  <div class="card"><h3 style="font-size:1.5rem;font-weight:bold;margin-bottom:1.5rem;text-align:center;">Feature Comparison</h3><div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Free</th><th style="color:var(--color-amber-600);">Pro</th><th>Max</th><th>Ultra</th></tr></thead><tbody>
     <tr><th>Monthly Credits</th><td>1/day</td><td style="color:var(--color-amber-600);font-weight:500;">150</td><td>320</td><td>550</td></tr>
     <tr><th>Resolution</th><td>Basic</td><td style="color:var(--color-amber-600);font-weight:500;">HD 2K</td><td>4K</td><td>4K</td></tr>
     <tr><th>Watermark</th><td>Yes</td><td style="color:var(--color-amber-600);font-weight:500;">No</td><td>No</td><td>No</td></tr>
@@ -884,7 +848,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   refreshFreeUserCredits();  
 
-  // 从后端同步用户状态
   if (state.authUser) {
     fetch(`${API_BASE_URL}/user-status`, {
       method: 'POST',
@@ -911,7 +874,6 @@ window.addEventListener('DOMContentLoaded', () => {
     .catch(err => console.error('强制同步失败:', err));
   }
 
-  // 关键修复：根据 hash 设置正确的页面状态
   const hash = window.location.hash.slice(1);
   if (hash.startsWith('article-')) {
     const file = hash.replace('article-', '') + '.html';
