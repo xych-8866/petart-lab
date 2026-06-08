@@ -251,5 +251,27 @@
     "category": "supplies",
     "cardDesc": "Keep your dog dry and visible with these top‑rated raincoats for all breeds.",
     "thumbnail": "☔"
+  },
+  {
+    "id": "best-gps-trackers-dogs-cats",
+    "file": "article-best-gps-trackers-for-dogs-cats.html",
+    "title": "Best GPS Trackers for Dogs & Cats (2026): Real‑Time Location & Escape Alert",
+    "date": "June 8, 2026",
+    "badge": "GPS Tracker",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Real‑time location, geofencing, and escape alerts. Keep your pet safe with these top‑rated trackers.",
+    "thumbnail": "📍"
+  },
+  {
+    "id": "best-pet-cameras-interactive",
+    "file": "article-best-pet-cameras-interactive.html",
+    "title": "Best Pet Cameras with Treat Dispenser & Two‑Way Audio (2026)",
+    "date": "June 8, 2026",
+    "badge": "Pet Camera",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Monitor, talk to, and treat your pet remotely. Top interactive cameras for separation anxiety.",
+    "thumbnail": "📷"
   }
 ]
