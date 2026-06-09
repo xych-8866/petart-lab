@@ -273,5 +273,27 @@
     "category": "supplies",
     "cardDesc": "Monitor, talk to, and treat your pet remotely. Top interactive cameras for separation anxiety.",
     "thumbnail": "📷"
+  },
+  {
+    "id": "best-pet-strollers",
+    "file": "article-best-pet-strollers.html",
+    "title": "Best Pet Strollers for Small Dogs & Cats (2026): Lightweight, Portable & Safe",
+    "date": "June 9, 2026",
+    "badge": "Pet Stroller",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "All‑terrain, jogging, and budget strollers for senior pets, small breeds, and cats. Keep your pet moving without pain.",
+    "thumbnail": "🛒"
+  },
+  {
+    "id": "best-automatic-pet-feeders",
+    "file": "article-best-automatic-pet-feeders.html",
+    "title": "Best Automatic Pet Feeders for Cats & Dogs (2026): Smart WiFi, Portion Control & Freshness",
+    "date": "June 9, 2026",
+    "badge": "Automatic Feeder",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Programmable, WiFi‑enabled, and budget feeders to keep your pet on schedule – even when you're not home.",
+    "thumbnail": "⏲️"
   }
 ]
