@@ -295,5 +295,27 @@
     "category": "supplies",
     "cardDesc": "Programmable, WiFi‑enabled, and budget feeders to keep your pet on schedule – even when you're not home.",
     "thumbnail": "⏲️"
+  },
+  {
+    "id": "best-pet-life-jackets",
+    "file": "article-best-pet-life-jackets.html",
+    "title": "Best Pet Life Jackets & Dog Life Vests (2026): Safety for Boating, Swimming & Beach",
+    "date": "June 10, 2026",
+    "badge": "Water Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Top grab handles, reflective trim, and proper flotation – essential for every dog near water.",
+    "thumbnail": "🛟"
+  },
+  {
+    "id": "best-smart-pet-id-tags",
+    "file": "article-best-pet-id-tags-qr-code.html",
+    "title": "Best Smart Pet ID Tags with QR Code & GPS (2026): Digital Lost Pet Recovery",
+    "date": "June 10, 2026",
+    "badge": "ID Tag",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "QR code, NFC, and GPS tags that reunite lost pets faster. No more outdated engravings.",
+    "thumbnail": "🏷️"
   }
 ]
