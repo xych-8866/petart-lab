@@ -317,5 +317,27 @@
     "category": "supplies",
     "cardDesc": "QR code, NFC, and GPS tags that reunite lost pets faster. No more outdated engravings.",
     "thumbnail": "🏷️"
+  },
+  {
+    "id": "pet-car-seat-belts-restraints",
+    "file": "article-pet-car-seat-belts-restraints.html",
+    "title": "Best Pet Car Seat Belts & Restraints (2026): Crash‑Tested Safety for Dogs",
+    "date": "June 11, 2026",
+    "badge": "Car Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Crash‑tested harnesses, crates, and tethers that save lives in accidents.",
+    "thumbnail": "🚗"
+  },
+  {
+    "id": "best-pet-odor-eliminators-enzyme-cleaners",
+    "file": "article-best-pet-odor-eliminators-enzyme-cleaners.html",
+    "title": "Best Pet Odor Eliminators & Enzyme Cleaners (2026): Remove Urine, Vomit & Smells",
+    "date": "June 11, 2026",
+    "badge": "Cleaning",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Enzyme‑based formulas that destroy organic stains and stop re‑marking.",
+    "thumbnail": "🧼"
   }
 ]
