@@ -339,5 +339,27 @@
     "category": "supplies",
     "cardDesc": "Enzyme‑based formulas that destroy organic stains and stop re‑marking.",
     "thumbnail": "🧼"
+  },
+  {
+    "id": "pet-dental-health-plaque-tartar",
+    "file": "article-pet-dental-health-plaque-tartar.html",
+    "title": "Pet Dental Health: How to Prevent Plaque, Tartar & Gum Disease (2026)",
+    "date": "June 12, 2026",
+    "badge": "Dental Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Daily brushing, VOHC‑approved products, and professional cleanings to prevent costly extractions.",
+    "thumbnail": "🦷"
+  },
+  {
+    "id": "pet-obesity-weight-management",
+    "file": "article-pet-obesity-weight-management.html",
+    "title": "Pet Obesity & Weight Management: How to Help Your Dog or Cat Lose Weight Safely (2026)",
+    "date": "June 12, 2026",
+    "badge": "Weight Management",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Calorie calculation, portion control, weight management foods, and exercise tips that work.",
+    "thumbnail": "⚖️"
   }
 ]
