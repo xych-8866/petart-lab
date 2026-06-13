@@ -361,5 +361,27 @@
     "category": "health",
     "cardDesc": "Calorie calculation, portion control, weight management foods, and exercise tips that work.",
     "thumbnail": "⚖️"
+  },
+  {
+    "id": "pet-kidney-health-chronic-renal-disease",
+    "file": "article-pet-kidney-health-chronic-renal-disease.html",
+    "title": "Pet Kidney Health & Chronic Renal Disease: Prevention, Diet & Management (2026)",
+    "date": "June 13, 2026",
+    "badge": "Kidney Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Early detection, prescription diets, and at‑home care that extend life in CKD pets.",
+    "thumbnail": "🩸"
+  },
+  {
+    "id": "pet-car-seat-protectors-hammocks",
+    "file": "article-pet-car-seat-protectors-hammocks.html",
+    "title": "Best Pet Car Seat Protectors & Hammocks (2026): Waterproof, Non‑Slip, Easy Clean",
+    "date": "June 13, 2026",
+    "badge": "Car Accessories",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Waterproof, scratch‑proof covers that protect your upholstery from mud, fur, and accidents.",
+    "thumbnail": "🚙"
   }
 ]
