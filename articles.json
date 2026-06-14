@@ -383,5 +383,27 @@
     "category": "supplies",
     "cardDesc": "Waterproof, scratch‑proof covers that protect your upholstery from mud, fur, and accidents.",
     "thumbnail": "🚙"
+  },
+  {
+    "id": "pet-vaccination-schedule-guide",
+    "file": "article-pet-vaccination-schedule-guide.html",
+    "title": "Pet Vaccination Schedule & Guide: Core Vaccines, Boosters & Safety (2026)",
+    "date": "June 14, 2026",
+    "badge": "Vaccination",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Puppy/kitten schedules, adult boosters, titer testing, and low‑cost vaccine clinics.",
+    "thumbnail": "💉"
+  },
+  {
+    "id": "pet-travel-backpacks-carriers",
+    "file": "article-pet-travel-backpacks-carriers.html",
+    "title": "Best Pet Travel Backpacks & Carriers for Small Dogs & Cats (2026)",
+    "date": "June 14, 2026",
+    "badge": "Travel Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Ventilated, escape‑proof backpacks for hiking, transit, and air travel.",
+    "thumbnail": "🎒"
   }
 ]
