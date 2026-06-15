@@ -405,5 +405,27 @@
     "category": "supplies",
     "cardDesc": "Ventilated, escape‑proof backpacks for hiking, transit, and air travel.",
     "thumbnail": "🎒"
+  },
+  {
+    "id": "pet-diabetes-management-guide",
+    "file": "article-pet-diabetes-management-guide.html",
+    "title": "Pet Diabetes: Symptoms, Treatment & Home Management Guide (2026)",
+    "date": "June 15, 2026",
+    "badge": "Diabetes",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Insulin injections, home glucose monitoring, and prescription diets for diabetic dogs and cats.",
+    "thumbnail": "🩸"
+  },
+  {
+    "id": "pet-pancreatitis-prevention-care",
+    "file": "article-pet-pancreatitis-prevention-care.html",
+    "title": "Canine & Feline Pancreatitis: Prevention, Symptoms & Recovery (2026)",
+    "date": "June 15, 2026",
+    "badge": "Pancreatitis",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Low‑fat diets, emergency signs, and long‑term management to prevent recurrence.",
+    "thumbnail": "⚡"
   }
 ]
