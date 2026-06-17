@@ -427,5 +427,27 @@
     "category": "health",
     "cardDesc": "Low‑fat diets, emergency signs, and long‑term management to prevent recurrence.",
     "thumbnail": "⚡"
+  },
+  {
+    "id": "pet-hypothyroidism-guide",
+    "file": "article-pet-hypothyroidism-guide.html",
+    "title": "Hypothyroidism in Dogs & Cats: Symptoms, Diagnosis & Treatment (2026)",
+    "date": "June 17, 2026",
+    "badge": "Thyroid Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Weight gain, lethargy, hair loss – a treatable condition with lifelong medication.",
+    "thumbnail": "🦋"
+  },
+  {
+    "id": "pet-heart-disease-mitral-valve",
+    "file": "article-pet-heart-disease-mitral-valve.html",
+    "title": "Degenerative Mitral Valve Disease in Dogs: Signs, Staging & Management (2026)",
+    "date": "June 17, 2026",
+    "badge": "Heart Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Heart murmurs, coughing, and the drugs that slow progression (pimobendan).",
+    "thumbnail": "❤️"
   }
 ]
