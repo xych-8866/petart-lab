@@ -471,5 +471,27 @@
     "category": "health",
     "cardDesc": "Cloudy eyes, blindness, and surgery that restores vision in dogs and cats.",
     "thumbnail": "👁️"
+  },
+  {
+    "id": "pet-gut-health-ibd",
+    "file": "article-pet-gut-health-ibd.html",
+    "title": "Pet Gut Health & IBD: Managing Chronic Digestive Issues in Dogs & Cats (2026)",
+    "date": "June 19, 2026",
+    "badge": "Gut Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Chronic vomiting, diarrhea, and weight loss – diagnosis and management of IBD.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "pet-skin-lumps-tumors",
+    "file": "article-pet-skin-lumps-tumors.html",
+    "title": "Pet Skin Lumps & Tumors: When to Worry and What to Do (2026)",
+    "date": "June 19, 2026",
+    "badge": "Skin Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Lipomas, mast cell tumors, melanomas – red flags and early diagnosis.",
+    "thumbnail": "🔬"
   }
 ]
