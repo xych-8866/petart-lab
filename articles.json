@@ -493,5 +493,27 @@
     "category": "health",
     "cardDesc": "Lipomas, mast cell tumors, melanomas – red flags and early diagnosis.",
     "thumbnail": "🔬"
+  },
+  {
+    "id": "pet-seizures-epilepsy-guide",
+    "file": "article-pet-seizures-epilepsy-guide.html",
+    "title": "Pet Seizures & Epilepsy: Causes, Emergency Care & Treatment (2026)",
+    "date": "June 20, 2026",
+    "badge": "Neurology",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "What to do during a seizure, anti‑epileptic drugs, and long‑term management.",
+    "thumbnail": "🧠"
+  },
+  {
+    "id": "pet-liver-disease-guide",
+    "file": "article-pet-liver-disease-guide.html",
+    "title": "Pet Liver Disease: Signs, Diagnosis & Management (2026)",
+    "date": "June 20, 2026",
+    "badge": "Liver Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Jaundice, elevated liver enzymes, and treatment with Denamarin and prescription diets.",
+    "thumbnail": "🧫"
   }
 ]
