@@ -515,5 +515,27 @@
     "category": "health",
     "cardDesc": "Jaundice, elevated liver enzymes, and treatment with Denamarin and prescription diets.",
     "thumbnail": "🧫"
+  },
+  {
+    "id": "best-pet-water-fountains-guide",
+    "file": "article-best-pet-water-fountains-guide.html",
+    "title": "Best Pet Water Fountains with Filters (2026): Encourage Hydration & Fresh Taste",
+    "date": "June 21, 2026",
+    "badge": "Water Fountain",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Stainless steel, ceramic, and budget fountains that increase water intake by 50%.",
+    "thumbnail": "💧"
+  },
+  {
+    "id": "best-pet-waste-bags",
+    "file": "article-best-pet-waste-bags.html",
+    "title": "Best Pet Waste Bags: Eco‑Friendly, Leak‑Proof & Biodegradable (2026)",
+    "date": "June 21, 2026",
+    "badge": "Waste Bags",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Leak‑proof, biodegradable, and value packs for every dog owner.",
+    "thumbnail": "♻️"
   }
 ]
