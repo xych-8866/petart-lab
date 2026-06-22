@@ -537,5 +537,27 @@
     "category": "supplies",
     "cardDesc": "Leak‑proof, biodegradable, and value packs for every dog owner.",
     "thumbnail": "♻️"
+  },
+  {
+    "id": "pet-ear-infections-guide",
+    "file": "article-pet-ear-infections-guide.html",
+    "title": "Pet Ear Infections: Causes, Treatment & Prevention (2026)",
+    "date": "June 22, 2026",
+    "badge": "Ear Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Head shaking, odor, and discharge – how to treat and prevent ear infections in dogs and cats.",
+    "thumbnail": "👂"
+  },
+  {
+    "id": "best-slow-feeder-dog-bowls",
+    "file": "article-best-slow-feeder-dog-bowls.html",
+    "title": "Best Slow Feeder Dog Bowls (2026): Prevent Bloat & Reduce Overeating",
+    "date": "June 22, 2026",
+    "badge": "Feeding",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Maze, spiral, and puzzle designs that slow eating and reduce bloat risk.",
+    "thumbnail": "🥣"
   }
 ]
