@@ -559,5 +559,27 @@
     "category": "supplies",
     "cardDesc": "Maze, spiral, and puzzle designs that slow eating and reduce bloat risk.",
     "thumbnail": "🥣"
+  },
+  {
+    "id": "pet-flea-tick-removal-guide",
+    "file": "article-pet-flea-tick-removal-guide.html",
+    "title": "Pet Flea & Tick Control: Removal, Prevention & Treatment (2026)",
+    "date": "June 23, 2026",
+    "badge": "Parasite Control",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "How to remove ticks safely, prevent fleas, and protect your pet from tick‑borne diseases.",
+    "thumbnail": "🦟"
+  },
+  {
+    "id": "best-dog-nail-clippers",
+    "file": "article-best-dog-nail-clippers.html",
+    "title": "Best Dog Nail Clippers: Guillotine vs. Scissor vs. Grinder (2026)",
+    "date": "June 23, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Scissor, guillotine, and grinder options – plus how to avoid cutting the quick.",
+    "thumbnail": "✂️"
   }
 ]
