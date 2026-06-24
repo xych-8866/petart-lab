@@ -581,5 +581,27 @@
     "category": "supplies",
     "cardDesc": "Scissor, guillotine, and grinder options – plus how to avoid cutting the quick.",
     "thumbnail": "✂️"
+  },
+  {
+    "id": "pet-anxiety-stress-relief",
+    "file": "article-pet-anxiety-stress-relief.html",
+    "title": "Pet Anxiety & Stress Relief: Natural Calming Solutions for Dogs & Cats (2026)",
+    "date": "June 24, 2026",
+    "badge": "Anxiety Relief",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Pheromone diffusers, calming chews, and Thundershirts to reduce stress and anxiety.",
+    "thumbnail": "🌿"
+  },
+  {
+    "id": "best-pet-blankets-warm-beds",
+    "file": "article-best-pet-blankets-warm-beds.html",
+    "title": "Best Pet Blankets & Warm Beds: Cozy Comfort for Cold Nights (2026)",
+    "date": "June 24, 2026",
+    "badge": "Bedding",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Self‑warming beds, heated pads, and fleece blankets for small and senior pets.",
+    "thumbnail": "🛏️"
   }
 ]
