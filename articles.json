@@ -603,5 +603,27 @@
     "category": "supplies",
     "cardDesc": "Self‑warming beds, heated pads, and fleece blankets for small and senior pets.",
     "thumbnail": "🛏️"
+  },
+  {
+    "id": "pet-conjunctivitis-eye-infection",
+    "file": "article-pet-conjunctivitis-eye-infection.html",
+    "title": "Pet Conjunctivitis & Red Eye: Causes, Treatment & Prevention (2026)",
+    "date": "June 25, 2026",
+    "badge": "Eye Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Redness, discharge, and squinting – how to treat and prevent eye infections.",
+    "thumbnail": "👁️"
+  },
+  {
+    "id": "best-pet-socks-boots",
+    "file": "article-best-pet-socks-boots.html",
+    "title": "Best Pet Socks & Boots: Paw Protection for Winter, Hot Pavement & Injury (2026)",
+    "date": "June 25, 2026",
+    "badge": "Paw Protection",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Waterproof winter boots, breathable summer boots, and recovery socks for paw safety.",
+    "thumbnail": "🥾"
   }
 ]
