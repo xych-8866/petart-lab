@@ -17,7 +17,7 @@ jobs:
       - name: Submit sitemap to IndexNow
         uses: bojieyang/indexnow-action@v2
         with:
-          sitemap-url: https://www.petartlab.net/sitemap.xml
+          sitemap-location: https://www.petartlab.net/sitemap.xml
           endpoint: https://www.bing.com
           key: 0c0a7a36580b493e8a0f590d007781ae
           key-location: https://www.petartlab.net/0c0a7a36580b493e8a0f590d007781ae.txt
