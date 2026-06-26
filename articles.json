@@ -625,5 +625,27 @@
     "category": "supplies",
     "cardDesc": "Waterproof winter boots, breathable summer boots, and recovery socks for paw safety.",
     "thumbnail": "🥾"
+  },
+  {
+    "id": "pet-flea-tick-mite-control",
+    "file": "article-pet-flea-tick-mite-control.html",
+    "title": "Flea, Tick & Mite Control in Pets: Prevention, Treatment & Home Care (2026)",
+    "date": "June 26, 2026",
+    "badge": "Parasite Control",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Topical, oral, and collar prevention options. How to treat infestations at home.",
+    "thumbnail": "🦟"
+  },
+  {
+    "id": "best-pet-bedding-mats",
+    "file": "article-best-pet-bedding-mats.html",
+    "title": "Best Pet Bedding & Mats: Comfortable Sleeping Solutions for Dogs & Cats (2026)",
+    "date": "June 26, 2026",
+    "badge": "Bedding",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Orthopedic, elevated, and bolster beds for senior pets, anxious pets, and warm climates.",
+    "thumbnail": "🛏️"
   }
 ]
