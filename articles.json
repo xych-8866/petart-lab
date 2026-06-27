@@ -647,5 +647,27 @@
     "category": "supplies",
     "cardDesc": "Orthopedic, elevated, and bolster beds for senior pets, anxious pets, and warm climates.",
     "thumbnail": "🛏️"
+  },
+  {
+    "id": "pet-heatstroke-first-aid",
+    "file": "article-pet-heatstroke-first-aid.html",
+    "title": "Pet Heatstroke First Aid: How to Recognize and Treat Overheating (2026)",
+    "date": "June 27, 2026",
+    "badge": "Heat Safety",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Emergency cooling protocol, early warning signs, and prevention tips for hot weather.",
+    "thumbnail": "🌡️"
+  },
+  {
+    "id": "best-portable-pet-water-bottles",
+    "file": "article-best-portable-pet-water-bottles.html",
+    "title": "Best Portable Pet Water Bottles: Hydration on the Go (2026)",
+    "date": "June 27, 2026",
+    "badge": "Travel Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Leak‑proof, BPA‑free water bottles with integrated bowls for walks, hikes, and travel.",
+    "thumbnail": "💧"
   }
 ]
