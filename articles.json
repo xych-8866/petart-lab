@@ -669,5 +669,27 @@
     "category": "supplies",
     "cardDesc": "Leak‑proof, BPA‑free water bottles with integrated bowls for walks, hikes, and travel.",
     "thumbnail": "💧"
+  },
+  {
+    "id": "pet-vomiting-diarrhea-care",
+    "file": "article-pet-vomiting-diarrhea-care.html",
+    "title": "Pet Vomiting & Diarrhea: Causes, Home Care & When to See the Vet (2026)",
+    "date": "June 28, 2026",
+    "badge": "Digestive Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Fasting, bland diet, probiotics, and when to seek emergency care for gastrointestinal upset.",
+    "thumbnail": "🤢"
+  },
+  {
+    "id": "best-pet-crates-carriers-travel",
+    "file": "article-best-pet-crates-carriers-travel.html",
+    "title": "Best Pet Crates & Carriers for Travel: Airline‑Approved & Crash‑Tested (2026)",
+    "date": "June 28, 2026",
+    "badge": "Travel Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Hard‑sided, soft‑sided, and crash‑tested carriers for safe air and car travel.",
+    "thumbnail": "🧳"
   }
 ]
