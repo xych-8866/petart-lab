@@ -691,5 +691,27 @@
     "category": "supplies",
     "cardDesc": "Hard‑sided, soft‑sided, and crash‑tested carriers for safe air and car travel.",
     "thumbnail": "🧳"
+  },
+  {
+    "id": "pet-allergies-environmental-food",
+    "file": "article-pet-allergies-environmental-food.html",
+    "title": "Pet Allergies: Environmental vs. Food Allergies – Diagnosis & Management (2026)",
+    "date": "June 29, 2026",
+    "badge": "Allergy Management",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "How to identify triggers, elimination diets, immunotherapy, and products that relieve itching.",
+    "thumbnail": "🌿"
+  },
+  {
+    "id": "best-pet-toothbrush-kits-dental-products",
+    "file": "article-best-pet-toothbrush-kits-dental-products.html",
+    "title": "Best Pet Toothbrush Kits & Dental Care Products (2026)",
+    "date": "June 29, 2026",
+    "badge": "Dental Care",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Toothbrushes, enzymatic toothpaste, finger brushes, and complete dental kits.",
+    "thumbnail": "🪥"
   }
 ]
