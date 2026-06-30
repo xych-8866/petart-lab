@@ -713,5 +713,27 @@
     "category": "supplies",
     "cardDesc": "Toothbrushes, enzymatic toothpaste, finger brushes, and complete dental kits.",
     "thumbnail": "🪥"
+  },
+  {
+    "id": "pet-arthritis-physical-therapy",
+    "file": "article-pet-arthritis-physical-therapy.html",
+    "title": "Pet Arthritis Management: Physical Therapy, Rehabilitation & Non‑Surgical Pain Relief (2026)",
+    "date": "June 30, 2026",
+    "badge": "Arthritis Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Underwater treadmill, balance exercises, and medications that keep arthritic pets comfortable.",
+    "thumbnail": "🦮"
+  },
+  {
+    "id": "best-no-pull-dog-harnesses",
+    "file": "article-best-no-pull-dog-harnesses.html",
+    "title": "Best No‑Pull Dog Harnesses: Stop Pulling & Improve Walks (2026)",
+    "date": "June 30, 2026",
+    "badge": "Training",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Front‑clip, dual‑clip, and budget harnesses that reduce pulling and make walks enjoyable.",
+    "thumbnail": "🐕"
   }
 ]
