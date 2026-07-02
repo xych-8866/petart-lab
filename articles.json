@@ -735,5 +735,27 @@
     "category": "supplies",
     "cardDesc": "Front‑clip, dual‑clip, and budget harnesses that reduce pulling and make walks enjoyable.",
     "thumbnail": "🐕"
+  },
+  {
+    "id": "pet-fever-temperature-guide",
+    "file": "article-pet-fever-temperature-guide.html",
+    "title": "Pet Fever & Temperature Guide: How to Take Your Pet's Temperature & When to Worry (2026)",
+    "date": "July 2, 2026",
+    "badge": "Fever Management",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Normal temperature ranges, how to take a rectal temperature, and when to seek emergency care.",
+    "thumbnail": "🌡️"
+  },
+  {
+    "id": "best-pet-id-tags-collars",
+    "file": "article-best-pet-id-tags-collars.html",
+    "title": "Best Pet ID Tags & Collars: Customizable, Safe & Durable (2026)",
+    "date": "July 2, 2026",
+    "badge": "ID Tags",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Engraved, QR code, and smart tags – plus safe breakaway collars for cats.",
+    "thumbnail": "🏷️"
   }
 ]
