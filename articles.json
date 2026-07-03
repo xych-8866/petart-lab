@@ -757,5 +757,27 @@
     "category": "supplies",
     "cardDesc": "Engraved, QR code, and smart tags – plus safe breakaway collars for cats.",
     "thumbnail": "🏷️"
+  },
+  {
+    "id": "pet-cognitive-dysfunction-dementia",
+    "file": "article-pet-cognitive-dysfunction-dementia.html",
+    "title": "Pet Cognitive Dysfunction: Recognizing Dementia in Senior Dogs & Cats (2026)",
+    "date": "July 3, 2026",
+    "badge": "Cognitive Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "DISHA signs, brain‑support diets, supplements, and environmental enrichment for senior pets.",
+    "thumbnail": "🧠"
+  },
+  {
+    "id": "best-training-clickers-tools",
+    "file": "article-best-training-clickers-tools.html",
+    "title": "Best Training Clickers & Tools for Positive Reinforcement (2026)",
+    "date": "July 3, 2026",
+    "badge": "Training Tools",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Clickers, treat pouches, and kits that accelerate learning and make training fun.",
+    "thumbnail": "🔊"
   }
 ]
