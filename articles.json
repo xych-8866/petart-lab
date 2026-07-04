@@ -779,5 +779,27 @@
     "category": "supplies",
     "cardDesc": "Clickers, treat pouches, and kits that accelerate learning and make training fun.",
     "thumbnail": "🔊"
+  },
+  {
+    "id": "pet-gastrointestinal-foreign-bodies",
+    "file": "article-pet-gastrointestinal-foreign-bodies.html",
+    "title": "Pet Gastrointestinal Foreign Bodies: Signs, Emergency Care & Surgery (2026)",
+    "date": "July 4, 2026",
+    "badge": "Emergency Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Socks, strings, and bones – how to recognize, treat, and prevent GI foreign bodies.",
+    "thumbnail": "🚨"
+  },
+  {
+    "id": "best-pet-ear-cleaners",
+    "file": "article-best-pet-ear-cleaners.html",
+    "title": "Best Pet Ear Cleaners & Ear Care Kits (2026)",
+    "date": "July 4, 2026",
+    "badge": "Ear Care",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Vet‑recommended ear cleaners, wipes, and kits for routine ear care.",
+    "thumbnail": "🧴"
   }
 ]
