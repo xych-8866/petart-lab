@@ -801,5 +801,27 @@
     "category": "supplies",
     "cardDesc": "Vet‑recommended ear cleaners, wipes, and kits for routine ear care.",
     "thumbnail": "🧴"
+  },
+  {
+    "id": "pet-periodontal-disease-guide",
+    "file": "article-pet-periodontal-disease-guide.html",
+    "title": "Pet Periodontal Disease: Prevention, Treatment & Long-Term Management (2026)",
+    "date": "July 5, 2026",
+    "badge": "Dental Disease",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Stages of periodontal disease, professional cleaning, and daily home care.",
+    "thumbnail": "🦷"
+  },
+  {
+    "id": "best-puppy-training-pads",
+    "file": "article-best-puppy-training-pads.html",
+    "title": "Best Puppy Training Pads: Potty Training & Indoor Solutions for Dogs (2026)",
+    "date": "July 5, 2026",
+    "badge": "Potty Training",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Scent‑attracting, leak‑proof pads for puppies, senior pets, and apartment dogs.",
+    "thumbnail": "🧻"
   }
 ]
