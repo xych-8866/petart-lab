@@ -823,5 +823,27 @@
     "category": "supplies",
     "cardDesc": "Scent‑attracting, leak‑proof pads for puppies, senior pets, and apartment dogs.",
     "thumbnail": "🧻"
+  },
+  {
+    "id": "pet-bladder-stones-crystals",
+    "file": "article-pet-bladder-stones-crystals.html",
+    "title": "Pet Bladder Stones & Crystals: Prevention, Diet & Treatment (2026)",
+    "date": "July 6, 2026",
+    "badge": "Urinary Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Struvite, oxalate, and urate stones – diagnosis, prescription diets, and prevention.",
+    "thumbnail": "🧊"
+  },
+  {
+    "id": "best-adjustable-pet-bowls-stands",
+    "file": "article-best-adjustable-pet-bowls-stands.html",
+    "title": "Best Adjustable Pet Bowls & Elevated Feeding Stands (2026)",
+    "date": "July 6, 2026",
+    "badge": "Feeding",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Adjustable, non‑slip stands for arthritic and senior pets.",
+    "thumbnail": "🍽️"
   }
 ]
