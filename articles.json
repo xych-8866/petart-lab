@@ -845,5 +845,27 @@
     "category": "supplies",
     "cardDesc": "Adjustable, non‑slip stands for arthritic and senior pets.",
     "thumbnail": "🍽️"
+  },
+  {
+    "id": "pet-kennel-cough-respiratory",
+    "file": "article-pet-kennel-cough-respiratory.html",
+    "title": "Kennel Cough in Dogs: Causes, Symptoms & Treatment (2026)",
+    "date": "July 7, 2026",
+    "badge": "Respiratory Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "The 'honking' cough, when to see the vet, and how Bordetella vaccination prevents it.",
+    "thumbnail": "🫁"
+  },
+  {
+    "id": "best-pet-first-aid-kits",
+    "file": "article-best-pet-first-aid-kits.html",
+    "title": "Best Pet First Aid Kits & Emergency Supplies (2026)",
+    "date": "July 7, 2026",
+    "badge": "First Aid",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Pre‑assembled kits, essential supplies, and when to use them in an emergency.",
+    "thumbnail": "🩹"
   }
 ]
