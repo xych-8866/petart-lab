@@ -867,5 +867,27 @@
     "category": "supplies",
     "cardDesc": "Pre‑assembled kits, essential supplies, and when to use them in an emergency.",
     "thumbnail": "🩹"
+  },
+  {
+    "id": "pet-constipation-guide",
+    "file": "article-pet-constipation-guide.html",
+    "title": "Pet Constipation: Causes, Treatment & Prevention (2026)",
+    "date": "July 8, 2026",
+    "badge": "Digestive Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Signs of constipation, home remedies (pumpkin, fiber), and when to see the vet.",
+    "thumbnail": "🧻"
+  },
+  {
+    "id": "best-pet-brushes-combs",
+    "file": "article-best-pet-brushes-combs.html",
+    "title": "Best Pet Brushes & Combs: For Shedding, Mats & Different Coat Types (2026)",
+    "date": "July 8, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Slicker, undercoat rake, deshedding tools, and grooming gloves for every coat type.",
+    "thumbnail": "🪥"
   }
 ]
