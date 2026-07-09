@@ -889,5 +889,27 @@
     "category": "supplies",
     "cardDesc": "Slicker, undercoat rake, deshedding tools, and grooming gloves for every coat type.",
     "thumbnail": "🪥"
+  },
+  {
+    "id": "pet-ear-mites-guide",
+    "file": "article-pet-ear-mites-guide.html",
+    "title": "Ear Mites in Pets: Signs, Treatment & Prevention (2026)",
+    "date": "July 9, 2026",
+    "badge": "Parasite Control",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Dark ear debris, head shaking, and how to treat and prevent ear mites in dogs and cats.",
+    "thumbnail": "🕷️"
+  },
+  {
+    "id": "best-pet-mats-beds-comfort",
+    "file": "article-best-pet-mats-beds-comfort.html",
+    "title": "Best Pet Mats & Beds: Comfortable Sleeping Solutions (2026)",
+    "date": "July 9, 2026",
+    "badge": "Bedding",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Orthopedic, cooling, heated, and bolster beds for every pet's needs.",
+    "thumbnail": "🛏️"
   }
 ]
