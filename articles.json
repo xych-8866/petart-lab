@@ -911,5 +911,27 @@
     "category": "supplies",
     "cardDesc": "Orthopedic, cooling, heated, and bolster beds for every pet's needs.",
     "thumbnail": "🛏️"
+  },
+  {
+    "id": "pet-snoring-sleep-apnea",
+    "file": "article-pet-snoring-sleep-apnea.html",
+    "title": "Pet Snoring & Sleep Apnea: When to Worry (2026)",
+    "date": "July 10, 2026",
+    "badge": "Respiratory Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Brachycephalic breeds, obesity, and when snoring becomes a health risk.",
+    "thumbnail": "😴"
+  },
+  {
+    "id": "best-pet-grooming-gloves",
+    "file": "article-best-pet-grooming-gloves.html",
+    "title": "Best Pet Grooming Gloves: Remove Loose Fur & Massage (2026)",
+    "date": "July 10, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Gentle rubber and silicone gloves that remove fur and provide a soothing massage.",
+    "thumbnail": "🧤"
   }
 ]
