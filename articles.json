@@ -933,5 +933,27 @@
     "category": "supplies",
     "cardDesc": "Gentle rubber and silicone gloves that remove fur and provide a soothing massage.",
     "thumbnail": "🧤"
+  },
+  {
+    "id": "pet-malnutrition-vitamin-deficiency",
+    "file": "article-pet-malnutrition-vitamin-deficiency.html",
+    "title": "Pet Malnutrition: Vitamin Deficiencies & Nutritional Imbalances (2026)",
+    "date": "July 11, 2026",
+    "badge": "Nutrition",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Common deficiencies, choosing complete foods, and when to use supplements.",
+    "thumbnail": "🥩"
+  },
+  {
+    "id": "best-pet-food-storage-containers-cans",
+    "file": "article-best-pet-food-storage-containers-cans.html",
+    "title": "Best Pet Food Storage Containers & Treat Jars (2026)",
+    "date": "July 11, 2026",
+    "badge": "Food Storage",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Airtight, BPA‑free containers for kibble and treats that preserve freshness.",
+    "thumbnail": "🥫"
   }
 ]
