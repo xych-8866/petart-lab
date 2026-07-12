@@ -955,5 +955,27 @@
     "category": "supplies",
     "cardDesc": "Airtight, BPA‑free containers for kibble and treats that preserve freshness.",
     "thumbnail": "🥫"
+  },
+  {
+    "id": "pet-eczema-dermatitis-guide",
+    "file": "article-pet-eczema-dermatitis-guide.html",
+    "title": "Pet Eczema & Dermatitis: Causes, Treatment & Prevention (2026)",
+    "date": "July 12, 2026",
+    "badge": "Skin Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Red, itchy, scaly skin – allergies, parasites, and effective treatments.",
+    "thumbnail": "🧴"
+  },
+  {
+    "id": "best-pet-nail-care-kits",
+    "file": "article-best-pet-nail-care-kits.html",
+    "title": "Best Pet Nail Care Kits: Clippers, Grinders & Styptic Powder (2026)",
+    "date": "July 12, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Complete kits with clippers, grinders, and styptic powder for safe nail care.",
+    "thumbnail": "✂️"
   }
 ]
