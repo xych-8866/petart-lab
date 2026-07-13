@@ -977,5 +977,27 @@
     "category": "supplies",
     "cardDesc": "Complete kits with clippers, grinders, and styptic powder for safe nail care.",
     "thumbnail": "✂️"
+  },
+  {
+    "id": "cat-fic-urinary-blockage",
+    "file": "article-cat-fic-urinary-blockage.html",
+    "title": "Cat FIC & Urinary Blockage: Signs, Emergency & Prevention (2026)",
+    "date": "July 13, 2026",
+    "badge": "Urinary Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Feline idiopathic cystitis, urethral obstruction, and how to prevent life‑threatening blockages.",
+    "thumbnail": "🚨"
+  },
+  {
+    "id": "best-pet-rain-gear-sets",
+    "file": "article-best-pet-rain-gear-sets.html",
+    "title": "Best Pet Rain Gear Sets: Raincoats, Boots & Towels (2026)",
+    "date": "July 13, 2026",
+    "badge": "Rain Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Waterproof raincoats, non‑slip boots, and absorbent towels for dry, comfortable walks.",
+    "thumbnail": "☔"
   }
 ]
