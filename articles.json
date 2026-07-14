@@ -999,5 +999,27 @@
     "category": "supplies",
     "cardDesc": "Waterproof raincoats, non‑slip boots, and absorbent towels for dry, comfortable walks.",
     "thumbnail": "☔"
+  },
+  {
+    "id": "pet-immune-system-disorders",
+    "file": "article-pet-immune-system-disorders.html",
+    "title": "Pet Immune System Disorders: Autoimmune Diseases & Immunodeficiency (2026)",
+    "date": "July 14, 2026",
+    "badge": "Immune Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Pemphigus, IMHA, ITP, lupus – diagnosis, immunosuppressants, and long-term management.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-collapsible-pet-bowls",
+    "file": "article-best-collapsible-pet-bowls.html",
+    "title": "Best Collapsible Pet Bowls: Portable, Lightweight & Travel-Friendly (2026)",
+    "date": "July 14, 2026",
+    "badge": "Travel Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Silicone and nylon bowls that fold flat for hiking, camping, and daily walks.",
+    "thumbnail": "🥣"
   }
 ]
