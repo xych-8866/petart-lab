@@ -1021,5 +1021,27 @@
     "category": "supplies",
     "cardDesc": "Silicone and nylon bowls that fold flat for hiking, camping, and daily walks.",
     "thumbnail": "🥣"
+  },
+  {
+    "id": "pet-obesity-health-risks",
+    "file": "article-pet-obesity-health-risks.html",
+    "title": "Pet Obesity Health Risks: Beyond the Scale (2026)",
+    "date": "July 15, 2026",
+    "badge": "Weight Management",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "The hidden dangers of pet obesity: diabetes, arthritis, heart disease, and shortened lifespan.",
+    "thumbnail": "⚖️"
+  },
+  {
+    "id": "best-pet-deshedding-tools",
+    "file": "article-best-pet-deshedding-tools.html",
+    "title": "Best Pet Deshedding Tools: Reduce Shedding by Up to 90% (2026)",
+    "date": "July 15, 2026",
+    "badge": "Grooming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Furminator, undercoat rakes, and grooming gloves that remove loose fur and reduce shedding.",
+    "thumbnail": "🪥"
   }
 ]
