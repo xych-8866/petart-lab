@@ -1043,5 +1043,27 @@
     "category": "supplies",
     "cardDesc": "Furminator, undercoat rakes, and grooming gloves that remove loose fur and reduce shedding.",
     "thumbnail": "🪥"
+  },
+  {
+    "id": "pet-gdv-bloat-guide",
+    "file": "article-pet-gdv-bloat-guide.html",
+    "title": "GDV & Bloat in Dogs: Signs, Emergency Care & Prevention (2026)",
+    "date": "July 16, 2026",
+    "badge": "Emergency Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Unproductive retching, distended abdomen, and restlessness – signs of GDV in large dogs.",
+    "thumbnail": "🚨"
+  },
+  {
+    "id": "best-dog-leashes-guide",
+    "file": "article-best-dog-leashes-guide.html",
+    "title": "Best Dog Leashes: Choosing the Right Leash for Your Dog (2026)",
+    "date": "July 16, 2026",
+    "badge": "Training",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Standard, retractable, hands-free, and training leashes – choose the right one for your dog.",
+    "thumbnail": "🦮"
   }
 ]
