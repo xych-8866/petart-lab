@@ -1065,5 +1065,27 @@
     "category": "supplies",
     "cardDesc": "Standard, retractable, hands-free, and training leashes – choose the right one for your dog.",
     "thumbnail": "🦮"
+  },
+  {
+    "id": "pet-cpr-first-aid-guide",
+    "file": "article-pet-cpr-first-aid-guide.html",
+    "title": "Pet CPR & Emergency First Aid: Step-by-Step Guide (2026)",
+    "date": "July 18, 2026",
+    "badge": "Emergency Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Learn how to perform CPR on dogs and cats: chest compressions, rescue breathing, and when to act.",
+    "thumbnail": "🫀"
+  },
+  {
+    "id": "best-pet-sweaters-clothing",
+    "file": "article-best-pet-sweaters-clothing.html",
+    "title": "Best Pet Sweaters & Clothing: Warmth, Style & Comfort (2026)",
+    "date": "July 18, 2026",
+    "badge": "Clothing",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Fleece, wool, and waterproof coats for small breeds, senior pets, and cold weather walks.",
+    "thumbnail": "🧥"
   }
 ]
