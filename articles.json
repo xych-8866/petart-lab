@@ -1087,5 +1087,27 @@
     "category": "supplies",
     "cardDesc": "Fleece, wool, and waterproof coats for small breeds, senior pets, and cold weather walks.",
     "thumbnail": "🧥"
+  },
+  {
+    "id": "pet-eye-diseases-guide",
+    "file": "article-pet-eye-diseases-guide.html",
+    "title": "Pet Eye Diseases: Conjunctivitis, Corneal Ulcers & Glaucoma (2026)",
+    "date": "July 19, 2026",
+    "badge": "Eye Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Redness, discharge, squinting, and cloudiness – how to recognize and treat common eye diseases.",
+    "thumbnail": "👁️"
+  },
+  {
+    "id": "best-pet-eye-care-products",
+    "file": "article-best-pet-eye-care-products.html",
+    "title": "Best Pet Eye Care Products: Wipes, Drops & Cleaners (2026)",
+    "date": "July 19, 2026",
+    "badge": "Eye Care",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Gentle wipes, eye washes, and tear stain removers for daily eye hygiene.",
+    "thumbnail": "🧴"
   }
 ]
