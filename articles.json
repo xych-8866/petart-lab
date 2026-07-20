@@ -1109,5 +1109,27 @@
     "category": "supplies",
     "cardDesc": "Gentle wipes, eye washes, and tear stain removers for daily eye hygiene.",
     "thumbnail": "🧴"
+  },
+  {
+    "id": "pet-reproductive-health-guide",
+    "file": "article-pet-reproductive-health-guide.html",
+    "title": "Pet Reproductive Health: Spay/Neuter, Heat Cycles & Breeding (2026)",
+    "date": "July 20, 2026",
+    "badge": "Reproductive Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Spaying, neutering, heat cycles, breeding decisions, and preventing unwanted litters.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-pet-lick-mats-guide",
+    "file": "article-best-pet-lick-mats-guide.html",
+    "title": "Best Pet Lick Mats: Calming, Enrichment & Slow Feeding (2026)",
+    "date": "July 20, 2026",
+    "badge": "Enrichment",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Reduce anxiety, slow eating, and provide mental enrichment with top-rated lick mats.",
+    "thumbnail": "🧽"
   }
 ]
