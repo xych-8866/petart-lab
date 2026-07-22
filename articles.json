@@ -1131,5 +1131,27 @@
     "category": "supplies",
     "cardDesc": "Reduce anxiety, slow eating, and provide mental enrichment with top-rated lick mats.",
     "thumbnail": "🧽"
+  },
+  {
+    "id": "pet-stress-adaptation-disorders",
+    "file": "article-pet-stress-adaptation-disorders.html",
+    "title": "Pet Stress & Adaptation Disorders: Signs, Triggers & Solutions (2026)",
+    "date": "July 22, 2026",
+    "badge": "Mental Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Common stress triggers in dogs and cats, physical signs, and effective calming strategies.",
+    "thumbnail": "🧠"
+  },
+  {
+    "id": "best-pet-toy-storage-guide",
+    "file": "article-best-pet-toy-storage-guide.html",
+    "title": "Best Pet Toy Storage: Organize & Declutter (2026)",
+    "date": "July 22, 2026",
+    "badge": "Organization",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Bins, baskets, and wall-mounted racks to keep toys organized and your home tidy.",
+    "thumbnail": "📦"
   }
 ]
