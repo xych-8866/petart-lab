@@ -1153,5 +1153,27 @@
     "category": "supplies",
     "cardDesc": "Bins, baskets, and wall-mounted racks to keep toys organized and your home tidy.",
     "thumbnail": "📦"
+  },
+  {
+    "id": "pet-toxicology-poisoning-guide",
+    "file": "article-pet-toxicology-poisoning-guide.html",
+    "title": "Pet Toxicology: Common Household Poisons & Emergency First Aid (2026)",
+    "date": "July 24, 2026",
+    "badge": "Emergency Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Chocolate, xylitol, grapes, and lilies – learn what's toxic and what to do in an emergency.",
+    "thumbnail": "☠️"
+  },
+  {
+    "id": "best-pet-flea-collars-sprays",
+    "file": "article-best-pet-flea-collars-sprays.html",
+    "title": "Best Flea Collars & Insect Repellent Sprays for Pets (2026)",
+    "date": "July 24, 2026",
+    "badge": "Parasite Control",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Compare flea collars vs sprays – effectiveness, safety, and top products for dogs and cats.",
+    "thumbnail": "🛡️"
   }
 ]
