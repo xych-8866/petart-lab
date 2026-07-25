@@ -1175,5 +1175,27 @@
     "category": "supplies",
     "cardDesc": "Compare flea collars vs sprays – effectiveness, safety, and top products for dogs and cats.",
     "thumbnail": "🛡️"
+  },
+  {
+    "id": "pet-fungal-infections-ringworm",
+    "file": "article-pet-fungal-infections-ringworm.html",
+    "title": "Fungal Infections & Ringworm in Pets: Causes, Treatment & Prevention (2026)",
+    "date": "July 25, 2026",
+    "badge": "Skin Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Circular bald patches, scaly skin, and how to treat ringworm in dogs and cats.",
+    "thumbnail": "🍄"
+  },
+  {
+    "id": "best-pet-cooling-mats-products",
+    "file": "article-best-pet-cooling-mats-products.html",
+    "title": "Best Cooling Mats & Summer Products for Pets (2026)",
+    "date": "July 25, 2026",
+    "badge": "Summer Products",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Cooling mats, vests, and bandanas to keep pets comfortable in hot weather.",
+    "thumbnail": "🧊"
   }
 ]
