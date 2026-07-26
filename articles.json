@@ -1197,5 +1197,27 @@
     "category": "supplies",
     "cardDesc": "Cooling mats, vests, and bandanas to keep pets comfortable in hot weather.",
     "thumbnail": "🧊"
+  },
+  {
+    "id": "pet-osteoarthritis-management",
+    "file": "article-pet-osteoarthritis-management.html",
+    "title": "Osteoarthritis in Pets: Diagnosis, Medications & Long-Term Management (2026)",
+    "date": "July 26, 2026",
+    "badge": "Joint Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "NSAIDs, Adequan, Librela, and lifestyle changes for managing OA in dogs and cats.",
+    "thumbnail": "🦴"
+  },
+  {
+    "id": "best-pet-snuffle-mats-guide",
+    "file": "article-best-pet-snuffle-mats-guide.html",
+    "title": "Best Snuffle Mats for Pets: Foraging & Mental Stimulation (2026)",
+    "date": "July 26, 2026",
+    "badge": "Enrichment",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Slow feeding, anxiety reduction, and brain games with top-rated snuffle mats.",
+    "thumbnail": "🧵"
   }
 ]
