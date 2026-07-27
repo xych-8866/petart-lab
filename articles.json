@@ -1219,5 +1219,27 @@
     "category": "supplies",
     "cardDesc": "Slow feeding, anxiety reduction, and brain games with top-rated snuffle mats.",
     "thumbnail": "🧵"
+  },
+  {
+    "id": "pet-hearing-loss-deafness",
+    "file": "article-pet-hearing-loss-deafness.html",
+    "title": "Hearing Loss & Deafness in Dogs and Cats: Signs, Causes & Care (2026)",
+    "date": "July 27, 2026",
+    "badge": "Sensory Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Congenital deafness, age-related hearing loss, and how to care for a hearing-impaired pet.",
+    "thumbnail": "🦻"
+  },
+  {
+    "id": "best-pet-reflective-gear",
+    "file": "article-best-pet-reflective-gear.html",
+    "title": "Best Reflective Gear & Safety Vests for Pets (2026)",
+    "date": "July 27, 2026",
+    "badge": "Safety Gear",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Reflective vests, LED collars, and leashes for safe night walks.",
+    "thumbnail": "🦺"
   }
 ]
