@@ -1241,5 +1241,27 @@
     "category": "supplies",
     "cardDesc": "Reflective vests, LED collars, and leashes for safe night walks.",
     "thumbnail": "🦺"
+  },
+  {
+    "id": "pet-acl-injury-guide",
+    "file": "article-pet-acl-injury-guide.html",
+    "title": "ACL Injuries in Dogs: Diagnosis, Surgery & Recovery (2026)",
+    "date": "July 28, 2026",
+    "badge": "Orthopedic Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "TPLO, TTA, and rehab for cranial cruciate ligament tears in dogs.",
+    "thumbnail": "🦴"
+  },
+  {
+    "id": "best-pet-puzzle-toys-dispensers",
+    "file": "article-best-pet-puzzle-toys-dispensers.html",
+    "title": "Best Puzzle Toys & Treat Dispensers for Dogs and Cats (2026)",
+    "date": "July 28, 2026",
+    "badge": "Enrichment",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Interactive puzzle toys and treat dispensers for mental stimulation.",
+    "thumbnail": "🧩"
   }
 ]
