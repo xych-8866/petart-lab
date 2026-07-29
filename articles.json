@@ -1263,5 +1263,27 @@
     "category": "supplies",
     "cardDesc": "Interactive puzzle toys and treat dispensers for mental stimulation.",
     "thumbnail": "🧩"
+  },
+  {
+    "id": "pet-behavior-modification-guide",
+    "file": "article-pet-behavior-modification-guide.html",
+    "title": "Pet Behavior Modification: Managing Aggression, Fear & Compulsive Disorders (2026)",
+    "date": "July 29, 2026",
+    "badge": "Behavioral Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Aggression, fear, and anxiety in dogs and cats – behavior modification and training strategies.",
+    "thumbnail": "🧠"
+  },
+  {
+    "id": "best-pet-car-safety-seats-harnesses",
+    "file": "article-best-pet-car-safety-seats-harnesses.html",
+    "title": "Best Car Safety Seats & Harnesses for Dogs and Cats (2026)",
+    "date": "July 29, 2026",
+    "badge": "Car Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Crash-tested harnesses, booster seats, and carriers for safe car travel.",
+    "thumbnail": "🚗"
   }
 ]
