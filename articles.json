@@ -1285,5 +1285,27 @@
     "category": "supplies",
     "cardDesc": "Crash-tested harnesses, booster seats, and carriers for safe car travel.",
     "thumbnail": "🚗"
+  },
+  {
+    "id": "feline-infectious-peritonitis-fip",
+    "file": "article-feline-infectious-peritonitis-fip.html",
+    "title": "Feline Infectious Peritonitis (FIP): Diagnosis, Treatment & Breakthroughs (2026)",
+    "date": "July 31, 2026",
+    "badge": "Feline Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "FIP in cats: new antiviral therapies (GS-441524) offer hope where there was none.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-pet-cleaning-wipes-guide",
+    "file": "article-best-pet-cleaning-wipes-guide.html",
+    "title": "Best Pet Cleaning Wipes: Multi-Purpose & Specialized Solutions (2026)",
+    "date": "July 31, 2026",
+    "badge": "Cleaning",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "All-purpose, paw, eye, and ear wipes for daily pet hygiene and cleaning.",
+    "thumbnail": "🧻"
   }
 ]
