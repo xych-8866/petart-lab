@@ -1307,5 +1307,27 @@
     "category": "supplies",
     "cardDesc": "All-purpose, paw, eye, and ear wipes for daily pet hygiene and cleaning.",
     "thumbnail": "🧻"
+  },
+  {
+    "id": "pet-cushings-disease-guide",
+    "file": "article-pet-cushings-disease-guide.html",
+    "title": "Cushing's Disease in Dogs: Diagnosis & Long-Term Management (2026)",
+    "date": "August 2, 2026",
+    "badge": "Endocrine Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Excessive thirst, pot-bellied appearance, and hair loss – signs of Cushing's disease in dogs.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-pet-training-pads-indoor-solutions",
+    "file": "article-best-pet-training-pads-indoor-solutions.html",
+    "title": "Best Training Pads & Indoor Potty Solutions for Pets (2026)",
+    "date": "August 2, 2026",
+    "badge": "Potty Training",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Scented, leak-proof, and washable pads for puppies, seniors, and apartment dogs.",
+    "thumbnail": "🧻"
   }
 ]
