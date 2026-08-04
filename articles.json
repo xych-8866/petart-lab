@@ -1329,5 +1329,27 @@
     "category": "supplies",
     "cardDesc": "Scented, leak-proof, and washable pads for puppies, seniors, and apartment dogs.",
     "thumbnail": "🧻"
+  },
+  {
+    "id": "pet-hospice-palliative-care",
+    "file": "article-pet-hospice-palliative-care.html",
+    "title": "Pet Hospice & Palliative Care: End-of-Life Support (2026)",
+    "date": "August 4, 2026",
+    "badge": "End-of-Life Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Palliative care, quality of life assessment, pain management, and end-of-life decisions.",
+    "thumbnail": "🕊️"
+  },
+  {
+    "id": "best-pet-anti-slip-rugs-mats",
+    "file": "article-best-pet-anti-slip-rugs-mats.html",
+    "title": "Best Anti-Slip Rugs & Safety Mats for Pets (2026)",
+    "date": "August 4, 2026",
+    "badge": "Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Non-slip rugs, carpet runners, and mats for safe movement on hard floors.",
+    "thumbnail": "🧶"
   }
 ]
