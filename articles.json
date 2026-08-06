@@ -1351,5 +1351,27 @@
     "category": "supplies",
     "cardDesc": "Non-slip rugs, carpet runners, and mats for safe movement on hard floors.",
     "thumbnail": "🧶"
+  },
+  {
+    "id": "canine-mitral-valve-disease-guide",
+    "file": "article-canine-mitral-valve-disease-guide.html",
+    "title": "Canine Mitral Valve Disease: Staging, Treatment & Long-Term Management (2026)",
+    "date": "August 6, 2026",
+    "badge": "Cardiology",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "ACVIM staging, pimobendan, diuretics, and when to escalate therapy for advanced heart failure.",
+    "thumbnail": "❤️"
+  },
+  {
+    "id": "best-pet-car-restraints-guide",
+    "file": "article-best-pet-car-restraints-guide.html",
+    "title": "Best Pet Car Restraints: Crash-Tested Harnesses & Safety Seats (2026)",
+    "date": "August 6, 2026",
+    "badge": "Car Safety",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "CPS-certified harnesses, crates, and carriers for safe car travel.",
+    "thumbnail": "🚗"
   }
 ]
