@@ -1373,5 +1373,27 @@
     "category": "supplies",
     "cardDesc": "CPS-certified harnesses, crates, and carriers for safe car travel.",
     "thumbnail": "🚗"
+  },
+  {
+    "id": "pet-parasite-risk-map-2026",
+    "file": "article-pet-parasite-risk-map-2026.html",
+    "title": "Pet Parasite Risk Map 2026: Lyme, Heartworm & Tick-Borne Disease Expansion",
+    "date": "August 7, 2026",
+    "badge": "Parasite Control",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Lyme disease, heartworm, and tick-borne illnesses are expanding into new regions. Learn the 2026 parasite risk map.",
+    "thumbnail": "🗺️"
+  },
+  {
+    "id": "best-pet-health-trackers-2026",
+    "file": "article-best-pet-health-trackers-2026.html",
+    "title": "Best Pet Health Trackers 2026: Smart Collars for Dogs & Cats",
+    "date": "August 7, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "GPS collars with AI health monitoring, heart rate, respiratory tracking, and early illness detection.",
+    "thumbnail": "📡"
   }
 ]
