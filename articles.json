@@ -1395,5 +1395,27 @@
     "category": "supplies",
     "cardDesc": "GPS collars with AI health monitoring, heart rate, respiratory tracking, and early illness detection.",
     "thumbnail": "📡"
+  },
+  {
+    "id": "pet-gut-microbiome-immunity",
+    "file": "article-pet-gut-microbiome-immunity.html",
+    "title": "Pet Gut Microbiome & Immunity: The Key to Overall Health (2026)",
+    "date": "August 8, 2026",
+    "badge": "Gut Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "70% of immunity starts in the gut. Learn how to support your pet's microbiome with diet, probiotics, and prebiotics.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-ai-pet-products-2026",
+    "file": "article-best-ai-pet-products-2026.html",
+    "title": "Best AI Pet Products 2026: Smart Tech for Smarter Pet Care",
+    "date": "August 8, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "AI-powered smart feeders, health collars, pet doors, and toys that transform pet care.",
+    "thumbnail": "🤖"
   }
 ]
