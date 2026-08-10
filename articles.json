@@ -1417,5 +1417,27 @@
     "category": "supplies",
     "cardDesc": "AI-powered smart feeders, health collars, pet doors, and toys that transform pet care.",
     "thumbnail": "🤖"
+  },
+  {
+    "id": "pet-dental-extraction-surgery",
+    "file": "article-pet-dental-extraction-surgery.html",
+    "title": "Pet Tooth Extraction & Oral Surgery: What to Expect (2026)",
+    "date": "August 10, 2026",
+    "badge": "Oral Surgery",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Simple vs. surgical extractions, anesthesia, recovery, and costs.",
+    "thumbnail": "🦷"
+  },
+  {
+    "id": "best-pet-anxiety-vests",
+    "file": "article-best-pet-anxiety-vests.html",
+    "title": "Best Pet Anxiety Vests: Calming Wraps for Stress Relief (2026)",
+    "date": "August 10, 2026",
+    "badge": "Calming",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Thundershirts, compression wraps, and calming vests for storm and travel anxiety.",
+    "thumbnail": "🧘"
   }
 ]
