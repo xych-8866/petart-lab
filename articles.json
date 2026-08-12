@@ -1439,5 +1439,27 @@
     "category": "supplies",
     "cardDesc": "Thundershirts, compression wraps, and calming vests for storm and travel anxiety.",
     "thumbnail": "🧘"
+  },
+  {
+    "id": "pet-chemical-burn-first-aid",
+    "file": "article-pet-chemical-burn-first-aid.html",
+    "title": "Pet Chemical Burns: Emergency First Aid & Long-Term Care (2026)",
+    "date": "August 12, 2026",
+    "badge": "Emergency Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Household chemicals, emergency flushing, and when to seek veterinary care for chemical burns.",
+    "thumbnail": "🧪"
+  },
+  {
+    "id": "best-pet-ultrasonic-tooth-cleaners",
+    "file": "article-best-pet-ultrasonic-tooth-cleaners.html",
+    "title": "Best Ultrasonic Pet Tooth Cleaners: At-Home Dental Care (2026)",
+    "date": "August 12, 2026",
+    "badge": "Dental Care",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Ultrasonic plaque and tartar removers for dogs and cats – safe, quiet, and effective.",
+    "thumbnail": "🦷"
   }
 ]
