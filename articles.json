@@ -1461,5 +1461,27 @@
     "category": "supplies",
     "cardDesc": "Ultrasonic plaque and tartar removers for dogs and cats – safe, quiet, and effective.",
     "thumbnail": "🦷"
+  },
+  {
+    "id": "pet-allergy-management-2026",
+    "file": "article-pet-allergy-management-2026.html",
+    "title": "Pet Allergy Management 2026: Environmental & Food Allergy Recognition and Treatment",
+    "date": "August 15, 2026",
+    "badge": "Allergy Management",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "New 2026 treatments: Befrena and NUMELVI. Elimination diets and comprehensive management for allergic pets.",
+    "thumbnail": "🌿"
+  },
+  {
+    "id": "best-pet-cameras-2026",
+    "file": "article-best-pet-cameras-2026.html",
+    "title": "Best Pet Cameras 2026: Remote Monitoring & Interactive Treat Dispensers",
+    "date": "August 15, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Treat-dispensing cameras, 360° pan/tilt, two-way audio, and night vision for remote pet monitoring.",
+    "thumbnail": "📹"
   }
 ]
