@@ -1483,5 +1483,27 @@
     "category": "supplies",
     "cardDesc": "Treat-dispensing cameras, 360° pan/tilt, two-way audio, and night vision for remote pet monitoring.",
     "thumbnail": "📹"
+  },
+  {
+    "id": "pet-microbiome-synbiotics-2026",
+    "file": "article-pet-microbiome-synbiotics-2026.html",
+    "title": "Pet Microbiome & Synbiotics: The Next Generation of Gut Health (2026)",
+    "date": "August 18, 2026",
+    "badge": "Gut Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Synbiotics combine probiotics and prebiotics for superior gut health — the next frontier in pet wellness.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "pet-ai-translator-2026",
+    "file": "article-pet-ai-translator-2026.html",
+    "title": "AI Pet Translator 2026: Can Tech Really Understand Your Pet?",
+    "date": "August 18, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Pettichat, Vaboo, and SATELLAI — AI devices that decode barks, meows, and purrs.",
+    "thumbnail": "🎙️"
   }
 ]
