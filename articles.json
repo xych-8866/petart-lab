@@ -1505,5 +1505,27 @@
     "category": "supplies",
     "cardDesc": "Pettichat, Vaboo, and SATELLAI — AI devices that decode barks, meows, and purrs.",
     "thumbnail": "🎙️"
+  },
+  {
+    "id": "pet-longevity-science-2026",
+    "file": "article-pet-longevity-science-2026.html",
+    "title": "Pet Longevity Science 2026: Preventive Health & Anti-Aging Nutrition",
+    "date": "August 20, 2026",
+    "badge": "Longevity",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Joint health, microbiome, and proactive wellness — how to help your pet live longer.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "pet-ai-translator-deep-dive-2026",
+    "file": "article-pet-ai-translator-deep-dive-2026.html",
+    "title": "AI Pet Translator Deep Dive 2026: How Accurate Are They Really?",
+    "date": "August 20, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "PettiChat, PurrPurr, Vaboo — 94.6% accuracy claims and real-world performance.",
+    "thumbnail": "🎙️"
   }
 ]
