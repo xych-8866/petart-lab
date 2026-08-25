@@ -1527,5 +1527,27 @@
     "category": "supplies",
     "cardDesc": "PettiChat, PurrPurr, Vaboo — 94.6% accuracy claims and real-world performance.",
     "thumbnail": "🎙️"
+  },
+  {
+    "id": "ai-veterinary-imaging-2026",
+    "file": "article-ai-veterinary-imaging-2026.html",
+    "title": "AI Veterinary Imaging 2026: The Precision Revolution in Pet Diagnostics",
+    "date": "August 25, 2026",
+    "badge": "Diagnostic Imaging",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "AI is transforming MRI, CT, and X-ray interpretation with &gt;95% accuracy — from heart murmur detection to dental radiographs.",
+    "thumbnail": "📊"
+  },
+  {
+    "id": "pet-fair-asia-smart-tech-2026",
+    "file": "article-pet-fair-asia-smart-tech-2026.html",
+    "title": "Pet Fair Asia 2026: The Smart Tech Revolution in Pet Care",
+    "date": "August 25, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Cat face recognition feeders, AI health collars, pet translators, and companion robots from Asia's biggest pet show.",
+    "thumbnail": "🤖"
   }
 ]
