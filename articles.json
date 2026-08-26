@@ -1549,5 +1549,27 @@
     "category": "supplies",
     "cardDesc": "Cat face recognition feeders, AI health collars, pet translators, and companion robots from Asia's biggest pet show.",
     "thumbnail": "🤖"
+  },
+  {
+    "id": "senior-pet-care-guide-2026",
+    "file": "article-senior-pet-care-guide-2026.html",
+    "title": "Senior Pet Care 2026: From Wellness Management to End-of-Life Care",
+    "date": "August 26, 2026",
+    "badge": "Senior Pet Care",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Complete guide to senior dog and cat care — joint health, cognitive function, AI monitoring, and end-of-life decisions.",
+    "thumbnail": "👴"
+  },
+  {
+    "id": "smart-litter-box-guide-2026",
+    "file": "article-smart-litter-box-guide-2026.html",
+    "title": "Smart Litter Box Guide 2026: AI Health Monitoring & Self-Cleaning",
+    "date": "August 26, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "AI-powered litter boxes with health monitoring, multi-cat recognition, and early disease detection.",
+    "thumbnail": "📦"
   }
 ]
