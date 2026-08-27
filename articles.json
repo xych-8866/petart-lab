@@ -1571,5 +1571,27 @@
     "category": "supplies",
     "cardDesc": "AI-powered litter boxes with health monitoring, multi-cat recognition, and early disease detection.",
     "thumbnail": "📦"
+  },
+  {
+    "id": "pet-precision-nutrition-2026",
+    "file": "article-pet-precision-nutrition-2026.html",
+    "title": "Precision Nutrition & Personalized Feeding: The 2026 Pet Health Revolution",
+    "date": "August 27, 2026",
+    "badge": "Precision Nutrition",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Host-specific probiotics, functional foods, and AI-driven personalization are transforming pet nutrition.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "pet-ai-companion-robot-2026",
+    "file": "article-pet-ai-companion-robot-2026.html",
+    "title": "AI Pet Companion Robots 2026: The Smartest New Species in Pet Tech",
+    "date": "August 27, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "From PettiChat's 94.6% translation accuracy to 5G companion robots — the future of pet companionship.",
+    "thumbnail": "🤖"
   }
 ]
