@@ -1593,5 +1593,27 @@
     "category": "supplies",
     "cardDesc": "From PettiChat's 94.6% translation accuracy to 5G companion robots — the future of pet companionship.",
     "thumbnail": "🤖"
+  },
+  {
+    "id": "pet-joint-health-complete-guide",
+    "file": "article-pet-joint-health-complete-guide.html",
+    "title": "Pet Joint Health: From Prevention to Rehabilitation – The Complete 2026 Guide",
+    "date": "August 28, 2026",
+    "badge": "Joint Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Prevention, supplements, prescription medications, and rehabilitation for arthritic pets.",
+    "thumbnail": "🦴"
+  },
+  {
+    "id": "best-pet-gps-trackers-2026",
+    "file": "article-best-pet-gps-trackers-2026.html",
+    "title": "Best Pet GPS Trackers & Smart Locators 2026: Never Lose Your Pet Again",
+    "date": "August 28, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Real-time tracking, geofencing, and AI health monitoring — the best GPS trackers for dogs and cats.",
+    "thumbnail": "📡"
   }
 ]
