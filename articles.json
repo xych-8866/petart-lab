@@ -1615,5 +1615,27 @@
     "category": "supplies",
     "cardDesc": "Real-time tracking, geofencing, and AI health monitoring — the best GPS trackers for dogs and cats.",
     "thumbnail": "📡"
+  },
+  {
+    "id": "feline-hyperthyroidism-guide",
+    "file": "article-feline-hyperthyroidism-guide.html",
+    "title": "Feline Hyperthyroidism: Diagnosis, Treatment & Long-Term Management (2026)",
+    "date": "August 30, 2026",
+    "badge": "Feline Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "Weight loss, increased appetite, and hyperactivity — diagnosis and treatment for hyperthyroid cats.",
+    "thumbnail": "🦋"
+  },
+  {
+    "id": "best-ai-interactive-pet-toys",
+    "file": "article-best-ai-interactive-pet-toys.html",
+    "title": "Best AI Interactive Pet Toys: Smart Play for Mental Stimulation (2026)",
+    "date": "August 30, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "Remote-controlled, treat-dispensing, and self-playing toys that keep pets entertained.",
+    "thumbnail": "🎮"
   }
 ]
