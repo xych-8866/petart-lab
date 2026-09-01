@@ -1637,5 +1637,27 @@
     "category": "supplies",
     "cardDesc": "Remote-controlled, treat-dispensing, and self-playing toys that keep pets entertained.",
     "thumbnail": "🎮"
+  },
+  {
+    "id": "pet-gut-health-microbiome-2026",
+    "file": "article-pet-gut-health-microbiome-2026.html",
+    "title": "Pet Gut Health & Microbiome 2026: From Sensitive Stomachs to Science-Based Care",
+    "date": "September 1, 2026",
+    "badge": "Gut Health",
+    "badgeClass": "badge-health",
+    "category": "health",
+    "cardDesc": "87% of pet owners face digestive issues — learn about prebiotics, postbiotics, and the gut-brain axis.",
+    "thumbnail": "🧬"
+  },
+  {
+    "id": "best-ai-pet-products-2026-guide",
+    "file": "article-best-ai-pet-products-2026-guide.html",
+    "title": "Best AI Pet Products 2026: Smart Tech for Smarter Pet Care",
+    "date": "September 1, 2026",
+    "badge": "Smart Tech",
+    "badgeClass": "badge-gear",
+    "category": "supplies",
+    "cardDesc": "VLA smart litter boxes, real-time pet translators, AI health collars, and companion robots.",
+    "thumbnail": "🤖"
   }
 ]
